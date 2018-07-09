@@ -1,0 +1,31 @@
+{
+  "name": "@nti/web-integrations",
+  "version": "0.0.0",
+  "description": "Tools for third party integrations",
+  "main": "index.js",
+  "scripts": {
+    "test": "cmp-scripts test",
+    "start": "cmp-scripts start",
+    "prepack": "cmp-scripts build",
+    "build": "cmp-scripts build",
+    "clean": "cmp-scripts clean",
+    "check": "cmp-scripts check",
+    "release": "cmp-scripts release",
+    "install-snapshots": "cmp-scripts install-snapshots",
+    "fix": "cmp-scripts fix"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/NextThought/nti.web.integrations.git"
+  },
+  "author": "NextThought",
+  "license": "UNLICENSED",
+  "bugs": {
+    "url": "https://github.com/NextThought/nti.web.integrations/issues"
+  },
+  "homepage": "https://github.com/NextThought/nti.web.integrations#readme",
+  "dependencies": {},
+  "devDependencies": {
+    "@nti/cmp-scripts": "^1.18.52"
+  }
+}
