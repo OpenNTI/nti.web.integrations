@@ -1,9 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-import View from '../../src';
+window.$AppConfig = window.$AppConfig || {server: '/dataserver2/'};
+
+import {List} from '../../src';
 
 ReactDOM.render(
-	<View />,
+	<List />,
 	document.getElementById('content')
 );

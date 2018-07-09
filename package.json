@@ -24,7 +24,13 @@
     "url": "https://github.com/NextThought/nti.web.integrations/issues"
   },
   "homepage": "https://github.com/NextThought/nti.web.integrations#readme",
-  "dependencies": {},
+  "dependencies": {
+    "@nti/lib-commons": "^2.18.0",
+    "@nti/lib-locale": "^1.4.0",
+    "@nti/lib-store": "^1.5.0",
+    "@nti/web-client": "^1.5.0",
+    "@nti/web-commons": "^0.38.0"
+  },
   "devDependencies": {
     "@nti/cmp-scripts": "^1.18.52",
     "@nti/style-common": "^1.4.6",
