@@ -26,6 +26,13 @@
   "homepage": "https://github.com/NextThought/nti.web.integrations#readme",
   "dependencies": {},
   "devDependencies": {
-    "@nti/cmp-scripts": "^1.18.52"
+    "@nti/cmp-scripts": "^1.18.52",
+    "@nti/style-common": "^1.4.6",
+    "enzyme": "^3.3.0",
+    "enzyme-adapter-react-16": "^1.1.1",
+    "prop-types": "^15.6.1",
+    "raf": "^3.4.0",
+    "react": "^16.0.0",
+    "react-dom": "^16.0.0"
   }
 }
