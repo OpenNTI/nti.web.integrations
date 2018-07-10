@@ -26,4 +26,10 @@
 		color: $primary-blue;
 		cursor: pointer;
 	}
+
+	.disconnect {
+		display: inline-block;
+		color: $primary-red;
+		cursor: pointer;
+	}
 }
