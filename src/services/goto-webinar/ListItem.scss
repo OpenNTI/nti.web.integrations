@@ -25,11 +25,42 @@
 		display: inline-block;
 		color: $primary-blue;
 		cursor: pointer;
+
+		&.error {
+			color: $primary-red;
+		}
+	}
+
+	.account-name {
+		display: inline-block;
+		color: $tertiary-grey;
+		cursor: pointer;
+
+		span, i {
+			vertical-align: middle;
+		}
+
+		i {
+			font-size: 0.875rem;
+			font-weight: 600;
+			margin: 0 0 0 0.3rem;
+		}
 	}
 
 	.disconnect {
 		display: inline-block;
 		color: $primary-red;
 		cursor: pointer;
+	}
+}
+
+.nti-integratins-goto-webinar-list-item-flyout {
+	.disconnect {
+		display: block;
+		color: $primary-red;
+		font: normal 400 0.875rem/1.3 $body-font-family;
+		padding: 0.625rem 1rem;
+		cursor: pointer;
+		width: 200px;
 	}
 }

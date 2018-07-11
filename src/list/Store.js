@@ -21,9 +21,13 @@ export default class IntegrationListStore extends Stores.SimpleStore {
 			const service = await getService();
 			const collection = await service.getCollection('Integrations', 'Integration').refresh();
 
+			if (this.unsubscribeFromCollection) {
+				this.unsubscribeFromCollection();
+			}
+
 			collection.addListener('change', this.onCollectionChange);
 
-			this.unsubscribe = () => collection.removeListener('change', this.onCollectionChange);
+			this.unsubscribeFromCollection = () => collection.removeListener('change', this.onCollectionChange);
 
 			this.set('loading', false);
 			this.set('items', collection.Items);
@@ -35,6 +39,11 @@ export default class IntegrationListStore extends Stores.SimpleStore {
 			this.set('error', e);
 			this.emitChange('loading', 'items', 'error');
 		}
+	}
+
+
+	unload () {
+		if (this.unsubscribeFromCollection) { this.unsubscribeFromCollection(); }
 	}
 
 
