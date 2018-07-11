@@ -39,7 +39,6 @@ export default class IntegrationListStore extends Stores.SimpleStore {
 
 
 	onCollectionChange = (collection) => {
-		debugger;
 		this.set('items', collection.Items);
 		this.emitChange('items');
 	}
