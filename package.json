@@ -37,6 +37,7 @@
     "@nti/lib-store": "^1.5.0",
     "@nti/web-client": "^1.5.0",
     "@nti/web-commons": "^0.38.0",
+    "@nti/web-course": "^1.26.0",
     "classnames": "^2.2.6"
   },
   "devDependencies": {
