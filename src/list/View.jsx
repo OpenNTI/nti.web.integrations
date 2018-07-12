@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {scoped} from '@nti/lib-locale';
-import {Loading, FillToBottom, EmptyState} from '@nti/web-commons';
+import {Loading, EmptyState} from '@nti/web-commons';
 
 import {getListItemFor} from '../services';
 
@@ -18,6 +18,8 @@ const t = scoped('integrations.list.View', {
 @Store.connect({loading: 'loading', items: 'items', error: 'error'})
 export default class IntegrationsList extends React.Component {
 	static propTypes = {
+		context: PropTypes.object,
+
 		loading: PropTypes.bool,
 		items: PropTypes.array,
 		error: PropTypes.object,
@@ -27,9 +29,24 @@ export default class IntegrationsList extends React.Component {
 
 
 	componentDidMount () {
-		const {store} = this.props;
+		this.setupFor(this.props);
+	}
 
-		store.load();
+
+	componentDidUpdate (prevProps) {
+		const {context} = this.props;
+		const {context:prevContext} = prevProps;
+
+		if (context !== prevContext) {
+			this.setupFor(this.props);
+		}
+	}
+
+
+	setupFor (props) {
+		const {context, store} = props;
+
+		store.load(context);
 	}
 
 
@@ -37,11 +54,11 @@ export default class IntegrationsList extends React.Component {
 		const {loading, items, error} = this.props;
 
 		return (
-			<FillToBottom className="nti-integration-list">
+			<div className="nti-integration-list">
 				{loading && (<Loading.Mask />)}
 				{!loading && error && this.renderError()}
 				{!loading && !error && this.renderItems(items)}
-			</FillToBottom>
+			</div>
 		);
 	}
 

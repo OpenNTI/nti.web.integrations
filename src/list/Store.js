@@ -1,5 +1,6 @@
 import {Stores} from '@nti/lib-store';
-import {getService} from '@nti/web-client';
+
+import {getIntegrationsCollection} from '../utils';
 
 export default class IntegrationListStore extends Stores.SimpleStore {
 	constructor () {
@@ -11,15 +12,14 @@ export default class IntegrationListStore extends Stores.SimpleStore {
 	}
 
 
-	async load () {
+	async load (context) {
 		this.set('loading', true);
 		this.set('items', null);
 		this.set('error', null);
 		this.emitChange('loading', 'items', 'error');
 
 		try {
-			const service = await getService();
-			const collection = await service.getCollection('Integrations', 'Integration').refresh();
+			const collection = await getIntegrationsCollection(context);
 
 			if (this.unsubscribeFromCollection) {
 				this.unsubscribeFromCollection();

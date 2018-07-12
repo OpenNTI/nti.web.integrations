@@ -3,9 +3,9 @@ import ReactDOM from 'react-dom';
 
 window.$AppConfig = window.$AppConfig || {server: '/dataserver2/'};
 
-import {List} from '../../src';
+import {GotoWebinar} from '../../src';
 
 ReactDOM.render(
-	<List />,
+	<GotoWebinar.UpcomingWebinars />,
 	document.getElementById('content')
 );

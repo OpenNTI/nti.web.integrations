@@ -1,0 +1,61 @@
+@import '~@nti/style-common';
+
+.nti-integrations-services-goto-webinar-upcoming-webinar-item {
+	padding: 1rem;
+	display: flex;
+	flex-direction: row;
+
+	.calendar {
+		width: 80px;
+		flex: 0 0 auto;
+
+		.month {
+			text-align: center;
+			text-transform: uppercase;
+			font: normal 800 0.625rem/1.3 $body-font-family;
+			color: $border-red;
+		}
+
+		.day {
+			text-align: center;
+			font: normal 400 1.75rem/1.3 $body-font-family;
+			color: $primary-grey;
+		}
+	}
+
+	.meta {
+		flex: 1 1 auto;
+
+		.title {
+			font: normal 700 1.125rem/1.3 $body-font-family;
+			color: $primary-grey;
+		}
+
+		ul.extras {
+			padding: 0;
+			margin: 0;
+			list-style: none;
+
+			li {
+				display: inline-block;
+				text-transform: uppercase;
+				font: normal 600 0.625rem/1.3 $body-font-family;
+				color: $tertiary-grey;
+				vertical-align: middle;
+
+				.content {
+					display: inline-block;
+				}
+
+				&:not(:first-of-type) {
+					&::before {
+						content: '\a0\b7\a0';
+						font-size: 1rem;
+						display: inline-block;
+						vertical-align: middle;
+					}
+				}
+			}
+		}
+	}
+}

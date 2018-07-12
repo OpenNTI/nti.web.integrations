@@ -1,0 +1,28 @@
+@import '~@nti/style-common';
+
+.nti-integrations-goto-webinar-upcoming-webinars {
+	position: relative;
+	min-height: 200px;
+
+	.error {
+		text-align: center;
+		font: normal 400 1.5rem/1.3 $body-font-family;
+		color: $primary-red;
+	}
+
+	& > ul {
+		padding: 1.5rem;
+		margin: 0;
+		list-style: none;
+
+		& > li {
+			box-shadow: 0 1px 0 0 $border-grey-light;
+
+			&:first-of-type {
+				box-shadow: 0 1px 0 0 $border-grey-light,
+						0 -1px 0 0 $border-grey-light;
+			}
+
+		}
+	}
+}

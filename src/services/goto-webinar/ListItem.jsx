@@ -6,6 +6,8 @@ import {Prompt, Flyout} from '@nti/web-commons';
 
 import Registry from '../ListItemRegistry';
 
+import {HANDLES} from './Constants';
+
 const t = scoped('integrations.services.goto-webinar.ListItem', {
 	title: 'GoToWebinar',
 	description: 'Offer webinars in your course and generate reports.',
@@ -22,11 +24,6 @@ function buildRedirectURL (success) {
 
 	return `${global.location.origin}/app/post-query-params/${MESSAGE_KEY}?success=${success ? 1 : 0}`;
 }
-
-const HANDLES = {
-	'application/vnd.nextthought.integration.gotowebinarauthorizedintegration': true,
-	'application/vnd.nextthought.integration.gotowebinarintegration': true
-};
 
 function handles (service) {
 	return HANDLES[service.MimeType];
