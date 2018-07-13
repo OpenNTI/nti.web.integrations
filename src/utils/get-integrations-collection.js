@@ -12,7 +12,7 @@ async function getContextIntegrationsCollection (context) {
 	const service = await getService();
 	const collection = await context.fetchLink('Integrations');
 
-	return Models.WorkspaceCollection.List(service, context, [collection]);
+	return Models.WorkspaceCollection.List(service, context, [collection])[0];
 }
 
 export default async function getIntegrationsCollection (context) {
