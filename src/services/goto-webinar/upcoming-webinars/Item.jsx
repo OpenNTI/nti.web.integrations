@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {DateTime} from '@nti/web-commons';
 import {scoped} from '@nti/lib-locale';
+import {LinkTo} from '@nti/web-routing';
 
 const t = scoped('integrations.services.goto-webinar.upcoming-webinars.Item', {
 	duration: '%(duration)s Long'
@@ -25,7 +26,7 @@ export default class IntegrationsServicesGotoWebinarUpcomingWebinarsItem extends
 		];
 
 		return (
-			<div className="nti-integrations-services-goto-webinar-upcoming-webinar-item">
+			<LinkTo.Object object={item} className="nti-integrations-services-goto-webinar-upcoming-webinar-item">
 				{this.renderCalendar(session)}
 				<div className="meta">
 					<div className="title">
@@ -47,7 +48,7 @@ export default class IntegrationsServicesGotoWebinarUpcomingWebinarsItem extends
 						}
 					</ul>
 				</div>
-			</div>
+			</LinkTo.Object>
 		);
 	}
 

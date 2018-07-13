@@ -1,11 +1,46 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-
-window.$AppConfig = window.$AppConfig || {server: '/dataserver2/'};
+import PropTypes from 'prop-types';
 
 import {GotoWebinar} from '../../src';
 
+window.$AppConfig = window.$AppConfig || {server: '/dataserver2/'};
+
+
+class Test extends React.Component {
+	static childContextTypes = {
+		router: PropTypes.object
+	}
+
+
+	getChildContext () {
+		return {
+			router: {
+				baseroute: '/',
+				route: {},
+				getRouteFor: (webinar) => {
+					return () => {
+						alert(`Navigated to ${webinar.subject}`);
+					};
+				},
+				history: {
+					push: () => {},
+					replace: () => {},
+					createHref: () => {}
+				}
+			}
+		};
+	}
+
+
+	render () {
+		return (
+			<GotoWebinar.UpcomingWebinars />
+		);
+	}
+}
+
 ReactDOM.render(
-	<GotoWebinar.UpcomingWebinars />,
+	<Test />,
 	document.getElementById('content')
 );
