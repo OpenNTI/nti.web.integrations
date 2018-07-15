@@ -1,0 +1,52 @@
+
+@import '~@nti/style-common';
+
+.nti-integrations-goto-webinar-if-connected {
+	position: relative;
+	min-height: 200px;
+
+	&:not(.connected) {
+		min-height: 400px;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+
+		.content {
+			flex: 0 0 auto;
+			width: rem-calc(375px);
+
+			.title {
+				font: normal 300 1.5rem/1.3 $body-font-family;
+				color: $primary-grey;
+				text-align: center;
+				margin-bottom: 1rem;
+			}
+
+			.description {
+				font: normal 400 0.875rem/1.3 $body-font-family;
+				color: $secondary-grey;
+				text-align: center;
+				margin-bottom: 2rem;
+			}
+
+			.connect-container {
+				text-align: center;
+			}
+
+			.connect-link {
+				background-color: $primary-blue;
+				border-radius: 4px;
+				font: normal 400 0.875rem/1.3 $body-font-family;
+				color: white;
+				padding: 0.5rem;
+				min-width: 150px;
+				display: inline-block;
+				cursor: pointer;
+
+				&.error {
+					background-color: $primary-red;
+				}
+			}
+		}
+	}
+}

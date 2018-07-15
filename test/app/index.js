@@ -35,7 +35,9 @@ class Test extends React.Component {
 
 	render () {
 		return (
-			<GotoWebinar.UpcomingWebinars />
+			<GotoWebinar.IfConnected>
+				<div>Connected!</div>
+			</GotoWebinar.IfConnected>
 		);
 	}
 }
