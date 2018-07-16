@@ -1,0 +1,20 @@
+.go-to-webinar-text-input-container {
+	position: relative;
+
+	.loading-spinner {
+		position: absolute;
+		top: 0;
+		right: 0.5rem;
+	}
+
+	.go-to-webinar-text-input {
+		background-color: white;
+		font-weight: 300;
+		font-size: 14px;
+		min-width: 20rem;
+
+		&:placeholder {
+			font-size: 14px;
+		}
+	}
+}
