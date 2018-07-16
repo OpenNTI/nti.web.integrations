@@ -69,7 +69,7 @@ export default class GotoWebinarTextInput extends React.Component {
 			}
 		}).catch(e => {
 			if(onFailure) {
-				onFailure(e);
+				onFailure(e, val);
 			}
 		});
 	}
