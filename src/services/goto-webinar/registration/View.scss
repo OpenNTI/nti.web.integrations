@@ -1,0 +1,36 @@
+@import '~@nti/style-common';
+
+.goto-webinar-registration {
+	.modal-content {
+		min-height: 100px;
+		max-width: 768px;
+		width: 100%;
+		background: #fff;
+
+		.title {
+			color: $secondary-grey;
+			font-family: $body-font-family;
+			font-size: 24px;
+			font-weight: 300;
+			line-height: 1.375;
+			background-color: $panel-background;
+			box-shadow: 0 1px 0 0 $border-grey-light;
+			padding: 7px 35px 10px 25px;
+
+			.close {
+				position: absolute;
+				right: 10px;
+				top: 50%;
+				transform: translateY(-50%);
+				line-height: 1;
+				text-decoration: none;
+				color: #000;
+				opacity: 0.2;
+
+				&:hover {
+					opacity: 0.8;
+				}
+			}
+		}
+	}
+}
