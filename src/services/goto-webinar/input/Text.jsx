@@ -63,9 +63,16 @@ export default class GotoWebinarTextInput extends React.Component {
 
 		this.lastUrl = val;
 
-		store.resolve(context, val).then(webinar => {
-			if(onSuccess) {
-				onSuccess(webinar);
+		store.resolve(context, val).then(webinars => {
+			if(!webinars || webinars.length === 0) {
+				if(onFailure) {
+					onFailure('No matching webinars found', val);
+				}
+			}
+			else {
+				if(onSuccess) {
+					onSuccess(webinars);
+				}
 			}
 		}).catch(e => {
 			if(onFailure) {

@@ -1,4 +1,5 @@
 import {Stores} from '@nti/lib-store';
+import {getService} from '@nti/web-client';
 
 import {getIntegrationsCollection} from '../../../utils';
 import {HANDLES} from '../Constants';
@@ -35,13 +36,15 @@ export default class GoToWebinarInputStore extends Stores.SimpleStore {
 		}
 
 		try {
-			const webinar = await this.integration.fetchLinkParsed('ResolveWebinar', {webinar: url});
+			const service = await getService();
+			const webinar = await service.getBatch(this.integration.getLink('ResolveWebinar', {webinar: url}));
+			const webinars = webinar && webinar.Items;
 
 			this.set('loading', false);
-			this.set('webinar', webinar);
-			this.emitChange('loading', 'webinar');
+			this.set('webinars', webinars);
+			this.emitChange('loading', 'webinars');
 
-			return webinar;
+			return webinars;
 		} catch (e) {
 			this.set('loading', false);
 			this.set('error', e.message || e);
