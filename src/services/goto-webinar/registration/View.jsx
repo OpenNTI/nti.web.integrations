@@ -1,6 +1,11 @@
 import React, {Fragment} from 'react';
 import PropTypes from 'prop-types';
-import {Prompt, Loading} from '@nti/web-commons';
+import {DialogButtons, Panels, Prompt, Loading} from '@nti/web-commons';
+
+import Content from './Content';
+import Fields from './Fields';
+import Questions from './Questions';
+
 
 export default class Registration extends React.Component {
 
@@ -9,7 +14,7 @@ export default class Registration extends React.Component {
 		onBeforeDismiss: PropTypes.func.isRequired
 	}
 
-	state = { loading: true }
+	state = { }
 
 
 	async componentDidMount () {
@@ -20,7 +25,7 @@ export default class Registration extends React.Component {
 		}
 
 		const data = await webinar.fetchLink('WebinarRegistrationFields');
-		this.setState({loading: false, data});
+		this.setState({ data });
 	}
 
 
@@ -32,23 +37,35 @@ export default class Registration extends React.Component {
 
 
 	render () {
-		const {props: {onBeforeDismiss: close}, state: {loading}} = this;
+		const {props: {onBeforeDismiss: close}, state: {data}} = this;
 		return (
 			<Prompt.Dialog onBeforeDismiss={close} closeOnMaskClick={false} className="goto-webinar-registration">
 				<Fragment>
-					<h3 className="title">
-						Registration
-						<a className="close" title="Close" href="#close" onClick={this.onClose}><i className="icon-">x</i></a>
-					</h3>
-					{loading ? (
-						<Loading.Mask/>
-					) : (
-						<Fragment>
+					<Panels.TitleBar title="Registration" iconAction={this.onClose}/>
 
+					<Content>
 
+						{!data ? (
+							<Loading.Mask/>
+						) : (
+							<Fragment>
+								<Fields items={data.fields}/>
+								<Questions items={data.questions}/>
+							</Fragment>
+						)}
 
-						</Fragment>
-					)}
+					</Content>
+
+					<DialogButtons buttons={[
+						{
+							label: 'Cancel',
+							onClick: close
+						},
+						{
+							label: 'Register',
+							disabled: !data
+						},
+					]}/>
 				</Fragment>
 			</Prompt.Dialog>
 		);
