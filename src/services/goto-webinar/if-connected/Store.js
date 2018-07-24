@@ -40,7 +40,10 @@ export default class GotoWebinarIsConnectedStore extends Stores.SimpleStore {
 
 			collection.addListener('change', this.onCollectionChange);
 
-			this.unsubscribeFromCollection = () => collection.removeListener('change', this.onCollectionChange);
+			this.unsubscribeFromCollection = () => {
+				collection.removeListener('change', this.onCollectionChange);
+				delete this.unsubscribeFromCollection;
+			};
 
 			this.setIntegrationFromCollection(collection);
 		} catch (e) {
@@ -51,7 +54,14 @@ export default class GotoWebinarIsConnectedStore extends Stores.SimpleStore {
 	}
 
 
-	onCollectionChange (collection) {
+	unload () {
+		if (this.unsubscribeFromCollection) {
+			this.unsubscribeFromCollection();
+		}
+	}
+
+
+	onCollectionChange = (collection) => {
 		this.setIntegrationFromCollection(collection);
 	}
 

@@ -53,6 +53,13 @@ export default class GotoWebinarIsConnected extends React.Component {
 	}
 
 
+	componentWillUnmount () {
+		const {context, store} = this.props;
+
+		store.unload(context);
+	}
+
+
 	componentDidUpdate (prevProps) {
 		const {context} = this.props;
 		const {context:prevContext} = prevProps;
