@@ -1,3 +1,5 @@
+@import '~@nti/style-common';
+
 .goto-webinar-registration-content {
 	min-height: 200px;
 	max-height: calc(90vh - 100px);
@@ -6,5 +8,9 @@
 
 	.webinar-registration-in-progress {
 		margin: -30px -25px;
+	}
+
+	@include responsive-range(mobile) {
+		max-height: none;
 	}
 }

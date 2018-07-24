@@ -18,3 +18,9 @@
 		}
 	}
 }
+
+.modal-mask.goto-webinar-registration {
+	@include responsive-range(mobile) {
+		display: block;
+	}
+}
