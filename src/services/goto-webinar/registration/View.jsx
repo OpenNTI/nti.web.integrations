@@ -25,7 +25,7 @@ export default class Registration extends React.Component {
 
 	async componentDidMount () {
 		const {item: {webinar} = {}} = this.props;
-		window.reg = this;
+		// window.reg = this;
 
 		if (!webinar) {
 			return;
