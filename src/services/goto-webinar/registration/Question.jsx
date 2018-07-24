@@ -21,8 +21,22 @@ export default class Question extends React.PureComponent {
 		});
 	}
 
-	onSelect (e) {
+	onSelect = (value) => {
+		const {
+			onChange,
+			item: {
+				questionKey,
+				answers = []
+			},
+		} = this.props;
 
+		const {answerKey, answer} = answers.find(x => x.answer === value) || {};
+
+		onChange(questionKey, !answerKey ? null : {
+			questionKey,
+			answerKey,
+			responseText: answer
+		});
 	}
 
 	render () {
@@ -37,13 +51,6 @@ export default class Question extends React.PureComponent {
 		} = this.props;
 
 		const {responseText} = value || {};
-
-		// "answers": [
-		// 	{
-		// 		"answer": "string",
-		// 		"answerKey": 0
-		// 	}
-		// ]
 
 		return (
 			<div className="webinar-registration-question">
