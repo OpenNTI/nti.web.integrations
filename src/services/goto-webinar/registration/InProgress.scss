@@ -1,0 +1,25 @@
+@import '~@nti/style-common';
+
+.webinar-registration-complete,
+.webinar-registration-in-progress {
+	padding-top: 78.125%;
+	max-height: calc(100vh - 100px);
+	overflow: hidden;
+	position: relative;
+
+	p {
+		color: $secondary-grey;
+		font-family: $body-font-family;
+		line-height: 1.571428571;
+		font-size: 14px;
+	}
+
+	> div {
+		max-width: 260px;
+		position: absolute;
+		top: 40%; //design is not vertically centered
+		left: 50%;
+		transform: translate(-50%, -50%);
+		text-align: center;
+	}
+}

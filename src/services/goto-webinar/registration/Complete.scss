@@ -1,0 +1,23 @@
+@import '~@nti/style-common';
+
+.webinar-registration-complete {
+	h2 {
+		font-size: 18px;
+		font-weight: inherit;
+		line-height: 1.222222222;
+	}
+
+	.circular-progress.progress-complete-container {
+		justify-content: center;
+		margin-bottom: 40px;
+	}
+
+	.nti-button {
+		margin-top: 30px;
+		color: $secondary-grey;
+		background: #fff;
+		width: 150px;
+		border: 1px solid $border-grey-light;
+		border-radius: 4px;
+	}
+}

@@ -1,0 +1,99 @@
+@import '~@nti/style-common';
+
+label.checkbox-component input.webinar-registration-field {
+	& + span.label {
+		color: $secondary-grey;
+		font-size: rem-calc(13px);
+	}
+
+	&.invalid + span.label {
+		color: $incorrect;
+	}
+}
+
+.webinar-registration-field.nti-labeled-input {
+	display: block;
+	margin-bottom: 15px;
+
+	.label {
+		margin-bottom: 5px;
+		color: $tertiary-grey;
+	}
+
+	.nti-select-native-wrapper {
+		box-shadow: inset 0 0 0 1px #e2e2e2;
+	}
+
+	input, .textarea-container {
+		box-shadow: none;
+	}
+
+	input, .nti-select-native-wrapper, .textarea-container {
+		border-radius: 0;
+		background: none;
+	}
+
+	input {
+		height: auto;
+		width: 100%;
+		padding: 9px 15px 10px;
+		line-height: 1;
+	}
+
+	.icon-chevron-down {
+		color: #787878;
+	}
+
+	&.invalid {
+		.label {
+			color: $incorrect;
+		}
+
+		input, .textarea-container {
+			border-color: $incorrect;
+		}
+
+		.nti-select-native-wrapper {
+			box-shadow: inset 0 0 0 1px $incorrect;
+		}
+	}
+
+	&.focus {
+		.label {
+			color: $secondary-grey;
+		}
+
+		input, .textarea-container {
+			border-color: $tertiary-grey;
+		}
+
+		.nti-select-native-wrapper {
+			box-shadow: inset 0 0 0 1px $tertiary-grey;
+		}
+	}
+
+	&.city {
+		max-width: 180px;
+		width: calc(50% - 20px);
+	}
+
+	&.city,	&.zipCode, &.state {
+		float: left;
+	}
+
+	&.zipCode, &.state {
+		width: 25%;
+		max-width: 100px;
+		margin-left: 10px;
+	}
+
+	&.industry {
+		margin-right: 10px;
+	}
+
+	&.industry,
+	&.numberOfEmployees {
+		float: left;
+		width: calc(50% - 5px);
+	}
+}

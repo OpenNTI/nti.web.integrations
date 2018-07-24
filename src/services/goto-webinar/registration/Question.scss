@@ -1,0 +1,24 @@
+@import '~@nti/style-common';
+
+.webinar-registration-question {
+	font-family: $body-font-family;
+	font-size: 14px;
+	color: $secondary-grey;
+	line-height: 1.357142857;
+	margin-bottom: 30px;
+
+	&:last-child {
+		margin-bottom: 42px;
+	}
+
+	p {
+		font: inherit;
+		margin: 1em 0 0.5em;
+	}
+
+	.textarea-container {
+		box-shadow: none;
+		border-radius: 0;
+		background: none;
+	}
+}

@@ -1,0 +1,33 @@
+@import '~@nti/style-common';
+
+.webinar-registration-questions,
+.webinar-registration-field-group {
+	display: flex;
+	flex-direction: row;
+	margin-bottom: 20px;
+
+	h2 {
+		margin: 0;
+		padding: 0;
+		color: $tertiary-grey;
+		font-family: $body-font-family;
+		font-size: rem-calc(24px);
+		font-weight: 300;
+		line-height: 1.375;
+		flex: 0 0 245px;
+	}
+
+	& > div {
+		flex: 1 1 auto;
+		max-width: 400px;
+	}
+
+	@include responsive-range(mobile) {
+		display: block;
+		margin-bottom: 30px;
+
+		h2 {
+			margin-bottom: 15px;
+		}
+	}
+}
