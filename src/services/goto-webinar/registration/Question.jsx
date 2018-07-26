@@ -46,6 +46,7 @@ export default class Question extends React.PureComponent {
 				answers = [],
 				question,
 				questionKey,
+				required,
 				type
 			},
 		} = this.props;
@@ -60,9 +61,10 @@ export default class Question extends React.PureComponent {
 						options={answers.map(x => x.answer)}
 						value={responseText}
 						onChange={this.onSelect}
+						required={required}
 					/>
 				) : (
-					<Input.TextArea onChange={this.onChange} value={responseText}/>
+					<Input.TextArea onChange={this.onChange} value={responseText} required={required}/>
 				)}
 			</div>
 		);
