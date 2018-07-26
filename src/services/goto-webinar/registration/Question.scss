@@ -21,4 +21,12 @@
 		border-radius: 0;
 		background: none;
 	}
+
+	&.invalid {
+		color: $incorrect;
+
+		.textarea-container {
+			border-color: $incorrect;
+		}
+	}
 }

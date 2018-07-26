@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import cx from 'classnames';
 import { Input, RadioGroup } from '@nti/web-commons';
 
 
@@ -11,6 +12,8 @@ export default class Question extends React.PureComponent {
 		value: PropTypes.object
 	}
 
+	state = {}
+
 	onChange = (value) => {
 		const {item: {questionKey}, onChange} = this.props;
 
@@ -19,6 +22,8 @@ export default class Question extends React.PureComponent {
 			answerKey: 0,
 			responseText: value
 		});
+
+		this.setState({invalid: void 0});
 	}
 
 	onSelect = (value) => {
@@ -39,22 +44,31 @@ export default class Question extends React.PureComponent {
 		});
 	}
 
+	onInvalid = () => {
+		this.setState({invalid: true});
+	}
+
 	render () {
 		const {
-			value,
-			item: {
-				answers = [],
-				question,
-				questionKey,
-				required,
-				type
+			props: {
+				value,
+				item: {
+					answers = [],
+					question,
+					questionKey,
+					required,
+					type
+				},
 			},
-		} = this.props;
+			state: {
+				invalid
+			}
+		} = this;
 
 		const {responseText} = value || {};
 
 		return (
-			<div className="webinar-registration-question">
+			<div className={cx('webinar-registration-question', {invalid})} onInvalid={this.onInvalid}>
 				<p>{question}</p>
 				{type === 'multipleChoice' ? (
 					<RadioGroup name={String(questionKey)}
