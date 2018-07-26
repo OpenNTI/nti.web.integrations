@@ -104,7 +104,7 @@ export default class Field extends React.Component {
 			<Input.Label className={cx(CLASSNAME, field, {focus, invalid})} label={t(field)}>
 				{hasAnswers ? (
 					<Select.ForwardRef {...common}>
-						<option>{p(field)}</option>
+						<option value="">{p(field)}</option>
 						{answers.map(x => (
 							<option key={x} value={x}>{x}</option>
 						))}
