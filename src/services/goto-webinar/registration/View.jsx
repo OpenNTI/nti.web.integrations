@@ -101,7 +101,7 @@ export default class Registration extends React.Component {
 				}))
 			});
 
-			webinar.refresh();
+			await webinar.refresh();
 
 			this.setState({busy: false, complete: true});
 
