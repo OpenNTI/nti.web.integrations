@@ -15,6 +15,7 @@ const t = scoped('integrations.services.goto-webinar.ListItem', {
 	connect: 'Connect',
 	connectError: 'Unable to connect. Try again.',
 	disconnect: 'Disconnect',
+	disconnectError: 'Unable to disconnect.',
 	disconnectMessage: 'Disconnecting your GoToWebinar account will permanently remove webinars from all of your courses.'
 });
 
@@ -47,12 +48,16 @@ export default class GotoWebinarListItem extends React.Component {
 	onDisconnect = async () => {
 		try {
 			await Prompt.areYouSure(t('disconnectMessage'));
+		} catch (e) {
+			return;
+		}
 
+		try {
 			const {integration} = this.props;
 
-			integration.disconnect();
+			await integration.disconnect();
 		} catch (e) {
-			//No need to handle this
+			Prompt.alert((e && e.message) || t('disconnectError'));
 		}
 	}
 
