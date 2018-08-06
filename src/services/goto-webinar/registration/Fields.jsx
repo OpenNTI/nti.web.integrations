@@ -50,8 +50,8 @@ function FieldGroup ({label, fields, items, onChange, values}) {
 		<div className="webinar-registration-field-group">
 			<h2>{label}</h2>
 			<div>
-				{applicable.map(x => (
-					<Field key={x.field} item={x} onChange={onChange} value={values[x.field]}/>
+				{applicable.map((x, i) => (
+					<Field key={x.field} focusOnMount={x === 0} item={x} onChange={onChange} value={values[x.field]}/>
 				))}
 			</div>
 		</div>

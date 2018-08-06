@@ -48,6 +48,7 @@ export default class Field extends React.Component {
 
 	static propTypes = {
 		item: PropTypes.object,
+		focusOnMount: PropTypes.bool,
 		onChange: PropTypes.func,
 		value: PropTypes.shape({
 			value: PropTypes.string,
@@ -72,13 +73,15 @@ export default class Field extends React.Component {
 	}
 
 	render () {
-		const {props: {item, value: v}, state: {focus}} = this;
+		const {props: {focusOnMount: focusMe, item, value: v}, state: {focus}} = this;
 		const {answers, field, maxSize, required} = item;
 		const {value, invalid} = v || {};
 
 		const InputType = maxSize > 128 ? Input.TextArea : Input.Text;
 		const hasAnswers = Array.isArray(answers) && answers.length > 0;
 		const isCheckbox = hasAnswers && answers.length === 1;
+
+		const maybeFocus = x => x && focusMe && x.focus && x.focus();
 
 		const common = {
 			required,
@@ -87,13 +90,16 @@ export default class Field extends React.Component {
 			onChange: this.onChange,
 			onFocus: this.onFocus,
 			onBlur: this.onBlur,
-			placeholder: !isCheckbox && p(field)
+			placeholder: !isCheckbox && p(field),
+			ref: maybeFocus
 		};
+
 
 		return isCheckbox ? (
 			<Checkbox
 				className={cx(CLASSNAME, field, {invalid})}
 				required={required}
+				ref={maybeFocus}
 				name={field}
 				label={answers[0]}
 				value={answers[0]}
@@ -110,7 +116,7 @@ export default class Field extends React.Component {
 						))}
 					</Select.ForwardRef>
 				) : (
-					<InputType {...common} maxLength={maxSize} />
+					<InputType {...common} maxLength={maxSize}/>
 				)}
 			</Input.Label>
 		);
