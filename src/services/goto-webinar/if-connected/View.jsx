@@ -9,12 +9,12 @@ import ConnectLink from '../ConnectLink';
 import Store from './Store';
 
 const t = scoped('integrations.services.goto-webinar.if-connected.View', {
-	title: 'A GoTo Webinar account is not connected yet.',
+	title: 'A GoToWebinar account is not connected yet.',
 	description: {
 		canNotConnect: 'Please contact your site administrator for assistance. Administrators can connect integrations on the Advanced tab of the Site Administration view.',
 		canConnect: 'Connecting a GoToWebinar account will allow authors to add webinars to any course. Managing integrations can be found in the Site Administration view.'
 	},
-	error: 'GoTo Webinar is not configured for this site, please contact support.',
+	error: 'GoToWebinar is not configured for this site, please contact support.',
 	connect: 'Connect',
 	connectError: 'Unable to connect. Try again.'
 });
