@@ -153,7 +153,7 @@ export default class Registration extends React.Component {
 						<Complete onClose={this.onClose}/>
 					) : error && !data ? (
 						<Error>
-							There was an error loading the registration form.
+							{error.Message || 'There was an error loading the registration form.'}
 						</Error>
 					) : (
 						<form onSubmit={stop} ref={x => x && error && x.checkValidity()}>
