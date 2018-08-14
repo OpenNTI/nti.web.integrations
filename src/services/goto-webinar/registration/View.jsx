@@ -12,6 +12,10 @@ import Complete from './Complete';
 
 const stop = e => (e.preventDefault(), e.stopPropagation());
 
+const ERROR_FIELD_MAPPINGS = {
+	'surname': 'firstName',
+	'givenName': 'lastName'
+};
 
 export default class Registration extends React.Component {
 
@@ -111,7 +115,8 @@ export default class Registration extends React.Component {
 			const values = {...fields};
 
 			for (let x of invalidFields) {
-				values[x] = {...(values[x] || {}), invalid: true};
+				const key = ERROR_FIELD_MAPPINGS[x] || x;
+				values[key] = {...(values[key] || {}), invalid: true};
 			}
 
 			this.setState({
