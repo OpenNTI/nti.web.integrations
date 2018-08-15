@@ -13,8 +13,8 @@ import Complete from './Complete';
 const stop = e => (e.preventDefault(), e.stopPropagation());
 
 const ERROR_FIELD_MAPPINGS = {
-	'surname': 'firstName',
-	'givenName': 'lastName'
+	'surname': 'lastName',
+	'givenName': 'firstName'
 };
 
 export default class Registration extends React.Component {
@@ -113,6 +113,13 @@ export default class Registration extends React.Component {
 			const {invalidFields = []} = error.error_dict || {};
 
 			const values = {...fields};
+
+			// reset validity state before checking invalidFields
+			for (let f of Object.keys(fields)) {
+				if(fields[f]) {
+					fields[f].invalid = false;
+				}
+			}
 
 			for (let x of invalidFields) {
 				const key = ERROR_FIELD_MAPPINGS[x] || x;
