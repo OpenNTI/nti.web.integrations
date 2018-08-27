@@ -1,6 +1,7 @@
 import React, {Fragment} from 'react';
 import PropTypes from 'prop-types';
 import {DialogButtons, Panels, Prompt} from '@nti/web-commons';
+import {getAppUser} from '@nti/web-client';
 
 import Content from './Content';
 import Error from './Error';
@@ -17,6 +18,12 @@ const ERROR_FIELD_MAPPINGS = {
 	'givenName': 'firstName'
 };
 
+const USER_FIELD_MAPPINGS = {
+	email: 'email',
+	firstName: 'NonI18NFirstName',
+	lastName: 'NonI18NLastName'
+};
+
 export default class Registration extends React.Component {
 
 	static propTypes = {
@@ -26,6 +33,21 @@ export default class Registration extends React.Component {
 
 	state = {}
 
+	makeInitialValuesFromUser (user) {
+		if(!user) {
+			return null;
+		}
+
+		let values = {};
+
+		for(let key of Object.keys(USER_FIELD_MAPPINGS)) {
+			if(user[USER_FIELD_MAPPINGS[key]]) {
+				values[key] = {value: user[USER_FIELD_MAPPINGS[key]]};
+			}
+		}
+
+		return values;
+	}
 
 	async componentDidMount () {
 		const {item: {webinar} = {}} = this.props;
@@ -35,8 +57,11 @@ export default class Registration extends React.Component {
 			return;
 		}
 		try {
+			const currentUser = await getAppUser();
+
 			this.setState({
-				data: await webinar.fetchLink('WebinarRegistrationFields')
+				data: await webinar.fetchLink('WebinarRegistrationFields'),
+				fieldValues: this.makeInitialValuesFromUser(currentUser)
 			});
 		} catch (e) {
 			this.setState({error: e});
