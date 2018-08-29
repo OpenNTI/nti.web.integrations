@@ -1,6 +1,6 @@
 {
   "name": "@nti/web-integrations",
-  "version": "1.2.0-alpha",
+  "version": "1.2.0",
   "description": "Tools for third party integrations",
   "main": "./lib/index-cjs.js",
   "module": "./lib/index.js",
