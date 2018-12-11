@@ -1,7 +1,8 @@
 import React, {Fragment} from 'react';
 import PropTypes from 'prop-types';
-import {DialogButtons, Panels, Prompt} from '@nti/web-commons';
+import {Prompt} from '@nti/web-commons';
 import {getAppUser} from '@nti/web-client';
+import {scoped} from '@nti/lib-locale';
 
 import Content from './Content';
 import Error from './Error';
@@ -10,6 +11,11 @@ import Questions from './Questions';
 import InProgress from './InProgress';
 import Complete from './Complete';
 
+const t = scoped('web.integrations.services.gotowebinar.registration.View', {
+	title: 'Webinar Registration',
+	save: 'Register',
+	cancel: 'Cancel'
+});
 
 const stop = e => (e.preventDefault(), e.stopPropagation());
 
@@ -28,7 +34,9 @@ export default class Registration extends React.Component {
 
 	static propTypes = {
 		item: PropTypes.object,
-		onBeforeDismiss: PropTypes.func.isRequired
+		onBeforeDismiss: PropTypes.func.isRequired,
+		onDismiss: PropTypes.func,
+		nonDialog: PropTypes.bool
 	}
 
 	state = {}
@@ -71,7 +79,8 @@ export default class Registration extends React.Component {
 
 	onClose = (e) => {
 		stop(e);
-		this.props.onBeforeDismiss();
+
+		this.onCancel();
 	}
 
 
@@ -159,11 +168,23 @@ export default class Registration extends React.Component {
 		}
 	}
 
+	onCancel = () => {
+		const {onBeforeDismiss, onDismiss} = this.props;
+
+		if(onBeforeDismiss) {
+			onBeforeDismiss();
+		}
+
+		if(onDismiss) {
+			onDismiss();
+		}
+	}
+
 
 	render () {
 		const {
 			props: {
-				onBeforeDismiss: close
+				nonDialog
 			},
 			state: {
 				complete,
@@ -176,9 +197,15 @@ export default class Registration extends React.Component {
 		} = this;
 
 		return (
-			<Prompt.Dialog onBeforeDismiss={close} closeOnMaskClick={false} className="goto-webinar-registration">
+			<Prompt.SaveCancel
+				className="goto-webinar-registration"
+				getString={t}
+				onCancel={this.onClose}
+				onSave={this.onRegister}
+				disableSave={busy}
+				nonDialog={nonDialog}
+			>
 				<Fragment>
-					<Panels.TitleBar title="Registration" iconAction={this.onClose}/>
 					{busy ? (
 						<InProgress/>
 					) : complete ? (
@@ -206,24 +233,10 @@ export default class Registration extends React.Component {
 								)}
 
 							</Content>
-
-							<DialogButtons buttons={[
-								{
-									label: 'Cancel',
-									type: 'reset',
-									onClick: this.onClose
-								},
-								{
-									label: 'Register',
-									disabled: !data,
-									type: 'submit',
-									onClick: this.onRegister
-								},
-							]}/>
 						</form>
 					)}
 				</Fragment>
-			</Prompt.Dialog>
+			</Prompt.SaveCancel>
 		);
 	}
 }
