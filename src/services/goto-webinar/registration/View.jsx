@@ -17,6 +17,12 @@ const t = scoped('web.integrations.services.gotowebinar.registration.View', {
 	cancel: 'Cancel'
 });
 
+const completeLocalizer = scoped('web.integrations.services.gotowebinar.registration.View.completed', {
+	title: 'Registration Complete',
+	save: 'Done',
+	cancel: 'Cancel'
+});
+
 const stop = e => (e.preventDefault(), e.stopPropagation());
 
 const ERROR_FIELD_MAPPINGS = {
@@ -116,8 +122,12 @@ export default class Registration extends React.Component {
 
 		const {
 			props: {item: {webinar}},
-			state: {fieldValues: fields = {}, responses = {}}
+			state: {complete, fieldValues: fields = {}, responses = {}}
 		} = this;
+
+		if(complete) {
+			return this.onClose(e);
+		}
 
 		this.setState({busy: true});
 
@@ -199,7 +209,7 @@ export default class Registration extends React.Component {
 		return (
 			<Prompt.SaveCancel
 				className="goto-webinar-registration"
-				getString={t}
+				getString={complete ? completeLocalizer : t}
 				onCancel={this.onClose}
 				onSave={this.onRegister}
 				disableSave={busy}
