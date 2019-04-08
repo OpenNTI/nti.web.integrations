@@ -12,7 +12,7 @@ const t = scoped('integrations.list.View', {
 	description: 'We offer powerful integrations with popular services so you can do more with your audience',
 	label: 'List of Services',
 	error: 'Unable to load integrations',
-	empty: 'No integrations have been setup.'
+	empty: 'No integrations have been set up.'
 });
 
 @Store.connect({loading: 'loading', items: 'items', error: 'error'})
