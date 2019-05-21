@@ -15,8 +15,9 @@ const t = scoped('integrations.list.View', {
 	empty: 'No integrations have been set up.'
 });
 
+export default
 @Store.connect({loading: 'loading', items: 'items', error: 'error'})
-export default class IntegrationsList extends React.Component {
+class IntegrationsList extends React.Component {
 	static propTypes = {
 		context: PropTypes.object,
 

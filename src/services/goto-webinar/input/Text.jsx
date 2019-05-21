@@ -18,8 +18,9 @@ const propMap = {
 	error: 'error'
 };
 
+export default
 @Store.connect(propMap)
-export default class GotoWebinarTextInput extends React.Component {
+class GotoWebinarTextInput extends React.Component {
 	static propTypes = {
 		context: PropTypes.shape({
 			getLink: PropTypes.func.isRequired

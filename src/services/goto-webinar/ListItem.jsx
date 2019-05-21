@@ -25,8 +25,9 @@ function handles (service) {
 	return HANDLES[service.MimeType];
 }
 
+export default
 @Registry.register(handles)
-export default class GotoWebinarListItem extends React.Component {
+class GotoWebinarListItem extends React.Component {
 	static propTypes = {
 		integration: PropTypes.shape({
 			getLink: PropTypes.func.isRequired,

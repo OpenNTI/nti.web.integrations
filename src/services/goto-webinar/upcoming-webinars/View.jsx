@@ -15,8 +15,9 @@ const t = scoped('integrations.services.goto-webinar.upcoming-webinars.View', {
 	}
 });
 
+export default
 @Store.connect({loading: 'loading', items: 'items', error: 'error'})
-export default class GotoWebinarUpcomingWebinars extends React.Component {
+class GotoWebinarUpcomingWebinars extends React.Component {
 	static propTypes = {
 		className: PropTypes.string,
 		context: PropTypes.shape({

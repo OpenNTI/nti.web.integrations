@@ -27,8 +27,9 @@ const propMap = {
 	error: 'error'
 };
 
+export default
 @Store.connect(propMap)
-export default class GotoWebinarIsConnected extends React.Component {
+class GotoWebinarIsConnected extends React.Component {
 	static propTypes = {
 		context: PropTypes.object,
 		className: PropTypes.string,
