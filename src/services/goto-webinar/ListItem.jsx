@@ -11,7 +11,10 @@ import ConnectLink from './ConnectLink';
 
 const t = scoped('integrations.services.goto-webinar.ListItem', {
 	title: 'GoToWebinar',
-	description: 'Offer webinars in your course and generate reports.',
+	description: {
+		notConnected: 'Connect an account to get started.',
+		connected: 'Your account is connected!'
+	},
 	connect: 'Connect',
 	connectError: 'Unable to connect. Try again.',
 	disconnect: 'Disconnect',
@@ -30,6 +33,7 @@ export default
 class GotoWebinarListItem extends React.Component {
 	static propTypes = {
 		integration: PropTypes.shape({
+			accountName: PropTypes.string,
 			getLink: PropTypes.func.isRequired,
 			isConnected: PropTypes.func.isRequired,
 			disconnect: PropTypes.func.isRequired
@@ -72,7 +76,7 @@ class GotoWebinarListItem extends React.Component {
 						{t('title')}
 					</div>
 					<div className="description">
-						{t('description')}
+						{integration.isConnected() ? t('description.connected') : t('description.notConnected')}
 					</div>
 				</div>
 				{integration.isConnected() && this.renderDisconnect()}

@@ -7,13 +7,22 @@ import {getListItemFor} from '../services';
 
 import Store from './Store';
 
+// const t = scoped('integrations.list.View', {
+// 	title: 'Connect with Other Services',
+// 	description: 'We offer powerful integrations with popular services so you can do more with your audience',
+// 	label: 'List of Services',
+// 	error: 'Unable to load integrations',
+// 	empty: 'No integrations have been set up.'
+// });
+
 const t = scoped('integrations.list.View', {
-	title: 'Connect with Other Services',
-	description: 'We offer powerful integrations with popular services so you can do more with your audience',
+	title: 'GoToWebinar',
+	description: 'Start offering webinars in your course. Easily add your webinars to your courses and have learners register without leaving our platform.',
 	label: 'List of Services',
-	error: 'Unable to load integrations',
-	empty: 'No integrations have been set up.'
+	error: 'Unable to load GoToWebinar',
+	empty: 'GoToWebinar has not been set up.'
 });
+
 
 export default
 @Store.connect({loading: 'loading', items: 'items', error: 'error'})
@@ -85,7 +94,7 @@ class IntegrationsList extends React.Component {
 					{t('description')}
 				</div>
 				<div className="label">
-					{t('label')}
+					{/*t('label')*/}
 				</div>
 				{!items.length && (
 					<EmptyState header={t('empty')} />
