@@ -16,11 +16,11 @@ import Store from './Store';
 // });
 
 const t = scoped('integrations.list.View', {
-	title: 'GoToWebinar',
+	title: 'Webinars',
 	description: 'Start offering webinars in your course. Easily add your webinars to your courses and have learners register without leaving our platform.',
 	label: 'List of Services',
-	error: 'Unable to load GoToWebinar',
-	empty: 'GoToWebinar has not been set up.'
+	error: 'Unable to load webinars',
+	empty: 'Webinars have not been set up.'
 });
 
 
