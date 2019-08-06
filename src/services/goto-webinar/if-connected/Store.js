@@ -15,14 +15,14 @@ function getIntegrationFromCollection (collection) {
 
 export async function isConnected (context) {
 	const collection = await getIntegrationsCollection(context);
-	const integration = getIntegrationsCollection(collection);
+	const integration = getIntegrationFromCollection(collection);
 
 	return integration && integration.isConnected();
 }
 
 export async function canConnect (context) {
 	const collection = await getIntegrationsCollection(context);
-	const integration = getIntegrationsCollection(collection);
+	const integration = getIntegrationFromCollection(collection);
 
 	return integration && integration.hasLink('authorize.webinar');
 }
