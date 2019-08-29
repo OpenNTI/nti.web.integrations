@@ -36,7 +36,8 @@ class GotoWebinarIsConnected extends React.Component {
 		children: PropTypes.any,
 
 		store: PropTypes.shape({
-			load: PropTypes.func
+			load: PropTypes.func,
+			unload: PropTypes.func
 		}),
 		loading: PropTypes.bool,
 		integration: PropTypes.object,

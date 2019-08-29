@@ -26,7 +26,8 @@ class GotoWebinarTextInput extends React.Component {
 			getLink: PropTypes.func.isRequired
 		}),
 		store: PropTypes.shape({
-			load: PropTypes.func
+			load: PropTypes.func,
+			resolve: PropTypes.func
 		}),
 		loading: PropTypes.bool,
 		error: PropTypes.string,
