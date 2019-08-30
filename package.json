@@ -39,7 +39,7 @@
     "@nti/lib-store": "^1.5.0",
     "@nti/web-client": "^1.5.0",
     "@nti/web-commons": "0.x.x",
-    "@nti/web-routing": "^0.9.0",
+    "@nti/web-routing": "0.x.x",
     "classnames": "^2.2.6"
   },
   "devDependencies": {
