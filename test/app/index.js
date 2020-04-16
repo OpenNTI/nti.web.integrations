@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
 
-import {GotoWebinar} from '../../src';
+import {GotoWebinar, List} from '../../src';
 
 window.$AppConfig = window.$AppConfig || {server: '/dataserver2/'};
 
@@ -35,9 +35,12 @@ class Test extends React.Component {
 
 	render () {
 		return (
-			<GotoWebinar.IfConnected>
-				<div>Connected!</div>
-			</GotoWebinar.IfConnected>
+			<div>
+				<GotoWebinar.IfConnected>
+					<div>Connected!</div>
+				</GotoWebinar.IfConnected>
+				<List />
+			</div>
 		);
 	}
 }

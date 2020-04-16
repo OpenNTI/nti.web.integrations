@@ -1,123 +1,66 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import classnames from 'classnames/bind';
 import {scoped} from '@nti/lib-locale';
-import {Loading, EmptyState} from '@nti/web-commons';
+import {Loading, EmptyState, Errors, Hooks, Text, List} from '@nti/web-commons';
 
-import {getListItemFor} from '../services';
+import {getIntegrationsCollection} from '../utils';
 
-import Store from './Store';
+import Styles from './Styles.css';
+import Item from './Item';
 
-// const t = scoped('integrations.list.View', {
-// 	title: 'Connect with Other Services',
-// 	description: 'We offer powerful integrations with popular services so you can do more with your audience',
-// 	label: 'List of Services',
-// 	error: 'Unable to load integrations',
-// 	empty: 'No integrations have been set up.'
-// });
+const {useResolver, useForceUpdate} = Hooks;
+const {isPending, isResolved, isErrored} = useResolver;
 
+const cx = classnames.bind(Styles);
 const t = scoped('integrations.list.View', {
-	title: 'Webinars',
-	description: 'Start offering webinars in your course. Easily add your webinars to your courses and have learners register without leaving our platform.',
-	label: 'List of Services',
-	error: 'Unable to load webinars',
-	empty: 'Webinars have not been set up.'
+	title: 'Connect with Other Services',
+	description: 'Integrate with popular services so you can do even more with your audience.',
+	error: 'Unable to load integrations',
+	empty: 'No integrations have not been set up.'
 });
 
+IntegrationsList.propTypes = {
+	context: PropTypes.object
+};
+export default function IntegrationsList ({context}) {
+	const forceUpdate = useForceUpdate();
 
-export default
-@Store.connect({loading: 'loading', items: 'items', error: 'error'})
-class IntegrationsList extends React.Component {
-	static propTypes = {
-		context: PropTypes.object,
+	const resolver = useResolver(() => getIntegrationsCollection(context), [context]);
+	const loading = isPending(resolver);
+	const error = isErrored(resolver) ? resolver : null;
+	const integrations = !error && isResolved(resolver) ? resolver : null;
 
-		loading: PropTypes.bool,
-		items: PropTypes.array,
-		error: PropTypes.object,
+	React.useEffect(() => {
+		if (!integrations) { return; }
 
-		store: PropTypes.object
-	}
+		return integrations.subscribeToChange(forceUpdate);
+	}, [integrations]);
 
+	const services = integrations?.Items ?? [];
 
-	componentDidMount () {
-		this.setupFor(this.props);
-	}
-
-
-	componentDidUpdate (prevProps) {
-		const {context} = this.props;
-		const {context:prevContext} = prevProps;
-
-		if (context !== prevContext) {
-			this.setupFor(this.props);
-		}
-	}
-
-
-	setupFor (props) {
-		const {context, store} = props;
-
-		store.load(context);
-	}
-
-
-	render () {
-		const {loading, items, error} = this.props;
-
-		return (
-			<div className="nti-integration-list">
-				{loading && (<Loading.Mask />)}
-				{!loading && error && this.renderError()}
-				{!loading && !error && this.renderItems(items)}
-			</div>
-		);
-	}
-
-
-	renderError () {
-		return (
-			<div className="error">
-				{t('error')}
-			</div>
-		);
-	}
-
-
-	renderItems (items) {
-		if (!items) { return null; }
-
-		return (
-			<div className="content">
-				<div className="title">
-					{t('title')}
-				</div>
-				<div className="description">
-					{t('description')}
-				</div>
-				<div className="label">
-					{/*t('label')*/}
-				</div>
-				{!items.length && (
+	return (
+		<div className={cx('nti-integrations-list')}>
+			<Text.Base className={cx('title')}>{t('title')}</Text.Base>
+			<Text.Base className={cx('description')}>{t('description')}</Text.Base>
+			<Loading.Placeholder loading={loading} fallback={<Loading.Spinner.Large />}>
+				{error && (<Errors.Message error={error} />)}
+				{!error && services.length === 0 && (
 					<EmptyState header={t('empty')} />
 				)}
-				{items.length && (
-					<ul>
-						{
-							items
-								.map((item, key) => {
-									const Cmp = getListItemFor(item);
-
-									if (!Cmp) { return null; }
-
-									return (
-										<li key={key}>
-											<Cmp integration={item} />
-										</li>
-									);
-								})
-						}
-					</ul>
+				{!error && services.length > 0 && (
+					<List.Unadorned className={cx('integrations')}>
+						{services.map((service) => {
+							return (
+								<li key={service.name}>
+									<Item service={service} />
+								</li>
+							);
+						})}
+					</List.Unadorned>
 				)}
-			</div>
-		);
-	}
+			</Loading.Placeholder>
+		</div>
+	);
 }
+
