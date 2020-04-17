@@ -21,14 +21,13 @@ StripeConnectWindow.propTypes = {
 	service: PropTypes.shape({
 		isConnected: PropTypes.func
 	}).isRequired,
-	onDismiss: PropTypes.func
+	doClose: PropTypes.func
 };
-export default function StripeConnectWindow (props) {
-	const {service, onDismiss} = props;
+export default function StripeConnectWindow ({service, doClose} ) {
 	const connected = service.isConnected();
 
 	return (
-		<Prompt.BaseWindow doClose={onDismiss} title={t('title')}>
+		<Prompt.BaseWindow doClose={doClose} title={t('title')}>
 			<WindowContents>
 				<Description logo={Logo}>
 					<Text.Base>{t('description')}</Text.Base>

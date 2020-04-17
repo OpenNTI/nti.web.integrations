@@ -71,7 +71,7 @@ export default function IntegrationsList ({context}) {
 				)}
 				{Window && (
 					<Prompt.Dialog>
-						<Window service={selectedService} />
+						<Window service={selectedService} doClose={() => setSelected(null)} />
 					</Prompt.Dialog>
 				)}
 			</Loading.Placeholder>
