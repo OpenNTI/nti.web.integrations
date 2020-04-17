@@ -1,8 +1,9 @@
 .nti-integrations-list {
-	padding: var(--side-padding, 2rem);
+	padding: var(--side-padding, 2rem) 0;
 
 
 	& .title {
+		padding: 0 var(--side-padding, 2rem);
 		display: block;
 		font-size: 2rem;
 		font-weight: 300;
@@ -11,6 +12,7 @@
 	}
 
 	& .description {
+		padding: 0 var(--side-padding, 2rem);
 		display: block;
 		font-size: 0.875rem;
 		font-weight: 400;
@@ -19,11 +21,11 @@
 	}
 
 	& .integrations {
+		padding: 0 var(--side-padding, 2rem);
 		display: grid;
 		grid-template-rows: auto;
 		grid-template-columns: repeat(4, 1fr);
 		grid-auto-rows: 125px;
-		grid-gap: 50px;
 	
 		& .nti-integration {
 			height: 100%;
@@ -35,18 +37,30 @@
 	display: flex;
 	flex-direction: column;
 	align-items: center;
+	text-decoration: none;
+	padding: 0 calc(var(--side-padding, 2rem) / 2);
+	cursor: pointer;
+	transition: transform 50ms ease;
+
+	&:hover {
+		transform: scale(1.1);
+	    box-shadow: 0 5px 14px 1px rgba(0,0,0,0.12);
+	    border-radius: 16px;
+	}
+
+	&.disabled {
+		opacity: 0.6;
+	}
 
 	& .logo {
 		flex: 1 1 auto;
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		min-height: 135px;
-		overflow: hidden;
+		max-width: 120px;
 
 		& img {
-			max-width: 100%;
+			width: 100%;
+			height: 100%;
 			object-fit: contain;
+			display: block;
 		}
 	}
 
@@ -61,6 +75,7 @@
 		font-size: 0.875rem;
 		font-weight: 600;
 		line-height: 1.3;
+		padding-bottom: 0.5em;
 		color: var(--primary-blue);
 
 		& span {

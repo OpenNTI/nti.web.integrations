@@ -25,10 +25,10 @@ export default function IntegrationItem ({service}) {
 	const name = getNameFor(service);
 
 	const enabled = service.isEnabled();
-	const connected = true;//service.isConnected();
+	const connected = service.isConnected();
 
 	return (
-		<div className={cx('nti-integration', {disabled: enabled})}>
+		<a className={cx('nti-integration', {disabled: !enabled})} role="button">
 			<div className={cx('logo')}>
 				<img src={logo} alt={`${name} logo`} />
 			</div>
@@ -39,6 +39,6 @@ export default function IntegrationItem ({service}) {
 					{connected ? t('connected') : t('connect')}
 				</Text.Base>
 			</div>
-		</div>
+		</a>
 	);
 }
