@@ -2,9 +2,10 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames/bind';
 import {scoped} from '@nti/lib-locale';
-import {Loading, EmptyState, Errors, Hooks, Text, List} from '@nti/web-commons';
+import {Loading, EmptyState, Errors, Hooks, Text, List, Prompt} from '@nti/web-commons';
 
 import {getIntegrationsCollection} from '../utils';
+import {getWindowFor} from '../services';
 
 import Styles from './Styles.css';
 import Item from './Item';
@@ -25,6 +26,9 @@ IntegrationsList.propTypes = {
 };
 export default function IntegrationsList ({context}) {
 	const forceUpdate = useForceUpdate();
+	//We're using the service name to track the selected incase we need to derive
+	//the selected service from the URL in the future
+	const [selected, setSelected] = React.useState(null);
 
 	const resolver = useResolver(() => getIntegrationsCollection(context), [context]);
 	const loading = isPending(resolver);
@@ -38,6 +42,9 @@ export default function IntegrationsList ({context}) {
 	}, [integrations]);
 
 	const services = integrations?.Items ?? [];
+
+	const selectedService = selected && services.find(s => s.name === selected);
+	const Window = selectedService && getWindowFor(selectedService);
 
 	return (
 		<div className={cx('nti-integrations-list')}>
@@ -53,11 +60,19 @@ export default function IntegrationsList ({context}) {
 						{services.map((service) => {
 							return (
 								<li key={service.name}>
-									<Item service={service} />
+									<Item
+										service={service}
+										onClick={() => setSelected(service.name)}
+									/>
 								</li>
 							);
 						})}
 					</List.Unadorned>
+				)}
+				{Window && (
+					<Prompt.Dialog>
+						<Window service={selectedService} />
+					</Prompt.Dialog>
 				)}
 			</Loading.Placeholder>
 		</div>

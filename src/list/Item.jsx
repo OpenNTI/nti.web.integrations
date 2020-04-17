@@ -18,9 +18,10 @@ IntegrationItem.propTypes = {
 	service: PropTypes.shape({
 		isEnabled: PropTypes.func,
 		isConnected: PropTypes.func
-	})
+	}),
+	onClick: PropTypes.func
 };
-export default function IntegrationItem ({service}) {
+export default function IntegrationItem ({service, onClick}) {
 	const logo = getLogoFor(service);
 	const name = getNameFor(service);
 
@@ -28,7 +29,7 @@ export default function IntegrationItem ({service}) {
 	const connected = service.isConnected();
 
 	return (
-		<a className={cx('nti-integration', {disabled: !enabled})} role="button">
+		<a className={cx('nti-integration', {disabled: !enabled})} role="button" onClick={onClick}>
 			<div className={cx('logo')}>
 				<img src={logo} alt={`${name} logo`} />
 			</div>
