@@ -5,10 +5,11 @@ import {scoped} from '@nti/lib-locale';
 import {Loading, EmptyState, Errors, Hooks, Text, List, Prompt} from '@nti/web-commons';
 
 import {getIntegrationsCollection} from '../utils';
-import {getWindowFor} from '../services';
+import {getWindowFor, getNameFor} from '../services';
 
 import Styles from './Styles.css';
 import Item from './Item';
+import getPreviewItems from './get-preview-items';
 
 const {useResolver, useForceUpdate} = Hooks;
 const {isPending, isResolved, isErrored} = useResolver;
@@ -41,7 +42,16 @@ export default function IntegrationsList ({context}) {
 		return integrations.subscribeToChange(forceUpdate);
 	}, [integrations]);
 
-	const services = integrations?.Items ?? [];
+	const preview = getPreviewItems(context) ?? [];
+	const actual = integrations?.Items ?? [];
+	const services = ([...actual, ...preview])
+		.filter(Boolean)
+		.sort((a, b) => {
+			const aName = getNameFor(a);
+			const bName = getNameFor(b);
+
+			return aName < bName ? -1 : (aName === bName ? 0 : 1);
+		});
 
 	const selectedService = selected && services.find(s => s.name === selected);
 	const Window = selectedService && getWindowFor(selectedService);

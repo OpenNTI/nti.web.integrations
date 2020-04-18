@@ -2,13 +2,12 @@ import {scoped} from '@nti/lib-locale';
 
 import Registry from '../ItemRegistry';
 
-import {Handles} from './Constants';
 import {Logo} from './assets';
 import Window from './window';
 
-const handles = s => Handles[s.MimeType];
-const t = scoped('integrations.servics.stripe', {
-	name: 'Stripe'
+const handles = s => s.isZapierIntegration;
+const t = scoped('integrations.services.zapier', {
+	name: 'Zapier'
 });
 
 Registry.register(handles)({

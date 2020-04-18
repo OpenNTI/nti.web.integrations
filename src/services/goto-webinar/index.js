@@ -3,7 +3,7 @@ import {scoped} from '@nti/lib-locale';
 import Registry from '../ItemRegistry';
 
 import {HANDLES} from './Constants';
-import Logo from './assets/goto-webinar-logo.jpg';
+import {Logo} from './assets';
 import Window from './window';
 
 export IfConnected from './if-connected';

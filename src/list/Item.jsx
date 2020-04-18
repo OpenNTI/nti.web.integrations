@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames/bind';
 import {scoped} from '@nti/lib-locale';
-import {Text} from '@nti/web-commons';
+import {Text, Image} from '@nti/web-commons';
 
 import {getLogoFor, getNameFor} from '../services';
 
@@ -40,7 +40,7 @@ export default function IntegrationItem ({service, onClick}) {
 	return (
 		<a className={cx('nti-integration', {disabled: !enabled})} role="button" onClick={onClick}>
 			<div className={cx('logo')}>
-				<img src={logo} alt={`${name} logo`} />
+				<Image src={logo} alt={`${name} logo`} />
 			</div>
 			<div className={cx('name-container')}>
 				<Text.Base className={cx('name')}>{name}</Text.Base>
