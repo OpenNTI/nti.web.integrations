@@ -7,12 +7,21 @@ import {Text} from '@nti/web-commons';
 import {getLogoFor, getNameFor} from '../services';
 
 import Styles from './Styles.css';
+import Lock from './assets/lock.svg';
 
 const cx = classnames.bind(Styles);
 const t = scoped('integrations.list.Item', {
 	connected: 'Connected',
-	connect: 'Connect'
+	connect: 'Connect',
+	upgrade: 'Upgrade'
 });
+
+const getActionText = (service) => {
+	if (service.isConnected()) { return t('connected'); }
+	if (service.canConnect()) { return t('connect'); }
+
+	return t('upgrade');
+};
 
 IntegrationItem.propTypes = {
 	service: PropTypes.shape({
@@ -33,11 +42,16 @@ export default function IntegrationItem ({service, onClick}) {
 			<div className={cx('logo')}>
 				<img src={logo} alt={`${name} logo`} />
 			</div>
-			<Text.Base className={cx('name')}>{name}</Text.Base>
+			<div className={cx('name-container')}>
+				<Text.Base className={cx('name')}>{name}</Text.Base>
+				{!enabled && (
+					<img className={cx('lock')} src={Lock} />
+				)}
+			</div>
 			<div className={cx('status')}>
 				{connected && (<span className={cx('connected-indicator')} />)}
 				<Text.Base>
-					{connected ? t('connected') : t('connect')}
+					{getActionText(service)}
 				</Text.Base>
 			</div>
 		</a>
