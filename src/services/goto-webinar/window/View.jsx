@@ -11,6 +11,11 @@ const t = scoped('integrations.services.goto-webinar.window.View', {
 		title: 'To Connect GoToWebinar Login with your Account',
 		link: 'Login with GoToWebinar'
 	},
+	disconnect: {
+		title: 'GoToWebinar is Connected!',
+		accountLabel: 'GoToWebinar Account: ',
+		link: 'Disconnect GoToWebinar'	
+	},
 	unavailable: {
 		title: 'Connecting GoToWebinar is currently unavailable.',
 		supportSubject: 'Enabling GoToWebinar'

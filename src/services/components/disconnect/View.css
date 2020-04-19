@@ -1,0 +1,31 @@
+.disconnect-service-view {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	padding: 94px var(--side-padding, 2rem);
+
+	& .title {
+		font-size: 1.6rem;
+		font-weight: 300;
+		line-height: 1.3;
+		text-align: center;
+		display: block;
+	}
+
+	& .account-name {
+		font-size: 1rem;
+		font-weight: 400;
+		line-height: 1.3;
+		display: block;
+
+		& .account {
+			color: var(--primary-blue);
+		}
+	}
+
+
+	& .disconnect {
+		margin-top: 2rem;
+	}
+}

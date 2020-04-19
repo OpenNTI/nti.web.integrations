@@ -11,6 +11,11 @@ const t = scoped('integrations.services.stripe.window.View', {
 		title: 'To Connect to Stripe Login with your Account',
 		link: 'Login with Stripe'
 	},
+	disconnect: {
+		title: 'Stripe is Connected!',
+		accountLabel: 'Stripe Account: ',
+		link: 'Disconnect Stripe'	
+	},
 	unavailable: {
 		title: 'Connecting to Stripe is currently unavailable.',
 		supportSubject: 'Enabling Stripe'
