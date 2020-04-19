@@ -42,4 +42,11 @@
 			color: var(--primary-grey);
 		}
 	}
+
+	& .link {
+		padding: 0.5rem;
+		color: var(--primary-blue);
+		cursor: pointer;
+		text-decoration: none;
+	}
 }

@@ -4,6 +4,8 @@ import {scoped} from '@nti/lib-locale';
 import BaseWindow from '../../components/BaseWindow';
 import {Logo} from '../assets';
 
+const link = 'https://stripe.com/';
+
 const t = scoped('integrations.services.stripe.window.View', {
 	title: 'Connect to Stripe',
 	description: 'Process payments with Stripe\'s robust suite of options.',
@@ -24,6 +26,6 @@ const t = scoped('integrations.services.stripe.window.View', {
 
 export default function StripeConnectWindow (props) {
 	return (
-		<BaseWindow {...props} logo={Logo} getString={t} />
+		<BaseWindow {...props} logo={Logo} getString={t} link={link} />
 	);
 }

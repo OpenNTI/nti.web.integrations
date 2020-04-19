@@ -4,6 +4,8 @@ import {scoped} from '@nti/lib-locale';
 import BaseWindow from '../../components/BaseWindow';
 import {Logo} from '../assets';
 
+const Link = 'https://www.gotomeeting.com/webinar';
+
 const t = scoped('integrations.services.goto-webinar.window.View', {
 	title: 'Connect to GoToWebinar',
 	description: 'Host live or pre-recorded webinars.',
@@ -24,6 +26,6 @@ const t = scoped('integrations.services.goto-webinar.window.View', {
 
 export default function GotoWebinarConnectWindow (props) {
 	return (
-		<BaseWindow {...props} logo={Logo} getString={t} />
+		<BaseWindow {...props} logo={Logo} link={Link} getString={t} />
 	);
 }

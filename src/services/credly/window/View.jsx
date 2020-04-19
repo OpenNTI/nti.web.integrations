@@ -4,6 +4,8 @@ import {scoped} from '@nti/lib-locale';
 import BaseWindow from '../../components/BaseWindow';
 import {Logo} from '../assets';
 
+const Link = 'https://info.credly.com/';
+
 const t = scoped('integrations.services.credly.window.View', {
 	title: 'Connect to Credly',
 	description: 'Award credentials for course completion through Credly',
@@ -15,6 +17,6 @@ const t = scoped('integrations.services.credly.window.View', {
 
 export default function CredlyConnectWindow (props) {
 	return (
-		<BaseWindow {...props} logo={Logo} getString={t} />
+		<BaseWindow {...props} logo={Logo} link={Link} getString={t} />
 	);
 }

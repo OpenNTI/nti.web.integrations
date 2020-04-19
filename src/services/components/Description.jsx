@@ -13,9 +13,10 @@ const t = scoped('integrations.services.components.Description', {
 
 ServiceDescription.propTypes = {
 	logo: PropTypes.any,
+	link: PropTypes.string,
 	children: PropTypes.any
 };
-export default function ServiceDescription ({logo, children}) {
+export default function ServiceDescription ({logo, link, children}) {
 	return (
 		<div className={cx('nti-service-description')}>
 			{logo && (
@@ -29,6 +30,11 @@ export default function ServiceDescription ({logo, children}) {
 					{children}
 				</div>
 			</div>
+			{link && (
+				<a className={cx('link')} href={link} rel="noopener noreferrer" target="_blank">
+					<i className="icon-shareto" />
+				</a>
+			)}
 		</div>
 	);
 }
