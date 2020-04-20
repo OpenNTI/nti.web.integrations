@@ -13,10 +13,12 @@ const cx = classnames.bind(Styles);
 const t = scoped('integrations.list.Item', {
 	connected: 'Connected',
 	connect: 'Connect',
-	upgrade: 'Upgrade'
+	upgrade: 'Upgrade',
+	comingSoon: 'Coming Soon'
 });
 
 const getActionText = (service) => {
+	if (service.comingSoon) { return t('comingSoon'); }
 	if (service.isConnected()) { return t('connected'); }
 	if (service.canConnect()) { return t('connect'); }
 

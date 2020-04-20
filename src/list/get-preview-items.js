@@ -2,6 +2,7 @@ function makePreview (id, name) {
 	return {
 		name,
 		[id]: true,
+		comingSoon: true,
 		isEnabled: () => false,
 		canConnect: () => false,
 		isConnected: () => false,
