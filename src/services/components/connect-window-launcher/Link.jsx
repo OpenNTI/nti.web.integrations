@@ -37,7 +37,7 @@ export default function ConnectWindowLinkLauncher ({service, onConnecting = () =
 		if (!global.addEventListener) { return; }
 
 		const onMessage = (e) => {
-			const {data} = e?.eventData || {};
+			const {data} = e?.data || {};
 
 			if (!data || data.key !== MessageKey) { return; }
 
