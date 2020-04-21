@@ -49,6 +49,7 @@ export default function ConnectWindowLinkLauncher ({service, onConnecting = () =
 				service.sync();
 				onConnect();
 			} else if (params.success === '0') {
+				service.sync();
 				onError(new Error(t('unknownError')));
 			}
 		};
