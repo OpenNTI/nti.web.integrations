@@ -4,7 +4,7 @@ import classnames from 'classnames/bind';
 import {scoped} from '@nti/lib-locale';
 import {Loading, EmptyState, Errors, Hooks, Text, List, Prompt} from '@nti/web-commons';
 
-import {getIntegrationsCollection} from '../utils';
+import {getIntegrationsCollection, ReturnParams} from '../utils';
 import {getWindowFor, getNameFor} from '../services';
 
 import Styles from './Styles.css';
@@ -23,14 +23,22 @@ const t = scoped('integrations.list.View', {
 	addIntegration: 'Not seeing the integration you need? Contact <a href="mailto:integrations@nextthought.com">integrations@nextthought.com</a> to see about adding it.'
 });
 
+
 IntegrationsList.propTypes = {
 	context: PropTypes.object
 };
 export default function IntegrationsList ({context}) {
 	const forceUpdate = useForceUpdate();
-	//We're using the service name to track the selected incase we need to derive
-	//the selected service from the URL in the future
+
 	const [selected, setSelected] = React.useState(null);
+
+	React.useEffect(() => {
+		const params = ReturnParams.get();
+
+		if (params) {
+			setSelected(params.get('service'));
+		}
+	}, []);
 
 	const resolver = useResolver(() => getIntegrationsCollection(context), [context]);
 	const loading = isPending(resolver);
@@ -83,7 +91,7 @@ export default function IntegrationsList ({context}) {
 				{!error && services.length > 0 && (<Text.Base className={cx('add-integration')} localized>{t('addIntegration')}</Text.Base>)}
 				{Window && (
 					<Prompt.Dialog>
-						<Window service={selectedService} doClose={() => setSelected(null)} />
+						<Window service={selectedService} doClose={() => (ReturnParams.clear(), setSelected(null))} />
 					</Prompt.Dialog>
 				)}
 			</Loading.Placeholder>
