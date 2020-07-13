@@ -5,6 +5,8 @@ import Registry from '../ItemRegistry';
 import {Logo} from './assets';
 import Window from './window';
 
+export * from './components';
+
 const handles = s => s.isGoogleIntegration;
 const t = scoped('integrations.services.google', {
 	name: 'Google'
