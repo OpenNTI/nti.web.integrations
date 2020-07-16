@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Storage from '@nti/web-storage';
+import Storage from '@nti/web-storage';//eslint-disable-line
 import {Hooks} from '@nti/web-commons';
 
 const SuccessKey = 'google-auth-success';
@@ -56,11 +56,11 @@ function usePostMessage (onMessage) {
 }
 
 
-function useAccessToken (scopes) {
+function useAccessToken (scopes, {onCancel}) {
 	const forceUpdate = Hooks.useForceUpdate();
 
 	const scopesId = getScopesId(scopes);
-	const active = Scopes[scopesId] = Scopes[scopesId] || ({token: null, error: null, windowActive: false});
+	const active = Scopes[scopesId] = Scopes[scopesId] || ({token: null, error: null, windowActive: false, windowPoll: null});
 
 	usePostMessage((e) => {
 		const {data: eventData} = e;
@@ -69,14 +69,21 @@ function useAccessToken (scopes) {
 		if (!data || !HandleMessage[data.key]) { return; }
 
 		const hashData = parseHash(hash);
+		const cleanupWindow = () => {
+			active.windowActive = false;
+			active.canceled = false;
+			clearInterval(active.windowPoll);
+		};
 
 		if (data.key === SuccessKey) {
+			cleanupWindow();
 			active.token = Storage.encodeExpiryValue(
 				hashData['access_token'],
 				Date.now() + (parseInt(hashData['expires_in'], 10) * 1000)
 			);
 			forceUpdate();
 		} else if (data.key === FailureKey) {
+			cleanupWindow();
 			active.error = hashData.error;
 			forceUpdate();
 		}
@@ -84,16 +91,29 @@ function useAccessToken (scopes) {
 
 	React.useEffect(() => {
 		if (!active.token && !active.error && !active.windowActive) {
-			active.windowActive = true;
 
 			const link = getAuthLink(scopes);
-			global.open?.(link, 'google-auth-window', 'menubar=no,titlebar=no,toolbar=no,width=800,height=600');
+			const win = global.open?.(link, 'google-auth-window', 'menubar=no,titlebar=no,toolbar=no,width=800,height=600');
+			
+			active.windowActive = true;
+			clearInterval(active.windowPoll);
+			active.windowPoll = setInterval(() => {
+				if (win.closed) {
+					active.windowActive = false;
+					clearInterval(active.windowPoll);
+
+					if (!active.token && !active.error) {
+						onCancel?.();
+					}
+				}
+			}, 500);
 		}
 	}, [active]);
 
 	return {
 		token: Storage.decodeExpiryValue(active.token),
-		error: active.error
+		error: active.error,
+		canceled: active.canceled
 	};
 }
 
@@ -101,14 +121,15 @@ function useAccessToken (scopes) {
 GoogleAuth.propTypes = {
 	onAuthorized: PropTypes.func,
 	onFailure: PropTypes.func,
+	onCancel: PropTypes.func,
 	scopes: PropTypes.array
 };
-export default function GoogleAuth ({onAuthorized, onFailure, scopes}) {
-	const {token, error} = useAccessToken(scopes);
+export default function GoogleAuth ({onAuthorized, onFailure, onCancel, scopes}) {
+	const {token, error} = useAccessToken(scopes, {onCancel});
 
 	React.useEffect(() => {
-		if (token) { onAuthorized(token); }
-		else if (error) { onFailure(error); }
+		if (token) { onAuthorized?.(token); }
+		else if (error) { onFailure?.(error); }
 	}, [token, error, onAuthorized, onFailure]);
 
 	return null;
