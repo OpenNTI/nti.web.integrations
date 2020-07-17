@@ -35,3 +35,12 @@
 		font-size: 0.875rem;
 	}
 }
+
+:global(.picker-dialog-bg) {
+	background: black !important;
+	position: fixed !important;
+}
+
+:global(.picker-dialog) {
+	position: fixed !important;
+}
