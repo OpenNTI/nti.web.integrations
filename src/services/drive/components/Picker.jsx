@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames/bind';
 import {scoped} from '@nti/lib-locale';
-import {ExternalLibraryManager} from '@nti/web-client';
 import {Text, Loading, Button, HOC} from '@nti/web-commons';
 
 import {Authorize} from '../../google';
@@ -15,17 +14,14 @@ const t = scoped('integrations.drive.components.Picker', {
 	noSelected: 'No Document Selected'
 });
 
-const GAPISource = 'https://apis.google.com/js/api.js';
-const GAPIDevKey = 'AIzaSyBntrVvY4b0pY9u4vSf_54hnDdt-eYK_H4';
-const GAPIAppId = '918146062510';
-
 const AuthScopes = ['https://www.googleapis.com/auth/drive.file'];
 
 function loadPicker () {
 	if (!loadPicker.ref) {
 		const load = async () => {
-			await ExternalLibraryManager.injectScript(GAPISource, 'gapi');
-			await new Promise((fulfill) => global.gapi.load('picker', {callback: fulfill}));
+			const gapi = await Authorize.getGoogleAPI();
+
+			await new Promise((fulfill) => gapi.load('picker', {callback: fulfill}));
 
 			if (!global.google?.picker) {
 				throw new Error('Unable to load picker');
@@ -42,14 +38,15 @@ function loadPicker () {
 
 async function showPicker (authToken) {
 	const picker = await loadPicker();
+	const apiKeys = await Authorize.getGoogleAPIKeys();
 
 	return new Promise((fulfill, reject) => {
 		try {
 			const pickerView = new picker.PickerBuilder()
 				.enableFeature(picker.Feature.NAV_HIDDEN)
 				.setOAuthToken(authToken)
-				.setDeveloperKey(GAPIDevKey)
-				.setAppId(GAPIAppId)
+				.setDeveloperKey(apiKeys.DevKey)
+				.setAppId(apiKeys.AppId)
 				.addView(new picker.View(picker.ViewId.DOCS))
 				.addView(new picker.DocsUploadView())
 				.setCallback((data) => {

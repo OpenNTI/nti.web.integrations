@@ -1,7 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import {getService, ExternalLibraryManager} from '@nti/web-client';
 import Storage from '@nti/web-storage';//eslint-disable-line
 import {Hooks} from '@nti/web-commons';
+
+const GAPISource = 'https://apis.google.com/js/api.js';
 
 const SuccessKey = 'google-auth-success';
 const FailureKey = 'google-auth-failure';
@@ -12,6 +15,24 @@ const HandleMessage = {
 
 const getScopesId = scopes => scopes.join('-');
 const Scopes = {};
+
+function getGoogleAPIKeys () {
+	if (getGoogleAPIKeys.cache) { return getGoogleAPIKeys.cache; }
+
+	const resolve = async () => {
+		const service = await getService();
+		const keys = await service.getUserWorkspace().fetchLink('GoogleAPIKey');
+
+		return {
+			DevKey: keys.key,
+			AppId: keys.appId
+		};
+	};
+
+	getGoogleAPIKeys.cache =  getGoogleAPIKeys.cache || resolve();
+
+	return getGoogleAPIKeys.cache;
+}
 
 function parseHash (hash) {
 	hash = hash.replace(/^#/, '');
@@ -117,7 +138,11 @@ function useAccessToken (scopes, {onCancel}) {
 	};
 }
 
-
+GoogleAuth.getGoogleAPIKeys = getGoogleAPIKeys;
+GoogleAuth.getGoogleAPI = async () => {
+	await ExternalLibraryManager.injectScript(GAPISource, 'gapi');
+	return global.gapi;
+};
 GoogleAuth.propTypes = {
 	onAuthorized: PropTypes.func,
 	onFailure: PropTypes.func,
