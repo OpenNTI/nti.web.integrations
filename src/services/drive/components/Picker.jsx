@@ -47,8 +47,29 @@ async function showPicker (authToken) {
 				.setOAuthToken(authToken)
 				.setDeveloperKey(apiKeys.DevKey)
 				.setAppId(apiKeys.AppId)
-				.addView(new picker.View(picker.ViewId.DOCS))
-				.addView(new picker.DocsUploadView())
+				.addViewGroup(
+					new picker.ViewGroup(
+						new picker.DocsView(picker.ViewId.DOCS)
+							.setIncludeFolders(true)
+							.setOwnedByMe(true)
+							.setMode(picker.DocsViewMode.LIST)
+							.setLabel('Owned By Me')
+					)
+						.addView(
+							new picker.DocsView(picker.ViewId.DOCS)
+								.setIncludeFolders(true)
+								.setOwnedByMe(false)
+								.setMode(picker.DocsViewMode.LIST)
+								.setLabel('Shared with Me')
+						)
+						.addView(
+							new picker.DocsView(picker.ViewId.DOCS)
+								.setStarred(true)
+								.setMode(picker.DocsViewMode.LIST)
+								.setLabel('Starred')
+						)
+						.addView(new picker.DocsUploadView())
+				)
 				.setCallback((data) => {
 					if (data.action === picker.Action.PICKED) {
 						fulfill(data.docs);

@@ -21,12 +21,9 @@ function getGoogleAPIKeys () {
 
 	const resolve = async () => {
 		const service = await getService();
-		const keys = await service.getUserWorkspace().fetchLink('GoogleAPIKey');
+		const keys = await service.getUserWorkspace().fetchLinkParsed('GoogleAPIKey');
 
-		return {
-			DevKey: keys.key,
-			AppId: keys.appId
-		};
+		return keys;
 	};
 
 	getGoogleAPIKeys.cache =  getGoogleAPIKeys.cache || resolve();
@@ -55,9 +52,10 @@ function getRedirectURL (success) {
 	return `${global.location.origin}/app/post-query-params/${success ? SuccessKey : FailureKey}`;
 }
 
-function getAuthLink (scopes) {
-	const base = `${global.location.origin}/dataserver2/google.oauth.authorize`;
-	const url = new URL(base);
+async function getAuthLink (scopes) {
+	const apiKeys = await getGoogleAPIKeys();
+	const authLink = apiKeys.getAuthLink(global.location.origin);
+	const url = new URL(authLink);
 
 	url.searchParams.set('success', getRedirectURL(true));
 	url.searchParams.set('failure', getRedirectURL(false));
@@ -111,24 +109,38 @@ function useAccessToken (scopes, {onCancel}) {
 	});
 
 	React.useEffect(() => {
-		if (!active.token && !active.error && !active.windowActive) {
+		const maybeShowWindow = async () => {
+			if (!active.token && !active.error && !active.windowActive) {
 
-			const link = getAuthLink(scopes);
-			const win = global.open?.(link, 'google-auth-window', 'menubar=no,titlebar=no,toolbar=no,width=800,height=600');
-			
-			active.windowActive = true;
-			clearInterval(active.windowPoll);
-			active.windowPoll = setInterval(() => {
-				if (win.closed) {
+				try {
+					const link = await getAuthLink(scopes);
+					const win = global.open?.(link, 'google-auth-window', 'menubar=no,titlebar=no,toolbar=no,width=800,height=600');
+					
+					active.windowActive = true;
+					clearInterval(active.windowPoll);
+					active.windowPoll = setInterval(() => {
+						if (win.closed) {
+							active.windowActive = false;
+							clearInterval(active.windowPoll);
+
+							if (!active.token && !active.error) {
+								onCancel?.();
+							}
+						}
+					}, 500);
+				} catch (e) {
 					active.windowActive = false;
+					active.canceled = false;
 					clearInterval(active.windowPoll);
 
-					if (!active.token && !active.error) {
-						onCancel?.();
-					}
+					active.error = e;
+					forceUpdate();
 				}
-			}, 500);
-		}
+			}
+		};
+
+		maybeShowWindow();
+
 	}, [active]);
 
 	return {
