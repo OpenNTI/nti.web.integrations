@@ -1,3 +1,4 @@
+import './View.scss';
 import React, {Fragment} from 'react';
 import PropTypes from 'prop-types';
 import {Prompt} from '@nti/web-commons';

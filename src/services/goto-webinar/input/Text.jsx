@@ -1,3 +1,4 @@
+import './Text.scss';
 import React from 'react';
 import PropTypes from 'prop-types';
 import {Input, Loading} from '@nti/web-commons';
