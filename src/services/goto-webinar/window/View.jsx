@@ -11,8 +11,8 @@ const t = scoped('integrations.services.goto-webinar.window.View', {
 	title: 'Connect to GoToWebinar',
 	description: 'Host live or pre-recorded webinars.',
 	connect: {
-		title: 'To Connect GoToWebinar Login with your Account',
-		link: 'Login with GoToWebinar',
+		title: 'To Connect GoToWebinar log in with your Account',
+		link: 'Log in with GoToWebinar',
 	},
 	disconnect: {
 		title: 'GoToWebinar is Connected!',
