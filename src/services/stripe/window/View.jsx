@@ -11,8 +11,8 @@ const t = scoped('integrations.services.stripe.window.View', {
 	title: 'Connect to Stripe',
 	description: "Process payments with Stripe's robust suite of options.",
 	connect: {
-		title: 'To Connect to Stripe Login with your Account',
-		link: 'Login with Stripe',
+		title: 'To Connect to Stripe log in with your Account',
+		link: 'Log in with Stripe',
 	},
 	disconnect: {
 		title: 'Stripe is Connected!',
