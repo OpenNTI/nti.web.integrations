@@ -7,7 +7,7 @@ import { Logo } from '../assets';
 
 const t = scoped('integrations.services.google.window.View', {
 	title: 'Connect to Google',
-	description: 'Allow Learners to login with their Google account',
+	description: 'Allow Learners to log in with their Google account',
 	unavailable: {
 		title: 'Connecting to Google is currently unavailable.',
 		supportSubject: 'Enabling Google',
