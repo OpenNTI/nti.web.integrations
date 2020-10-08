@@ -13,7 +13,7 @@
 			text-align: center;
 			text-transform: uppercase;
 			font: normal 800 0.625rem/1.3 $body-font-family;
-			color: $border-red;
+			color: var(--border-red);
 		}
 
 		.day {
