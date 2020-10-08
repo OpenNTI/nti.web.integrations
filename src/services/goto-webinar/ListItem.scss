@@ -33,7 +33,7 @@
 
 	.account-name {
 		display: inline-block;
-		color: $tertiary-grey;
+		color: var(--tertiary-grey);
 		cursor: pointer;
 
 		span, i {
