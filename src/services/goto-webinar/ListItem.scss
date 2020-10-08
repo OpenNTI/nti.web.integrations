@@ -27,7 +27,7 @@
 		cursor: pointer;
 
 		&.error {
-			color: $primary-red;
+			color: var(--primary-red);
 		}
 	}
 
@@ -49,7 +49,7 @@
 
 	.disconnect {
 		display: inline-block;
-		color: $primary-red;
+		color: var(--primary-red);
 		cursor: pointer;
 	}
 }
@@ -57,7 +57,7 @@
 .nti-integratins-goto-webinar-list-item-flyout {
 	.disconnect {
 		display: block;
-		color: $primary-red;
+		color: var(--primary-red);
 		font: normal 400 0.875rem/1.3 $body-font-family;
 		padding: 0.625rem 1rem;
 		cursor: pointer;
