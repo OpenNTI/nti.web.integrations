@@ -34,7 +34,7 @@
 			}
 
 			.connect-link {
-				background-color: $primary-blue;
+				background-color: var(--primary-blue);
 				border-radius: 4px;
 				font: normal 400 0.875rem/1.3 $body-font-family;
 				color: white;

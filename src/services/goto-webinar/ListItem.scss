@@ -23,7 +23,7 @@
 
 	.connect {
 		display: inline-block;
-		color: $primary-blue;
+		color: var(--primary-blue);
 		cursor: pointer;
 
 		&.error {
