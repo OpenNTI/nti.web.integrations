@@ -2,7 +2,7 @@
 
 label.checkbox-component input.webinar-registration-field {
 	& + span.label {
-		color: $secondary-grey;
+		color: var(--secondary-grey);
 		font-size: rem-calc(13px);
 	}
 
@@ -54,7 +54,7 @@ label.checkbox-component input.webinar-registration-field {
 	}
 
 	.icon-chevron-down {
-		color: #787878;
+		color: var(--secondary-grey-alt);
 	}
 
 	&.invalid {
@@ -73,7 +73,7 @@ label.checkbox-component input.webinar-registration-field {
 
 	&.focus {
 		.label {
-			color: $secondary-grey;
+			color: var(--secondary-grey);
 		}
 
 		input, .textarea-container {

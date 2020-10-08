@@ -15,7 +15,7 @@
 	}
 
 	p {
-		color: $secondary-grey;
+		color: var(--secondary-grey);
 		font-family: $body-font-family;
 		line-height: 1.571428571;
 		font-size: 14px;
