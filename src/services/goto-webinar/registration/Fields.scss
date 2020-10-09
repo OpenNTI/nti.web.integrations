@@ -9,8 +9,8 @@
 	h2 {
 		margin: 0;
 		padding: 0;
-		color: $tertiary-grey;
-		font-family: $body-font-family;
+		color: var(--tertiary-grey);
+		font-family: var(--body-font-family);
 		font-size: rem-calc(24px);
 		font-weight: 300;
 		line-height: 1.375;

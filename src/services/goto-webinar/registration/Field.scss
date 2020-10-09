@@ -2,12 +2,12 @@
 
 label.checkbox-component input.webinar-registration-field {
 	& + span.label {
-		color: $secondary-grey;
+		color: var(--secondary-grey);
 		font-size: rem-calc(13px);
 	}
 
 	&.invalid + span.label {
-		color: $incorrect;
+		color: var(--incorrect);
 	}
 }
 
@@ -17,7 +17,7 @@ label.checkbox-component input.webinar-registration-field {
 
 	.label {
 		margin-bottom: 5px;
-		color: $tertiary-grey;
+		color: var(--tertiary-grey);
 	}
 
 	.nti-select-native-wrapper {
@@ -54,34 +54,34 @@ label.checkbox-component input.webinar-registration-field {
 	}
 
 	.icon-chevron-down {
-		color: #787878;
+		color: var(--secondary-grey-alt);
 	}
 
 	&.invalid {
 		.label {
-			color: $incorrect;
+			color: var(--incorrect);
 		}
 
 		input, .textarea-container {
-			border-color: $incorrect;
+			border-color: var(--incorrect);
 		}
 
 		.nti-select-native-wrapper {
-			box-shadow: inset 0 0 0 1px $incorrect;
+			box-shadow: inset 0 0 0 1px var(--incorrect);
 		}
 	}
 
 	&.focus {
 		.label {
-			color: $secondary-grey;
+			color: var(--secondary-grey);
 		}
 
 		input, .textarea-container {
-			border-color: $tertiary-grey;
+			border-color: var(--tertiary-grey);
 		}
 
 		.nti-select-native-wrapper {
-			box-shadow: inset 0 0 0 1px $tertiary-grey;
+			box-shadow: inset 0 0 0 1px var(--tertiary-grey);
 		}
 	}
 

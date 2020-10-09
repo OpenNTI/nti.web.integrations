@@ -8,12 +8,12 @@
 		background: #fff;
 
 		.panel-title-bar {
-			background-color: $panel-background;
-			box-shadow: 0 1px 0 0 $border-grey-light;
+			background-color: var(--panel-background);
+			box-shadow: 0 1px 0 0 var(--border-grey-light);
 			padding: 9px 10px 9px 25px;
 
 			&, h1 {
-				color: $secondary-grey;
+				color: var(--secondary-grey);
 			}
 		}
 	}
