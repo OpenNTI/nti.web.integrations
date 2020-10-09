@@ -1,7 +1,7 @@
 @import '~@nti/style-common';
 
 .webinar-registration-question {
-	font-family: $body-font-family;
+	font-family: var(--body-font-family);
 	font-size: 14px;
 	color: var(--secondary-grey);
 	line-height: 1.357142857;
