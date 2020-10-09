@@ -7,7 +7,7 @@ label.checkbox-component input.webinar-registration-field {
 	}
 
 	&.invalid + span.label {
-		color: $incorrect;
+		color: var(--incorrect);
 	}
 }
 
@@ -59,15 +59,15 @@ label.checkbox-component input.webinar-registration-field {
 
 	&.invalid {
 		.label {
-			color: $incorrect;
+			color: var(--incorrect);
 		}
 
 		input, .textarea-container {
-			border-color: $incorrect;
+			border-color: var(--incorrect);
 		}
 
 		.nti-select-native-wrapper {
-			box-shadow: inset 0 0 0 1px $incorrect;
+			box-shadow: inset 0 0 0 1px var(--incorrect);
 		}
 	}
 

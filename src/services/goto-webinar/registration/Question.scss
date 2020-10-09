@@ -23,10 +23,10 @@
 	}
 
 	&.invalid {
-		color: $incorrect;
+		color: var(--incorrect);
 
 		.textarea-container {
-			border-color: $incorrect;
+			border-color: var(--incorrect);
 		}
 	}
 }
