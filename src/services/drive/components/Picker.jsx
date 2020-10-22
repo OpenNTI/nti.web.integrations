@@ -47,6 +47,7 @@ async function showPicker (authToken) {
 				.setOAuthToken(authToken)
 				.setDeveloperKey(apiKeys.DevKey)
 				.setAppId(apiKeys.AppId)
+				.setOrigin(`${global.location.protocol}//${global.location.host}`)
 				.addViewGroup(
 					new picker.ViewGroup(
 						new picker.DocsView(picker.ViewId.DOCS)
