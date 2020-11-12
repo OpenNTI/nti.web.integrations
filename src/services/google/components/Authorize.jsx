@@ -121,7 +121,7 @@ function useAccessToken (scopes, {onCancel}) {
 					win.document.body.appendChild(container);
 
 					active.portal = ReactDOM.createPortal(
-						<AuthWindow scope={scopes} popup={win} />,
+						<AuthWindow scopes={scopes} popup={win} />,
 						container
 					);
 
