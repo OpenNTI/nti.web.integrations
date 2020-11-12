@@ -1,8 +1,9 @@
 import React from 'react';
+import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
 import {getService, ExternalLibraryManager} from '@nti/web-client';
 import Storage from '@nti/web-storage';//eslint-disable-line
-import {Hooks} from '@nti/web-commons';
+import {Hooks, Loading} from '@nti/web-commons';
 
 const GAPISource = 'https://apis.google.com/js/api.js';
 
@@ -61,7 +62,7 @@ async function getAuthLink (scopes) {
 	url.searchParams.set('failure', getRedirectURL(false));
 	url.searchParams.set('scope', (scopes ?? []).join(' '));
 
-	return url.toString();	
+	return url.toString();
 }
 
 function usePostMessage (onMessage) {
@@ -91,6 +92,7 @@ function useAccessToken (scopes, {onCancel}) {
 		const cleanupWindow = () => {
 			active.windowActive = false;
 			active.canceled = false;
+			active.portal = null;
 			clearInterval(active.windowPoll);
 		};
 
@@ -113,14 +115,22 @@ function useAccessToken (scopes, {onCancel}) {
 			if (!active.token && !active.error && !active.windowActive) {
 
 				try {
-					const link = await getAuthLink(scopes);
-					const win = global.open?.(link, 'google-auth-window', 'menubar=no,titlebar=no,toolbar=no,width=800,height=600');
-					
+					const win = global.open?.('javascript:', 'google-auth-window', 'menubar=no,titlebar=no,toolbar=no,width=800,height=600');
+
+					const container = win.document.createElement('div');
+					win.document.body.appendChild(container);
+
+					active.portal = ReactDOM.createPortal(
+						<AuthWindow scope={scopes} popup={win} />,
+						container
+					);
+
 					active.windowActive = true;
 					clearInterval(active.windowPoll);
 					active.windowPoll = setInterval(() => {
 						if (win.closed) {
 							active.windowActive = false;
+							active.portal = null;
 							clearInterval(active.windowPoll);
 
 							if (!active.token && !active.error) {
@@ -128,9 +138,12 @@ function useAccessToken (scopes, {onCancel}) {
 							}
 						}
 					}, 500);
+
+					forceUpdate();
 				} catch (e) {
 					active.windowActive = false;
 					active.canceled = false;
+					active.portal = null;
 					clearInterval(active.windowPoll);
 
 					active.error = e;
@@ -146,7 +159,8 @@ function useAccessToken (scopes, {onCancel}) {
 	return {
 		token: Storage.decodeExpiryValue(active.token),
 		error: active.error,
-		canceled: active.canceled
+		canceled: active.canceled,
+		portal: active.portal ?? null
 	};
 }
 
@@ -162,12 +176,37 @@ GoogleAuth.propTypes = {
 	scopes: PropTypes.array
 };
 export default function GoogleAuth ({onAuthorized, onFailure, onCancel, scopes}) {
-	const {token, error} = useAccessToken(scopes, {onCancel});
+	const {token, error, portal} = useAccessToken(scopes, {onCancel});
 
 	React.useEffect(() => {
 		if (token) { onAuthorized?.(token); }
 		else if (error) { onFailure?.(error); }
 	}, [token, error, onAuthorized, onFailure]);
 
-	return null;
+	return portal;
+}
+
+AuthWindow.propTypes = {
+	scopes: PropTypes.any,
+	popup: PropTypes.object
+};
+function AuthWindow ({scopes, popup}) {
+	React.useEffect(() => {
+		let unmounted = false;
+
+		const resolveRedirect = async () => {
+			const link = await getAuthLink(scopes);
+
+			if (!unmounted) {
+				popup.location.href = link;
+			}
+		};
+
+		resolveRedirect();
+		return () => unmounted = true;
+	}, []);
+
+	return (
+		<Loading.Spinner.Large />
+	);
 }
