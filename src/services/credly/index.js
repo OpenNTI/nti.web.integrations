@@ -5,6 +5,8 @@ import Registry from '../ItemRegistry';
 import {Logo} from './assets';
 import Window from './window';
 
+export resolver from './resolver';
+
 const handles = s => s.isCredilyIntegration;
 const t = scoped('integrations.services.credly', {
 	name: 'Credly'

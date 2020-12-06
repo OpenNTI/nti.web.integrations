@@ -11,6 +11,7 @@ export {isConnected, canConnect} from './if-connected/Store';
 export UpcomingWebinars from './upcoming-webinars';
 export Registration from './registration';
 export * as Input from './input';
+export resolver from './resolver';
 
 const handles = s => HANDLES[s.MimeType];
 const t = scoped('integrations.services.goto-webinar', {

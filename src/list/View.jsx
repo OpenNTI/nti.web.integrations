@@ -1,101 +1,108 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import classnames from 'classnames/bind';
 import {scoped} from '@nti/lib-locale';
-import {Loading, EmptyState, Errors, Hooks, Text, List, Prompt} from '@nti/web-commons';
+import {
+	Hooks,
+	Loading,
+	HOC,
+	Text as BaseText,
+	Errors,
+	EmptyState,
+	Icons
+} from '@nti/web-commons';
 
-import {getIntegrationsCollection, ReturnParams} from '../utils';
-import {getWindowFor, getNameFor} from '../services';
+import {resolveServices} from '../services';
 
-import Styles from './Styles.css';
-import Item from './Item';
-import getPreviewItems from './get-preview-items';
+import Styles from './View.css';
 
-const {useResolver, useForceUpdate} = Hooks;
+const {Variant} = HOC;
+const {useResolver} = Hooks;
 const {isPending, isResolved, isErrored} = useResolver;
 
-const cx = classnames.bind(Styles);
 const t = scoped('integrations.list.View', {
-	title: 'Connect with Other Services',
-	description: 'Integrate with popular services so you can do even more with your audience.',
-	error: 'Unable to load integrations',
-	empty: 'No integrations have not been set up.',
-	addIntegration: 'Not seeing the integration you need? Contact <a href="mailto:integrations@nextthought.com">integrations@nextthought.com</a> to see about adding it.'
+	title: 'Connect with Your Other Services Today!',
+	empty: 'No integrations have been setup.',
+
+	available: {
+		title: 'Available'
+	},
+
+	upgrades: {
+		title: 'Upgrades and Add-Ons'
+	},
+
+	comingSoon: {
+		title: 'Coming Soon',
+		description: 'We are always looking to grow our list of integrations and ultimately improve your workflow. <br />Have a suggestion? Contact <a href="mailto:integrations@nextthought.com&subject=New%20Integration">integrations@nextthought.com</a> to see about adding it.'
+	}
 });
 
+const Text = BaseText.Translator(t);
+
+const SectionHeader = Variant('div', {className: Styles.sectionHeader}, 'Section Header');
+const SectionTitle = Variant(Text.Base, {className: Styles.sectionTitle}, 'Section Title');
+const SectionDescription = Variant(Text.Base, {className: Styles.sectionDescription, as: 'p'}, 'Section Description');
+
+const GroupHeader = Variant('div', {className: Styles.groupHeader}, 'Group Header');
+const GroupTitle = Variant(Text.Base, {className: Styles.groupTitle, as: 'h3'}, 'Group Title');
+
+const isAvailable = (s) => s.isEnabled() || s.canConnect();
+const isComingSoon = (s) => s.comingSoon;
+const isUpgrade = (s) => !isAvailable(s) && !isComingSoon(s);
 
 IntegrationsList.propTypes = {
 	context: PropTypes.object
 };
 export default function IntegrationsList ({context}) {
-	const forceUpdate = useForceUpdate();
+	const resolver = useResolver(() => resolveServices(context), [context]);
 
-	const [selected, setSelected] = React.useState(null);
-
-	React.useEffect(() => {
-		const params = ReturnParams.get();
-
-		if (params) {
-			setSelected(params.get('service'));
-		}
-	}, []);
-
-	const resolver = useResolver(() => getIntegrationsCollection(context), [context]);
 	const loading = isPending(resolver);
 	const error = isErrored(resolver) ? resolver : null;
-	const integrations = !error && isResolved(resolver) ? resolver : null;
+	const services = isResolved(resolver) ? resolver : null;
 
-	React.useEffect(() => {
-		if (!integrations) { return; }
+	const empty = !error && (services || []).length === 0;
+	const {available, upgrades, comingSoon} = React.useMemo(() => (
+		(services || []).reduce((acc, s) => {
+			if (isAvailable(s)) { acc.available.push(s); }
+			else if (isComingSoon(s)) { acc.comingSoon.push(s); }
+			else if (isUpgrade(s)) { acc.upgrades.push(s); }
 
-		return integrations.subscribeToChange(forceUpdate);
-	}, [integrations]);
-
-	const preview = getPreviewItems(context) ?? [];
-	const actual = integrations?.Items ?? [];
-	const services = ([...actual, ...preview])
-		.filter(Boolean)
-		.sort((a, b) => {
-			const aName = getNameFor(a);
-			const bName = getNameFor(b);
-
-			return aName < bName ? -1 : (aName === bName ? 0 : 1);
-		});
-
-	const selectedService = selected && services.find(s => s.name === selected);
-	const Window = selectedService && getWindowFor(selectedService);
+			return acc;
+		}, {available: [], upgrades: [], comingSoon: []})
+	), [services]);
 
 	return (
-		<div className={cx('nti-integrations-list')}>
-			<Text.Base className={cx('title')}>{t('title')}</Text.Base>
-			<Text.Base className={cx('description')}>{t('description')}</Text.Base>
+		<div className={Styles.integrationsList}>
+			<SectionHeader>
+				<SectionTitle localeKey="title" as="h1" />
+			</SectionHeader>
 			<Loading.Placeholder loading={loading} fallback={<Loading.Spinner.Large />}>
-				{error && (<Errors.Message className={cx('error')} error={error} />)}
-				{!error && services.length === 0 && (
-					<EmptyState header={t('empty')} />
+				{error && (<Errors.Message className={Styles.error} error={error} />)}
+				{empty && (<EmptyState header={t('empty')} />)}
+				{available.length > 0 && (
+					<section>
+						<GroupHeader>
+							<GroupTitle localeKey="available.title" />
+						</GroupHeader>
+					</section>
 				)}
-				{!error && services.length > 0 && (
-					<List.Unadorned className={cx('integrations')}>
-						{services.map((service) => {
-							return (
-								<li key={service.name}>
-									<Item
-										service={service}
-										onClick={() => setSelected(service.name)}
-									/>
-								</li>
-							);
-						})}
-					</List.Unadorned>
+				{upgrades.length > 0 && (
+					<section>
+						<GroupHeader>
+							<GroupTitle localeKey="upgrades.title" />
+							<Icons.Lock />
+						</GroupHeader>
+					</section>
 				)}
-				{!error && services.length > 0 && (<Text.Base className={cx('add-integration')} localized>{t('addIntegration')}</Text.Base>)}
-				{Window && (
-					<Prompt.Dialog>
-						<Window service={selectedService} doClose={() => (ReturnParams.clear(), setSelected(null))} />
-					</Prompt.Dialog>
+				{comingSoon.length > 0 && (
+					<section>
+						<SectionHeader>
+							<SectionTitle localeKey="comingSoon.title" />
+							<SectionDescription localeKey="comingSoon.description" />
+						</SectionHeader>
+					</section>
 				)}
 			</Loading.Placeholder>
 		</div>
 	);
 }
-

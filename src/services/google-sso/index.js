@@ -6,10 +6,11 @@ import {Logo} from './assets';
 import Window from './window';
 
 export * from './components';
+export resolver from './resolver';
 
-const handles = s => s.isGoogleIntegration;
+const handles = s => s.isGoogleSSOIntegration;
 const t = scoped('integrations.services.google', {
-	name: 'Google'
+	name: 'Google SSO'
 });
 
 Registry.register(handles)({

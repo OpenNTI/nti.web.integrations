@@ -4,7 +4,7 @@ import classnames from 'classnames/bind';
 import {scoped} from '@nti/lib-locale';
 import {Text, Loading, Button, HOC} from '@nti/web-commons';
 
-import {Authorize} from '../../google';
+import {Authorize} from '../../google-sso';
 
 import Styles from './Picker.css';
 
