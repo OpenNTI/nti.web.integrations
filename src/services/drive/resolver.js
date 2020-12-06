@@ -6,7 +6,7 @@ export default function DriveServiceResolver (context) {
 		name: 'drive',
 		isEnabled: () => true,
 		canConnect: () => false,
-		isConnected: () => false,
+		isConnected: () => true,
 		canDisconnect: () => false
 	};
 }
