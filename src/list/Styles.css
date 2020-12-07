@@ -62,6 +62,7 @@
 	& .logo {
 		flex: 1 1 auto;
 		max-width: 90px;
+		max-height: 90px;
 
 		& img {
 			width: 100%;

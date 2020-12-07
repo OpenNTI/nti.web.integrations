@@ -6,6 +6,8 @@ import {Handles} from './Constants';
 import {Logo} from './assets';
 import Window from './window';
 
+export resolver from './resolver';
+
 const handles = s => Handles[s.MimeType];
 const t = scoped('integrations.servics.stripe', {
 	name: 'Stripe'

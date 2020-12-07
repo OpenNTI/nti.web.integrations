@@ -5,6 +5,8 @@ import Registry from '../ItemRegistry';
 import {Logo} from './assets';
 import Window from './window';
 
+export resolver from './resolver';
+
 const handles = s => s.isScormIntegration;
 const t = scoped('integrations.services.scorm', {
 	name: 'SCORM'

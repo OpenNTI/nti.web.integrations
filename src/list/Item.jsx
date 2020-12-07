@@ -12,20 +12,42 @@ const t = scoped('integrations.list.Item', {
 	connected: 'Connected',
 	connect: 'Connect',
 	upgrade: 'Upgrade',
-	enabled: 'Enabled'
+	enabled: 'Enabled',
+	earlyAccess: 'Request Early Access'
 });
 
-function getActionText (service) {
-	if (service.isConnected()) {
-		return service.canDisconnect() ? t('connected') : t('enabled');
-	} else if (service.canConnect()) {
-		return t('connect');
-	} else if (!service.comingSoon) {
-		return t('upgrade');
+const Actions = [
+	{
+		handles: s => s.isConnected() && s.canDisconnect(),
+		actionable: true,
+		label: t('connected')
+	},
+	{
+		handles: s => s.isConnected(),
+		label: t('enabled')
+	},
+	{
+		handles: s => s.canConnect(),
+		actionable: true,
+		label: t('connect')
+	},
+	{
+		handles: s => !s.comingSoon,
+		label: t('upgrade'),
+		actionable: true,
+		getProps: s => ({href: `mailto:sales@nextthought.com&subject=${encodeURIComponent(getNameFor(s))}%20Upgrade`})
+	},
+	{
+		handles: s => s.earlyAccess,
+		label: t('earlyAccess'),
+		actionable: true,
+		getProps: s => ({href: `mailto:sales@nextthought.com&subject=${encodeURIComponent(getNameFor(s))}%20Early%20Access`})
+	},
+	{
+		handles: () => true,
+		label: ''
 	}
-
-	return '';
-}
+];
 
 
 IntegrationListItem.propTypes = {
@@ -42,16 +64,23 @@ export default function IntegrationListItem ({service, onClick}) {
 	const name = getNameFor(service);
 
 	const connected = service.isConnected();
-	const actionable = service.canConnect() || service.canDisconnect();
+	const {actionable, label, getProps} = Actions.find(a => a.handles(service));
+	const extraProps = getProps?.(service) ?? {};
+
 
 	return (
-		<Button plain className={cx(styles.integration, {[styles.connected]: connected, [styles.actionable]: actionable})} onClick={actionable ? onClick : null}>
+		<Button
+			plain
+			className={cx(styles.integration, {[styles.connected]: connected, [styles.actionable]: actionable})}
+			onClick={actionable ? onClick : null}
+			{...extraProps}
+		>
 			<div className={styles.logo}>
 				<Image src={logo} alt={`${name} logo`} />
 			</div>
 			<Text.Base className={styles.name}>{name}</Text.Base>
 			<div className={styles.status}>
-				<Text.Base>{getActionText(service)}</Text.Base>
+				<Text.Base>{label}</Text.Base>
 				{connected && (<span className={styles.connectedIndicator} />)}
 			</div>
 		</Button>

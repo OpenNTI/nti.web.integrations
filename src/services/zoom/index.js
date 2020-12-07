@@ -5,9 +5,11 @@ import Registry from '../ItemRegistry';
 import {Logo} from './assets';
 import Window from './window';
 
+export resolver from './resolver';
+
 const handles = s => s.isZoomIntegration;
 const t = scoped('integrations.services.zoom', {
-	name: 'Zoom'
+	name: 'Zoom LTI'
 });
 
 Registry.register(handles)({
