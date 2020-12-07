@@ -2,12 +2,11 @@ export default function ZoomServiceResolver (context) {
 	if (context) { return null; }
 
 	return {
-		name: 'zoom',
-		isZoomIntegration: true,
-		comingSoon: true,
-		isEnabled: () => false,
+		name: 'zoom lti',
+		isZoomLTIIntegration: true,
+		isEnabled: () => true,
 		canConnect: () => false,
-		isConnected: () => false,
+		isConnected: () => true,
 		canDisconnect: () => false
 	};
 }

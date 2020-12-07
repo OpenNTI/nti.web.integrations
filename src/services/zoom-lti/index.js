@@ -7,9 +7,9 @@ import Window from './window';
 
 export resolver from './resolver';
 
-const handles = s => s.isZoomIntegration;
-const t = scoped('integrations.services.zoom', {
-	name: 'Zoom'
+const handles = s => s.isZoomLTIIntegration;
+const t = scoped('integrations.services.zoom-lti', {
+	name: 'Zoom LTI'
 });
 
 Registry.register(handles)({

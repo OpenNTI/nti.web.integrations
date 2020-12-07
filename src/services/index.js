@@ -1,35 +1,47 @@
 import ItemRegistry from './ItemRegistry.js';
 import * as Credly from './credly';
 import * as Drive from './drive';
+import * as EnterpriseSSO from './enterprise-sso';
 import * as GoogleSSO from './google-sso';
 import * as GotoWebinar from './goto-webinar';
+import * as LTI from './lti';
 import * as Scorm from './scorm';
 import * as Stripe from './stripe';
+import * as YourMembership from './your-membership';
 import * as Zapier from './zapier';
 import * as Zoom from './zoom';
+import * as ZoomLTI from './zoom-lti';
 
 const itemRegister = ItemRegistry.getInstance();
 
 const Services = [
 	Credly,
 	Drive,
+	EnterpriseSSO,
 	GoogleSSO,
 	GotoWebinar,
+	LTI,
 	Scorm,
 	Stripe,
+	YourMembership,
 	Zapier,
-	Zoom
+	Zoom,
+	ZoomLTI
 ];
 
 export {
 	Credly,
 	Drive,
+	EnterpriseSSO,
 	GoogleSSO,
 	GotoWebinar,
+	LTI,
 	Scorm,
 	Stripe,
+	YourMembership,
 	Zapier,
-	Zoom
+	Zoom,
+	ZoomLTI
 };
 
 export function getItemFor (service) {
