@@ -20,6 +20,7 @@ const Actions = [
 	{
 		handles: s => s.isConnected() && s.canDisconnect(),
 		actionable: true,
+		clickable: true,
 		label: t('connected')
 	},
 	{
@@ -29,19 +30,20 @@ const Actions = [
 	{
 		handles: s => s.canConnect(),
 		actionable: true,
+		clickable: true,
 		label: t('connect')
 	},
 	{
 		handles: s => !s.comingSoon,
 		label: t('upgrade'),
 		actionable: true,
-		getProps: s => ({href: `mailto:sales@nextthought.com&subject=${encodeURIComponent(getNameFor(s))}%20Upgrade`})
+		getProps: s => ({href: `mailto:sales@nextthought.com?subject=${encodeURIComponent(getNameFor(s))}%20Upgrade`})
 	},
 	{
 		handles: s => s.earlyAccess,
 		label: t('earlyAccess'),
 		actionable: true,
-		getProps: s => ({href: `mailto:sales@nextthought.com&subject=${encodeURIComponent(getNameFor(s))}%20Early%20Access`})
+		getProps: s => ({href: `mailto:sales@nextthought.com?subject=${encodeURIComponent(getNameFor(s))}%20Early%20Access`})
 	},
 	{
 		handles: () => true,
@@ -64,7 +66,7 @@ export default function IntegrationListItem ({service, onClick}) {
 	const name = getNameFor(service);
 
 	const connected = service.isConnected();
-	const {actionable, label, getProps} = Actions.find(a => a.handles(service));
+	const {actionable, clickable, label, getProps} = Actions.find(a => a.handles(service));
 	const extraProps = getProps?.(service) ?? {};
 
 
@@ -72,7 +74,7 @@ export default function IntegrationListItem ({service, onClick}) {
 		<Button
 			plain
 			className={cx(styles.integration, {[styles.connected]: connected, [styles.actionable]: actionable})}
-			onClick={actionable ? onClick : null}
+			onClick={clickable ? onClick : null}
 			{...extraProps}
 		>
 			<div className={styles.logo}>
