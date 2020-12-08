@@ -31,7 +31,7 @@ const Services = [
 	Stripe,
 	YourMembership,
 	Zapier,
-	Zoom,
+	// Zoom,
 	ZoomLTI
 ];
 
