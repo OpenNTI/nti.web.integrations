@@ -37,7 +37,7 @@ const t = scoped('integrations.list.View', {
 
 	comingSoon: {
 		title: 'Coming Soon',
-		description: 'We are always looking to grow our list of integrations and ultimately improve your workflow. <br />Have a suggestion? Contact <a href="mailto:integrations@nextthought.com?subject=New%%20Integration">integrations@nextthought.com</a> to see about adding it.'
+		description: 'We are always looking to grow our list of integrations and ultimately improve your workflow.<br />Have a suggestion? Contact <a href="mailto:integrations@nextthought.com?subject=New%%20Integration">integrations@nextthought.com</a> to see about adding it.'
 	}
 });
 
