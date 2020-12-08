@@ -21,7 +21,7 @@ export const isFontevaSSORel = (rel) => rel === 'logon.salesforce';
 export const isGoogleSSORel = (rel) => rel === 'logon.google';
 export const isGrowthZoneSSORel = (rel) => rel === 'logon.growthzone';
 export const isIMISSSORel = RegExp.prototype.test.bind(/^login\..*\.imis$/);
-export const isSalesForceSSOREl = (rel) => rel === 'logon.salesforce';
+export const isSalesForceSSORel = (rel) => rel === 'logon.salesforce';
 export const isYourMembershipSSORel = (rel) => rel === 'logon.your.membership';
 
 export const isEnterpriseSSO = (rel) => (
@@ -30,7 +30,7 @@ export const isEnterpriseSSO = (rel) => (
 	!isGoogleSSORel(rel) &&
 	!isGrowthZoneSSORel(rel) &&
 	!isIMISSSORel(rel) &&
-	!isSalesForceSSOREl(rel) &&
+	!isSalesForceSSORel(rel) &&
 	!isYourMembershipSSORel(rel)
 );
 

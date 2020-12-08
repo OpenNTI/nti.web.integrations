@@ -6,8 +6,11 @@ import * as EnterpriseSSO from './enterprise-sso';
 import * as Fonteva from './fonteva';
 import * as GoogleSSO from './google-sso';
 import * as GotoWebinar from './goto-webinar';
+import * as GrowthZone from './growth-zone';
 import * as Imis from './imis';
 import * as LTI from './lti';
+import * as MailChimp from './mail-chimp';
+import * as Salesforce from './salesforce';
 import * as Scorm from './scorm';
 import * as Stripe from './stripe';
 import * as YourMembership from './your-membership';
@@ -25,8 +28,11 @@ const Services = [
 	Fonteva,
 	GoogleSSO,
 	GotoWebinar,
+	GrowthZone,
 	Imis,
 	LTI,
+	MailChimp,
+	Salesforce,
 	Scorm,
 	Stripe,
 	YourMembership,
@@ -43,8 +49,11 @@ export {
 	Fonteva,
 	GoogleSSO,
 	GotoWebinar,
+	GrowthZone,
 	Imis,
 	LTI,
+	MailChimp,
+	Salesforce,
 	Scorm,
 	Stripe,
 	YourMembership,
