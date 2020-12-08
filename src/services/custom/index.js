@@ -8,7 +8,7 @@ export resolver from './resolver';
 
 const handles = s => s.isCustomIntegration;
 const t = scoped('intgrations.services.custom', {
-	name: 'Custom Integration'
+	name: 'Custom Integrations'
 });
 
 Registry.register(handles)({
