@@ -31,7 +31,7 @@ const Services = [
 	GrowthZone,
 	Imis,
 	LTI,
-	MailChimp,
+	// MailChimp,
 	Salesforce,
 	Scorm,
 	Stripe,
