@@ -76,6 +76,9 @@ export function resolveServices (context) {
 
 			if (!resolver) { return acc; }
 
+			//Note: resolvers can define a preresolve method, to load the data it will need. The idea here
+			//it that since different locations may need the same data, they can import a shared resolver and
+			//share the result. This lets us keep the resolvers separate without incurring the extra load costs.
 			const preresolve = acc.preresolvers.get(resolver.preresolve) || resolver.preresolve?.(context);
 
 			if (resolver.preresolve) {

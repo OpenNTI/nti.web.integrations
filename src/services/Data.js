@@ -12,6 +12,11 @@ const LoginRelBlackList = {
 
 const isLoginRel = RegExp.prototype.test.bind(/^login\./);
 
+//NOTE: I would've preferred to have these checks in the services
+//themselves. However since we need to know if there are any SSO rels
+//that we don't know about, its easier to just move all the rel checks
+//into this file.
+
 export const isFontevaSSORel = (rel) => rel === 'logon.salesforce';
 export const isGoogleSSORel = (rel) => rel === 'logon.google';
 export const isGrowthZoneSSORel = (rel) => rel === 'logon.growthzone';
