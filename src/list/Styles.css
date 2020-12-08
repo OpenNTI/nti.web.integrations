@@ -96,7 +96,7 @@
 			height: 0.5em;
 			border-radius: 1em;
 			margin-left: 0.25em;
-			background-color: var(--primary-green);
+			background-color: var(--secondary-green);
 		}
 	}
 
@@ -106,7 +106,7 @@
 
 	&.connected {
 		& .status {
-			color: var(--primary-green);
+			color: var(--secondary-green);
 		}
 	}
 }
