@@ -12,6 +12,7 @@ const LoginRelBlackList = {
 
 const isLoginRel = RegExp.prototype.test.bind(/^login\./);
 
+export const isFontevaSSORel = (rel) => rel === 'logon.salesforce';
 export const isGoogleSSORel = (rel) => rel === 'logon.google';
 export const isGrowthZoneSSORel = (rel) => rel === 'logon.growthzone';
 export const isIMISSSORel = RegExp.prototype.test.bind(/^login\..*\.imis$/);

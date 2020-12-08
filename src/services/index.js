@@ -1,9 +1,12 @@
 import ItemRegistry from './ItemRegistry.js';
 import * as Credly from './credly';
+import * as Custom from './custom';
 import * as Drive from './drive';
 import * as EnterpriseSSO from './enterprise-sso';
+import * as Fonteva from './fonteva';
 import * as GoogleSSO from './google-sso';
 import * as GotoWebinar from './goto-webinar';
+import * as Imis from './imis';
 import * as LTI from './lti';
 import * as Scorm from './scorm';
 import * as Stripe from './stripe';
@@ -16,10 +19,13 @@ const itemRegister = ItemRegistry.getInstance();
 
 const Services = [
 	Credly,
+	Custom,
 	Drive,
 	EnterpriseSSO,
+	Fonteva,
 	GoogleSSO,
 	GotoWebinar,
+	Imis,
 	LTI,
 	Scorm,
 	Stripe,
@@ -31,10 +37,13 @@ const Services = [
 
 export {
 	Credly,
+	Custom,
 	Drive,
 	EnterpriseSSO,
+	Fonteva,
 	GoogleSSO,
 	GotoWebinar,
+	Imis,
 	LTI,
 	Scorm,
 	Stripe,

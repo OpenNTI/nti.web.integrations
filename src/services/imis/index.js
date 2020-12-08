@@ -6,9 +6,9 @@ import {Logo} from './assets';
 
 export resolver from './resolver';
 
-const handles = s => s.isYourMembershipIntegration;
-const t = scoped('intgrations.services.your-membership', {
-	name: 'YM SSO'
+const handles = s => s.isImisIntegration;
+const t = scoped('intgrations.services.imis', {
+	name: 'IMIS'
 });
 
 Registry.register(handles)({

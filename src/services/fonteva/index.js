@@ -6,9 +6,9 @@ import {Logo} from './assets';
 
 export resolver from './resolver';
 
-const handles = s => s.isYourMembershipIntegration;
-const t = scoped('intgrations.services.your-membership', {
-	name: 'YM SSO'
+const handles = s => s.isFontevaIntegration;
+const t = scoped('intgrations.services.fonteva', {
+	name: 'Fonteva SSO'
 });
 
 Registry.register(handles)({

@@ -6,9 +6,9 @@ import {Logo} from './assets';
 
 export resolver from './resolver';
 
-const handles = s => s.isYourMembershipIntegration;
-const t = scoped('intgrations.services.your-membership', {
-	name: 'YM SSO'
+const handles = s => s.isCustomIntegration;
+const t = scoped('intgrations.services.custom', {
+	name: 'Custom Integration'
 });
 
 Registry.register(handles)({
