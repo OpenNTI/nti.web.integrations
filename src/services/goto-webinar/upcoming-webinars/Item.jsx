@@ -62,10 +62,10 @@ export default class IntegrationsServicesGotoWebinarUpcomingWebinarsItem extends
 		return (
 			<div className="calendar">
 				<div className="month">
-					{DateTime.format(startDate, 'MMM')}
+					{DateTime.format(startDate, DateTime.MONTH_ABBR)}
 				</div>
 				<div className="day">
-					{DateTime.format(startDate, 'D')}
+					{DateTime.format(startDate, DateTime.DAY_OF_THE_MONTH)}
 				</div>
 			</div>
 		);
@@ -78,7 +78,7 @@ export default class IntegrationsServicesGotoWebinarUpcomingWebinarsItem extends
 		if (!startDate) { return null; }
 
 		return (
-			<DateTime date={startDate} format={'dddd [at] h:mm A z'} />
+			<DateTime date={startDate} format={DateTime.WEEKDAY_AT_TIME_PADDED_WITH_ZONE} />
 		);
 	}
 
