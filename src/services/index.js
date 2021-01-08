@@ -91,7 +91,7 @@ export function resolveServices (context) {
 			const preresolve = acc.preresolvers.get(resolver.preresolve) || resolver.preresolve?.(context);
 
 			if (resolver.preresolve) {
-				acc.preresolvers.set(service.preresolve, preresolve);
+				acc.preresolvers.set(resolver.preresolve, preresolve);
 			}
 
 			acc.resolvers.push(async () => {
