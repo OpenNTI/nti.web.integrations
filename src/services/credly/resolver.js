@@ -1,13 +1,13 @@
-export default function CredilyServiceResolver (context) {
+import {getIntegrationsCollection} from '../../utils';
+
+import {Handles} from './Constants';
+
+CredilyServiceResolver.presolve = getIntegrationsCollection;
+export default async function CredilyServiceResolver (context, preresolve) {
 	if (context) { return null; }
 
-	return {
-		name: 'credly',
-		isCredilyIntegration: true,
-		comingSoon: true,
-		isEnabled: () => false,
-		canConnect: () => false,
-		isConnected: () => false,
-		canDisconnect: () => false
-	};
+	const collection = preresolve ?? await getIntegrationsCollection();
+	const {Items} = collection;
+
+	return Items.find(item => Handles[item.MimeType]);
 }
