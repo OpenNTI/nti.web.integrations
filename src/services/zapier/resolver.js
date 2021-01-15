@@ -4,11 +4,12 @@ export default function ZapierServiceResolver (context) {
 	return {
 		name: 'zapier',
 		isZapierIntegration: true,
-		comingSoon: true,
+		// comingSoon: true,
 		earlyAccess: true,
-		isEnabled: () => false,
+		hasDetails: () => true,
+		isEnabled: () => true,
 		canConnect: () => false,
-		isConnected: () => false,
+		isConnected: () => true,
 		canDisconnect: () => false
 	};
 }
