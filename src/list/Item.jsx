@@ -11,6 +11,7 @@ import styles from './Styles.css';
 const t = scoped('integrations.list.Item', {
 	connected: 'Connected',
 	connect: 'Connect',
+	details: 'Details',
 	upgrade: 'Upgrade',
 	enabled: 'Enabled',
 	earlyAccess: 'Request Early Access'
@@ -22,6 +23,12 @@ const Actions = [
 		actionable: true,
 		clickable: true,
 		label: t('connected')
+	},
+	{
+		handles: s => s.hasDetails?.(),
+		actionable: true,
+		clickable: true,
+		label: t('details')
 	},
 	{
 		handles: s => s.isConnected(),
