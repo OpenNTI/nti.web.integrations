@@ -27,26 +27,28 @@ BaseServiceWindow.propTypes = {
 	doClose: PropTypes.func,
 	getString: PropTypes.func.isRequired
 };
-export default function BaseServiceWindow ({service, logo, link, doClose, getString}) {
+export default function BaseServiceWindow ({service, logo, link, doClose, getString, children}) {
 	const t = getStringWrapper(getString);
 
 	const connected = service.isConnected();
 	const isEnabled = service.isEnabled();
 
-	let content = null;
+	let content = React.Children.count(children) ? children : null;
 
-	if (!isEnabled) {
-		content = (
-			<Unavailable service={service} title={t('unavailable.title')} supportSubject={t('unavailable.supportSubject')} />
-		);
-	} else if (connected) {
-		content = (
-			<Disconnect service={service} title={t('disconnect.title')} accountLabel={t('disconnect.accountLabel')} link={t('disconnect.link')} />
-		);
-	} else {
-		content = (
-			<Connect service={service} title={t('connect.title')} link={t('connect.link')} />
-		);
+	if (!content) {
+		if (!isEnabled) {
+			content = (
+				<Unavailable service={service} title={t('unavailable.title')} supportSubject={t('unavailable.supportSubject')} />
+			);
+		} else if (connected) {
+			content = (
+				<Disconnect service={service} title={t('disconnect.title')} accountLabel={t('disconnect.accountLabel')} link={t('disconnect.link')} />
+			);
+		} else {
+			content = (
+				<Connect service={service} title={t('connect.title')} link={t('connect.link')} />
+			);
+		}
 	}
 
 	return (
