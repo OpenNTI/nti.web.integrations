@@ -10,13 +10,13 @@ const t = scoped('integrations.services.credly.window.Connect', {
 	placeholder: 'Authorization Token'
 });
 
-CredlyAcclainConnectForm.propTypes = {
+CredlyAcclaimConnectForm.propTypes = {
 	service: PropTypes.shape({
 		connect: PropTypes.func
 	})
 };
-export default function CredlyAcclainConnectForm ({service}) {
-	const [saving, setSaving] = React.useState(false);
+export default function CredlyAcclaimConnectForm ({service}) {
+	// const [saving, setSaving] = React.useState(false);
 
 	const submitForm = React.useCallback(({json}) => service.connect(json.authorizationToken), [service]);
 
