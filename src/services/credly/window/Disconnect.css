@@ -1,0 +1,42 @@
+.disconnect {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	padding: 94px var(--side-padding, 2rem)
+}
+
+.org-card {
+	max-width: 600px;
+	width: 100%;
+	margin-bottom: 1.25rem;
+}
+
+.connected-to {
+	display: block;
+	font-size: 1.25rem;
+	font-weight: 600;
+	width: 100%;
+	max-width: 500px;
+	margin-bottom: 0.625rem;
+}
+
+.label-value {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	width: 100%;
+	max-width: 500px;
+	margin-bottom: 0.625rem;
+}
+
+.label-value .label {
+	flex: 0 0 35%;
+	font-weight: 600;
+}
+
+.disconnect-button {
+	width: 200px;
+	margin-top: 2rem;
+	text-align: center;
+}
