@@ -1,4 +1,4 @@
-import {getIntegrationscollection} from '../utils';
+import {getIntegrationsCollection} from '../utils';
 
 import ItemRegistry from './ItemRegistry.js';
 import * as Credly from './credly';
@@ -19,7 +19,6 @@ import * as YourMembership from './your-membership';
 import * as Zapier from './zapier';
 import * as Zoom from './zoom';
 import * as ZoomLTI from './zoom-lti';
-import getIntegrationsCollection from '../utils/get-integrations-collection';
 
 const itemRegister = ItemRegistry.getInstance();
 
@@ -119,10 +118,9 @@ export async function resolveServices (context) {
 		list: initial,
 		subscribeToChange: (fn) => {
 			const handler = async () => {
-				debugger;//eslint-disable-line
 				services.list = await getServices(context);
 				fn(services);
-			}
+			};
 
 			collection.addListener('change', handler);
 			return () => collection.removeListener('change', handler);
