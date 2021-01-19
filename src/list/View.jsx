@@ -20,7 +20,7 @@ import styles from './Styles.css';
 import Item from './Item';
 
 const {Variant} = HOC;
-const {useResolver} = Hooks;
+const {useResolver, useChanges} = Hooks;
 const {isPending, isResolved, isErrored} = useResolver;
 
 const t = scoped('integrations.list.View', {
@@ -74,6 +74,10 @@ export default function IntegrationsList ({context}) {
 	const error = isErrored(resolver) ? resolver : null;
 	const services = isResolved(resolver) ? resolver : null;
 
+	useChanges(services);
+
+	const {list} = services ?? {};
+
 	React.useEffect(() => {
 		const params = ReturnParams.get();
 
@@ -82,12 +86,12 @@ export default function IntegrationsList ({context}) {
 		}
 	}, []);
 
-	const selectedService = selected && (services || []).find(s => s.name === selected);
+	const selectedService = selected && (list || []).find(s => s.name === selected);
 	const Window = selectedService && getWindowFor(selectedService);
 
-	const empty = !error && (services || []).length === 0;
+	const empty = !error && (list || []).length === 0;
 	const {available, upgrades, comingSoon} = React.useMemo(() => (
-		(services || [])
+		(list || [])
 			.sort((a, b) => {
 				const aName = getNameFor(a);
 				const bName = getNameFor(b);
@@ -101,7 +105,7 @@ export default function IntegrationsList ({context}) {
 
 				return acc;
 			}, {available: [], upgrades: [], comingSoon: []})
-	), [services]);
+	), [list]);
 
 	return (
 		<div className={styles.integrationsList}>

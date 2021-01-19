@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {scoped} from '@nti/lib-locale';
-import {Prompt, Text, Hooks} from '@nti/web-commons';
+import {Prompt, Text} from '@nti/web-commons';
 
 import Description from '../../components/Description';
 import WindowContents from '../../components/WindowContents';
@@ -10,8 +10,6 @@ import {Logo} from '../assets';
 
 import Connect from './Connect';
 import Disconnect from './Disconnect';
-
-const {useChanges} = Hooks;
 
 const Link = 'https://info.credly.com/';
 
@@ -32,8 +30,6 @@ CredlyConnectWindow.propTypes = {
 	doClose: PropTypes.func
 };
 export default function CredlyConnectWindow ({service, doClose}) {
-	useChanges(service);
-
 	let content = null;
 
 	if (!service.isEnabled()) {

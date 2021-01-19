@@ -16,8 +16,6 @@ CredlyAcclaimConnectForm.propTypes = {
 	})
 };
 export default function CredlyAcclaimConnectForm ({service}) {
-	// const [saving, setSaving] = React.useState(false);
-
 	const submitForm = React.useCallback(({json}) => service.connect(json.authorizationToken), [service]);
 
 	return (

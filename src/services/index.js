@@ -1,3 +1,5 @@
+import {getIntegrationscollection} from '../utils';
+
 import ItemRegistry from './ItemRegistry.js';
 import * as Credly from './credly';
 import * as Custom from './custom';
@@ -17,6 +19,7 @@ import * as YourMembership from './your-membership';
 import * as Zapier from './zapier';
 import * as Zoom from './zoom';
 import * as ZoomLTI from './zoom-lti';
+import getIntegrationsCollection from '../utils/get-integrations-collection';
 
 const itemRegister = ItemRegistry.getInstance();
 
@@ -78,7 +81,7 @@ export function getNameFor (service) {
 	return getItemFor(service)?.name;
 }
 
-export function resolveServices (context) {
+function getServices (context) {
 	const {resolvers} = Services
 		.reduce((acc, service) => {
 			const {resolver} = service;
@@ -106,4 +109,25 @@ export function resolveServices (context) {
 	return Promise.all(
 		resolvers.map(r => r())
 	);
+}
+
+export async function resolveServices (context) {
+	const initial = await getServices(context);
+	const collection = await getIntegrationsCollection(context);
+
+	const services = {
+		list: initial,
+		subscribeToChange: (fn) => {
+			const handler = async () => {
+				debugger;//eslint-disable-line
+				services.list = await getServices(context);
+				fn(services);
+			}
+
+			collection.addListener('change', handler);
+			return () => collection.removeListener('change', handler);
+		}
+	};
+
+	return services;
 }
