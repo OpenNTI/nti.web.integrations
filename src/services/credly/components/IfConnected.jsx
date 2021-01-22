@@ -2,8 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {Hooks} from '@nti/web-commons';
 
-import {findIntegration} from '../../../utils';
-import {Handles} from '../Constants';
+import {findCredlyIntegration} from '../utils';
 
 const {useResolver} = Hooks;
 const {isResolved} = useResolver;
@@ -17,13 +16,13 @@ IfCredlyIsConnected.propTypes = {
 	canConnect: PropTypes.bool
 };
 export default function IfCredlyIsConnected ({context, children, fallback = null, canConnect:showOnCanConnect}) {
-	const resolver = useResolver(() => findIntegration(i => Handles[i.MimeType], context), [context]);
+	const resolver = useResolver(() => findCredlyIntegration(context), [context]);
 	const integration = isResolved(resolver) ? resolver : null;
 
 	const connected = integration?.isConnected();
-	const canConnect = integration?.canConnect();
+	const canConnect = showOnCanConnect && integration?.canConnect();
 
-	if (!connected || (showOnCanConnect && canConnect)) { return fallback; }
+	if (!connected && !canConnect) { return fallback; }
 
 	return children;
 }
