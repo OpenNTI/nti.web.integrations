@@ -50,10 +50,10 @@ export class BadgesStore extends Stores.BoundStore {
 	}
 }
 
-export class AwardedBadgesStore extends Badges {
+export class AwardedBadgesStore extends BadgesStore {
 	rel = 'awarded-badges'
 }
 
-export class AwardsBadgesStore extends Badges {
+export class AwardsBadgesStore extends BadgesStore {
 	rel = 'badges'
 }

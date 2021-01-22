@@ -13,15 +13,16 @@ const t = scoped('integrations.services.credly.window.Connect', {
 CredlyAcclaimConnectForm.propTypes = {
 	service: PropTypes.shape({
 		connect: PropTypes.func
-	})
+	}),
+	afterSubmit: PropTypes.func
 };
-export default function CredlyAcclaimConnectForm ({service}) {
+export default function CredlyAcclaimConnectForm ({service, afterSubmit}) {
 	const submitForm = React.useCallback(({json}) => service.connect(json.authorizationToken), [service]);
 
 	return (
 		<div className={Styles.connectForm}>
 			<Text.Base className={Styles.title}>{t('title')}</Text.Base>
-			<Form onSubmit={submitForm} autoComplete="off">
+			<Form onSubmit={submitForm} autoComplete="off" afterSubmit={afterSubmit}>
 				<Form.Input.Text className={Styles.tokenInput} name="authorizationToken" placeholder={t('placeholder')} fill />
 				<Button as={Form.SubmitButton} className={Styles.submit} rounded>
 					Add Token
