@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {scoped} from '@nti/lib-locale';
-import {Prompt, Loading, Errors, EmptyState, HOC} from '@nti/web-commons';
+import {Prompt, Loading, Errors, EmptyState} from '@nti/web-commons';
 
 import Connect from '../../window/Connect';
 import Badge from '../Badge';
@@ -17,14 +17,6 @@ const t = scoped('integrations.services.credly.components.available-badges.View'
 	},
 	empty: 'No Badges'
 });
-
-const styles = css`
-	.container {
-		width: 98vw;
-		max-width: 700px;
-		min-height: 200px;
-	}
-`;
 
 const Container = styled.div`
 	width: 98vw;
