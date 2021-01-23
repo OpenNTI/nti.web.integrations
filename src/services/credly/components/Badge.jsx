@@ -6,9 +6,9 @@ import {Flyout, Image, Text} from '@nti/web-commons';
 const styles = css`
 	.badge {
 		display: inline-block;
+		position: relative;
 		border-radius: 100%;
 		width: 130px;
-		overflow: hidden;
 	}
 
 	.trigger {
@@ -18,6 +18,15 @@ const styles = css`
 	.badge-image {
 		display: block;
 		object-fit: cover;
+		width: 100%;
+		border-radius: 50%;
+	}
+
+	.badge-mask {
+		position: absolute;
+		top: 0;
+		left: 0;
+		height: 100%;
 		width: 100%;
 		border-radius: 50%;
 	}
@@ -36,25 +45,45 @@ const InfoContainer = styled.div`
 
 Badge.propTypes = {
 	className: PropTypes.string,
-	onClick: PropTypes.func,
-	extendedInfo: PropTypes.bool,
 	badge: PropTypes.shape({
 		imageURL: PropTypes.string,
 		name: PropTypes.string
-	})
+	}),
+
+	extendedInfo: PropTypes.bool,
+	onClick: PropTypes.func,
+
+	mask: PropTypes.node,
+	message: PropTypes.node
 };
-export default function Badge ({className, badge, onClick, ...otherProps}) {
+export default function Badge ({className, badge, onClick, mask, message, ...otherProps}) {
 	const trigger = (
 		<div className={cx(styles.badge, 'nti-badge', className, {[styles.trigger]: Boolean(onClick)})} onClick={onClick} {...otherProps} >
 			<Image src={badge.imageURL} className={styles.badgeImage} />
+			{mask && (
+				<div className={styles.badgeMask}>
+					{mask}
+				</div>
+			)}
 		</div>
 	);
 
-	return (
-		<Flyout.Triggered trigger={trigger} dark hover >
+	let content = null;
+
+	if (message) {
+		content = message;
+	} else {
+		content = (
 			<InfoContainer>
 				<Text.Base>{badge.name}</Text.Base>
 			</InfoContainer>
+		);
+	}
+
+
+	return (
+		<Flyout.Triggered trigger={trigger} dark hover >
+			{content}
 		</Flyout.Triggered>
 	);
 }

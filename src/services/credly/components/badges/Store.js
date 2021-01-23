@@ -1,5 +1,9 @@
 import {Stores} from '@nti/lib-store';
 
+
+const getBadges = p => p?.badges ?? p?.Items ?? [];
+const getCurrentPage = p => p?.currentPage;
+const getTotalPages = p => p?.totalPages;
 export class BadgesStore extends Stores.BoundStore {
 	async load () {
 		if (this.binding === this.context) { return; }
@@ -29,24 +33,90 @@ export class BadgesStore extends Stores.BoundStore {
 	}
 
 	setPage (page) {
-		this.set({page});
+		this.set({
+			page,
+			badges: getBadges(page)
+		});
 		this.emitChange(['badges', 'currentPage', 'totalPages']);
 	}
 
-	get badges () {
-		return this.get('page')?.badges;
-	}
-
 	get currentPage () {
-		return this.get('page')?.currentPage;
+		return getCurrentPage(this.get('page')) ?? 0;
 	}
 
 	get totalPages () {
-		return this.get('page')?.totalPages;
+		return getTotalPages(this.get('page')) ?? 1;
 	}
 
 	get canAddBadges () {
 		return this.binding.hasLink('Integrations');
+	}
+
+
+	async addBadge (badge) {
+		//TODO: if not on the last page go to the last page
+		const badges = this.get('badges');
+
+		const pendingId = Date.now();
+		const pendingBadge = {
+			getID: () => pendingId,
+			newBadge: true,
+			pending: true,
+			template: badge
+		};
+
+		this.set({
+			badges: [...badges, pendingBadge]
+		});
+
+		try {
+			const payload = {
+				...badge.toJSON(),
+				MimeType: badge.MimeType,
+				Class: badge.Class
+			};
+			const resp = await this.context.postToLink('badges', payload, true);
+
+			this.set({
+				badges: (this.get('badges')).map((b) => {
+					if (b.getID() !== pendingId) { return b; }
+
+					return resp;
+				})
+			});
+		} catch (e) {
+			this.set({
+				badges: (this.get('badges')).map((b) => {
+					if (b.getID() !== pendingId) { return b; }
+
+					return {
+						getID: () => pendingId,
+						newBadge: true,
+						error: e,
+						template: badge
+					};
+				})
+			});
+		}
+	}
+
+	canRemoveBadge (badge) {
+		return badge.hasLink('delete');
+	}
+
+	async removeBadge (badge) {
+		const removeId = badge.getID();
+		const existing = this.get('badges');
+
+		this.setImmediate({
+			badges: existing.filter(b => b.getID() !== removeId)
+		});
+
+		try {
+			await badge.delete('delete');
+		} catch (e) {
+			this.set({badges: existing, error: e});
+		}
 	}
 }
 

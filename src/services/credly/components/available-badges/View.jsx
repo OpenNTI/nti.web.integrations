@@ -63,7 +63,7 @@ function AvailableBadges ({onSelect}) {
 	} else if (badges) {
 		content.push(
 			<BadgeGrid>
-				{[...badges, ...badges, ...badges].map((badge, key) => (
+				{badges.map((badge, key) => (
 					<Badge badge={badge} key={key} onClick={() => onSelect(badge)} />
 				))}
 			</BadgeGrid>

@@ -4,8 +4,10 @@ import {scoped} from '@nti/lib-locale';
 import {HOC, Loading, Errors, Button} from '@nti/web-commons';
 
 import AvailableBadges from '../available-badges';
+import BadgeGrid from '../BadgeGrid';
 
 import {BadgesStore, AwardsBadgesStore, AwardedBadgesStore} from './Store';
+import BadgeWrapper from './BadgeWrapper';
 
 const {Variant} = HOC;
 
@@ -34,26 +36,28 @@ function Badges ({context, view}) {
 		loading,
 		error,
 		badges,
-		totalPages,
-		currentPage,
 		canAddBadges,
 		addBadge
-	} = BadgesStore.useValue();
+	} = BadgesStore.useMonitor(['loading', 'error', 'badges', 'canAddBadges', 'addBadge']);
 
 	const [selectOpen, setSelectOpen] = React.useState(false);
 	const openSelect = React.useCallback(() => setSelectOpen(true), [setSelectOpen]);
 	const closeSelect = React.useCallback(() => setSelectOpen(false), [setSelectOpen]);
+
+	const onBadgeAdd = React.useCallback((badge) => (closeSelect(), addBadge(badge)), [addBadge, closeSelect]);
 
 	return (
 		<>
 			<Loading.Placeholder loading={loading} fallback={<Loading.Spinner.Large />}>
 				{canAddBadges && (<Button className={styles.addButton} onClick={openSelect}>{t('addBadge')}</Button>)}
 				{error && (<Errors.Message error={error} />)}
-				{!error && (
-					<div>{view}</div>
-				)}
+				<BadgeGrid>
+					{(badges ?? []).map((badge, key) => (
+						<BadgeWrapper key={key} badge={badge} />
+					))}
+				</BadgeGrid>
 			</Loading.Placeholder>
-			{selectOpen && (<AvailableBadges.SelectDialog context={context} doClose={closeSelect} onSelect={addBadge} />)}
+			{selectOpen && (<AvailableBadges.SelectDialog context={context} doClose={closeSelect} onSelect={onBadgeAdd} />)}
 		</>
 	);
 }

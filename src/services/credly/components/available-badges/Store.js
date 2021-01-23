@@ -64,7 +64,7 @@ export default class AvailableBadgesStore extends Stores.BoundStore {
 	}
 
 	get badges () {
-		return this.get('page')?.badges;
+		return this.get('page')?.Items;
 	}
 
 	get currentPage () {
