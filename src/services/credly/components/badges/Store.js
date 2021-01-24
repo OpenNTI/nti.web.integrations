@@ -6,9 +6,9 @@ const getCurrentPage = p => p?.currentPage;
 const getTotalPages = p => p?.totalPages;
 export class BadgesStore extends Stores.BoundStore {
 	async load () {
-		if (this.binding === this.context) { return; }
+		if (this.binding.context === this.context) { return; }
 
-		const context = this.context = this.binding;
+		const context = this.context = this.binding.context;
 
 		this.set({
 			loading: true,
@@ -48,8 +48,12 @@ export class BadgesStore extends Stores.BoundStore {
 		return getTotalPages(this.get('page')) ?? 1;
 	}
 
+	get readOnly () {
+		return this.binding.readOnly;
+	}
+
 	get canAddBadges () {
-		return this.binding.hasLink('Integrations');
+		return !this.readOnly && this.context?.hasLink('Integrations');
 	}
 
 
@@ -101,7 +105,7 @@ export class BadgesStore extends Stores.BoundStore {
 	}
 
 	canRemoveBadge (badge) {
-		return badge.hasLink('delete');
+		return !this.readOnly && badge.hasLink('delete');
 	}
 
 	async removeBadge (badge) {

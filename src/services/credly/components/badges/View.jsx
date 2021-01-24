@@ -29,7 +29,7 @@ const styles = css`
 
 Badges.propTypes = {
 	context: PropTypes.object,
-	view: PropTypes.oneOf([Awards, Awarded]),
+	view: PropTypes.oneOf([Awards, Awarded])
 };
 function Badges ({context, view}) {
 	const {
@@ -63,7 +63,7 @@ function Badges ({context, view}) {
 }
 
 const Config = {
-	deriveBindingFromProps: (props) => props.context
+	deriveBindingFromProps: (props) => ({context: props.context, readOnly: props.readOnly})
 };
 
 export const AwardsBadges = AwardsBadgesStore.WrapCmp(Variant(Badges, {view: Awards}), Config);
