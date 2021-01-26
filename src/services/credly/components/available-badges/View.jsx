@@ -6,7 +6,6 @@ import {Prompt, Loading, Errors, EmptyState, StandardUI} from '@nti/web-commons'
 import Connect from '../../window/Connect';
 import Badge from '../Badge';
 import BadgeGrid from '../BadgeGrid';
-import BadgeDetails from '../BadgeDetails';
 import Organization from '../Organization';
 
 import Store from './Store';
