@@ -63,7 +63,8 @@ function Badges ({context, view}) {
 					selected={badges}
 					doClose={closeSelect}
 					onSelect={onBadgeAdd}
-				/>)}
+				/>
+			)}
 		</>
 	);
 }
@@ -74,3 +75,6 @@ const Config = {
 
 export const AwardsBadges = AwardsBadgesStore.WrapCmp(Variant(Badges, {view: Awards}), Config);
 export const AwardedBadges = AwardedBadgesStore.WrapCmp(Variant(Badges, {view: Awarded}), Config);
+
+AwardsBadges.hasBadges = AwardsBadgesStore.hasBadges;
+AwardedBadges.hasBadges = AwardedBadgesStore.hasBadges;

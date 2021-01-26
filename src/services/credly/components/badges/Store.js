@@ -91,9 +91,13 @@ export class BadgesStore extends Stores.BoundStore {
 }
 
 export class AwardedBadgesStore extends BadgesStore {
-	rel = 'awarded-badges'
+	static hasBadges (c) { return c.hasLink('awarded_badges'); }
+
+	rel = 'awarded_badges'
 }
 
 export class AwardsBadgesStore extends BadgesStore {
+	static hasBadges (c) { return c.hasLink('awarded_badges'); }
+
 	rel = 'badges'
 }
