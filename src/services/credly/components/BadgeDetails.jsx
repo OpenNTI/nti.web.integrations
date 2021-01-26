@@ -31,7 +31,7 @@ const styles = css`
 
 	.image {
 		max-width: 130px;
-		margin-right: 0.5rem;
+		margin-right: 1rem;
 	}
 
 	.name {
