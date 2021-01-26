@@ -24,6 +24,7 @@ const styles = css`
 		object-fit: cover;
 		width: 100%;
 		border-radius: 50%;
+		box-shadow: 0 0 1px 1px rgba(0, 0, 0, 0.3);
 	}
 
 	.badge-mask {

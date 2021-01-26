@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {scoped} from '@nti/lib-locale';
-import {Prompt, Loading, Errors, EmptyState, StandardUI} from '@nti/web-commons';
+import {Prompt, Loading, Errors, EmptyState, StandardUI, Icons} from '@nti/web-commons';
 
 import Connect from '../../window/Connect';
 import Badge from '../Badge';
@@ -10,6 +10,7 @@ import Organization from '../Organization';
 
 import Store from './Store';
 import Details from './Details';
+import Controls from './Controls';
 
 const t = scoped('integrations.services.credly.components.available-badges.View', {
 	selectDialog: {
@@ -25,8 +26,17 @@ const Container = styled.div`
 `;
 
 const Content = styled.div`padding: var(--side-padding, 2rem) 0`;
-
 const DetailsWrapper = styled(StandardUI.Card)`margin: 0 2.5rem`;
+const SelectedIcon = styled(Icons.Check)`
+	position: absolute;
+	top: 2px;
+	right: 2px;
+	color: white;
+	background: var(--secondary-green);
+	border: 2px solid white;
+	border-radius: 50%;
+	box-shadow: 0 0 3px 1px rgba(0, 0, 0, 0.3);
+`;
 
 AvailableBadges.propTypes = {
 	context: PropTypes.object,
@@ -49,7 +59,6 @@ function AvailableBadges ({selected, onSelect}) {
 		new Set((selected ?? []).map(s => s.getID()))
 	), [selected]);
 
-	const {organization} = integration ?? {};
 	const content = [];
 
 	const [selectedBadge, setSelectedBadge] = React.useState(null);
@@ -71,7 +80,7 @@ function AvailableBadges ({selected, onSelect}) {
 				</DetailsWrapper>
 			)
 		};
-	}, [selectedBadge]);
+	}, [selectedBadge, selectedSet]);
 
 	const clearSelectedTimeout = React.useRef(null);
 	const onContentsFocus = React.useCallback(() => {
@@ -98,6 +107,9 @@ function AvailableBadges ({selected, onSelect}) {
 						key={key}
 						badge={badge}
 						onClick={() => setSelectedBadge(badge)}
+						mask={
+							selectedSet.has(badge.getID()) ? (<SelectedIcon />): null
+						}
 					/>
 				))}
 			</BadgeGrid>
@@ -106,7 +118,7 @@ function AvailableBadges ({selected, onSelect}) {
 
 	return (
 		<Container>
-			{organization && (<Organization organization={organization} />)}
+			<Controls />
 			<Loading.Placeholder loading={loading} fallback={<Loading.Spinner.Large />} >
 				<Content onFocus={onContentsFocus} onBlur={onContentsBlur}>
 					{content}
