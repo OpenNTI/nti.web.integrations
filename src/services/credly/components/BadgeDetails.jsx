@@ -150,7 +150,7 @@ export default function BadgeDetails ({className, badge, hideImage, actions}) {
 							)}
 						</ul>
 					)}
-					<Text.Base className={styles.description} limitLines={3} overflow={Text.Overflow.Ellipse}>{badge.description}</Text.Base>
+					<Text.Base className={styles.description} limitLines={3} overflow={Text.Overflow.Ellipsis}>{badge.description}</Text.Base>
 				</div>
 			</div>
 			{hasActions && (
