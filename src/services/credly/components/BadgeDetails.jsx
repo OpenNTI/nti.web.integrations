@@ -1,9 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import cx from 'classnames';
-import {Text} from '@nti/web-commons';
+import {Text, StandardUI} from '@nti/web-commons';
 
 import Badge from './Badge';
+
+const {Prompt} = StandardUI;
 
 const styles = css`
 	.container {
@@ -44,6 +46,20 @@ const styles = css`
 	}
 `;
 
+BadgeDetailsDialog.propTypes = {
+	className: PropTypes.string,
+	onDone: PropTypes.func,
+	doneLabel: PropTypes.string
+};
+function BadgeDetailsDialog ({className, onDone, doneLabel, ...otherProps}) {
+	return (
+		<Prompt.Info className={className} onDone={onDone} doneLabel={doneLabel}>
+			<BadgeDetails {...otherProps} />
+		</Prompt.Info>
+	);
+}
+
+BadgeDetails.Dialog = BadgeDetailsDialog;
 BadgeDetails.propTypes = {
 	className: PropTypes.string,
 	badge: PropTypes.shape({

@@ -4,6 +4,7 @@ import {scoped} from '@nti/lib-locale';
 import {Loading, Icons, Errors, Button, StandardUI} from '@nti/web-commons';
 
 import Badge from '../Badge';
+import BadgeDetails from '../BadgeDetails';
 
 import {BadgesStore} from './Store';
 
@@ -14,6 +15,8 @@ const t = scoped('integrations.services.credly.components.badges.BadgeWrapper', 
 		body: 'Going forward Learners who complete the course will not earn this badge. Learners who have already earned the badge will keep it.'
 	}
 });
+
+const stop = (e) => (e.stopPropagation(), e.preventDefault());
 
 const Mask = styled.div`
 	position: absolute;
@@ -78,11 +81,15 @@ BadgeWrapper.propTypes = {
 	badge: PropTypes.object
 };
 export default function BadgeWrapper ({badge}) {
+	const [openDetails, setOpenDetails] = React.useState(false);
+	const doOpenDetails = React.useCallback(() => setOpenDetails(true), [setOpenDetails]);
+	const doCloseDetails = React.useCallback(() => setOpenDetails(false), [setOpenDetails]);
+
 	const {removeBadge, canRemoveBadge} = BadgesStore.useValue();
 	const [confirmRemove, setConfirmRemove] = React.useState(false);
-	const openConfirm = React.useCallback(() => setConfirmRemove(true), [setConfirmRemove]);
-	const closeConfirm = React.useCallback(() => setConfirmRemove(false), [setConfirmRemove]);
-	const doRemove = React.useCallback(() => (removeBadge(badge), closeConfirm()), [removeBadge, badge]);
+	const openConfirmRemove = React.useCallback((e) => (stop(e), setConfirmRemove(true)), [setConfirmRemove]);
+	const closeConfirmRemove = React.useCallback(() => setConfirmRemove(false), [setConfirmRemove]);
+	const doRemove = React.useCallback(() => (removeBadge(badge), closeConfirmRemove()), [removeBadge, badge]);
 
 	let obj = badge;
 	let mask = null;
@@ -107,7 +114,7 @@ export default function BadgeWrapper ({badge}) {
 	} else if (canRemoveBadge(badge)) {
 		mask = (
 			<Mask className={styles.controls}>
-				<Button plain className={styles.delete} onClick={openConfirm}>
+				<Button plain className={styles.delete} onClick={openConfirmRemove}>
 					<Icons.X.Bold />
 				</Button>
 			</Mask>
@@ -116,14 +123,17 @@ export default function BadgeWrapper ({badge}) {
 
 	return (
 		<>
-			<Badge className={styles.badge} badge={obj} mask={mask} message={message} />
+			<Badge className={styles.badge} badge={obj} mask={mask} message={message} onClick={doOpenDetails} />
 			{confirmRemove && (
 				<Prompt.Confirm
 					title={t('confirmRemove.title')}
 					body={t('confirmRemove.body')}
 					onConfirm={doRemove}
-					onCancel={closeConfirm}
+					onCancel={closeConfirmRemove}
 				/>
+			)}
+			{openDetails && (
+				<BadgeDetails.Dialog badge={badge} onDone={doCloseDetails} />
 			)}
 		</>
 	);
