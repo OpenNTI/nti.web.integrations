@@ -6,7 +6,6 @@ import {Prompt, Loading, Errors, EmptyState, StandardUI, Icons} from '@nti/web-c
 import Connect from '../../window/Connect';
 import Badge from '../Badge';
 import BadgeGrid from '../BadgeGrid';
-import Organization from '../Organization';
 
 import Store from './Store';
 import Details from './Details';
@@ -108,7 +107,7 @@ function AvailableBadges ({selected, onSelect}) {
 						badge={badge}
 						onClick={() => setSelectedBadge(badge)}
 						mask={
-							selectedSet.has(badge.getID()) ? (<SelectedIcon />): null
+							selectedSet.has(badge.getID()) ? (<SelectedIcon />) : null
 						}
 					/>
 				))}
