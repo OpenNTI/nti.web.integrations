@@ -12,6 +12,10 @@ const t = scoped('integrations.services.credly.components.available-badges.Detai
 });
 
 const styles = css`
+	.details {
+		width: 100%;
+	}
+
 	.save {
 		position: relative;
 	}
@@ -88,6 +92,6 @@ export default function Details ({badge, onSelect, selected}) {
 	}
 
 	return (
-		<BadgeDetails badge={badge} hideImage actions={actions} />
+		<BadgeDetails className={styles.details} badge={badge} hideImage actions={actions} />
 	);
 }

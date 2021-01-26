@@ -11,7 +11,7 @@ const styles = css`
 		grid-template-columns: repeat(var(--badge-grid-columns, 4), 1fr);
 		grid-template-rows: auto;
 
-		& li:not(.details) {
+		& > li:not(.details) {
 			height: 0;
 			position: relative;
 			padding-bottom: 100%;

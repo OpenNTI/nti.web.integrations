@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import cx from 'classnames';
-import {Button, Image} from '@nti/web-commons';
+import {Button} from '@nti/web-commons';
 
 const styles = css`
 	.badge {
@@ -43,7 +43,7 @@ BadgeImage.propTypes = {
 	})
 };
 function BadgeImage ({badge, className}) {
-	return (<Image src={badge.imageURL} className={cx(styles.badgeImage, className)} />);
+	return (<img src={badge.imageURL} className={cx(styles.badgeImage, className)} />);
 }
 
 Badge.Image = BadgeImage;

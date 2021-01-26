@@ -25,6 +25,10 @@ const styles = css`
 		align-items: center;
 	}
 
+	.info {
+		flex: 1 1 auto;
+	}
+
 	.image {
 		max-width: 130px;
 		margin-right: 0.5rem;
