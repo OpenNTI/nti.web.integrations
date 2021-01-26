@@ -44,7 +44,7 @@ function Badges ({context, view}) {
 	const openSelect = React.useCallback(() => setSelectOpen(true), [setSelectOpen]);
 	const closeSelect = React.useCallback(() => setSelectOpen(false), [setSelectOpen]);
 
-	const onBadgeAdd = React.useCallback((badge) => (closeSelect(), addBadge(badge)), [addBadge, closeSelect]);
+	const onBadgeAdd = React.useCallback((badge) => addBadge(badge), [addBadge]);
 
 	return (
 		<>
@@ -57,7 +57,13 @@ function Badges ({context, view}) {
 					))}
 				</BadgeGrid>
 			</Loading.Placeholder>
-			{selectOpen && (<AvailableBadges.SelectDialog context={context} doClose={closeSelect} onSelect={onBadgeAdd} />)}
+			{selectOpen && (
+				<AvailableBadges.SelectDialog
+					context={context}
+					selected={badges}
+					doClose={closeSelect}
+					onSelect={onBadgeAdd}
+				/>)}
 		</>
 	);
 }

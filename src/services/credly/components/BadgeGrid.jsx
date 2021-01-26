@@ -11,7 +11,7 @@ const styles = css`
 		grid-template-columns: repeat(var(--badge-grid-columns, 4), 1fr);
 		grid-template-rows: auto;
 
-		& li {
+		& li:not(.details) {
 			height: 0;
 			position: relative;
 			padding-bottom: 100%;
@@ -28,13 +28,33 @@ const styles = css`
 		align-items: center;
 		justify-content: center;
 	}
+
+	.details {
+		grid-row-start: var(--details-row);
+		grid-row-end: var(--details-row);
+		grid-column: 1 / -1;
+	}
 `;
+
+const getDetailStyles = (details, columns) => {
+	const row = Math.floor(details.index / columns) + 2;
+
+	return {
+		'--details-row': row
+	};
+};
 
 BadgeGrid.propTypes = {
 	children: PropTypes.any,
-	className: PropTypes.string
+	className: PropTypes.string,
+	columns: PropTypes.number,
+
+	details: PropTypes.shape({
+		index: PropTypes.number,
+		node: PropTypes.node
+	})
 };
-export default function BadgeGrid ({children, className}) {
+export default function BadgeGrid ({children, className, details, columns = 4}) {
 	const badges = React.Children.toArray(children);
 
 	return (
@@ -46,6 +66,11 @@ export default function BadgeGrid ({children, className}) {
 					</div>
 				</li>
 			))}
+			{details && (
+				<li style={getDetailStyles(details, columns)} className={styles.details}>
+					{details.node}
+				</li>
+			)}
 		</ul>
 	);
 }

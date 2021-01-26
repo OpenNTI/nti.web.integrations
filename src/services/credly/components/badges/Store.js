@@ -58,50 +58,16 @@ export class BadgesStore extends Stores.BoundStore {
 
 
 	async addBadge (badge) {
-		//TODO: if not on the last page go to the last page
-		const badges = this.get('badges');
-
-		const pendingId = Date.now();
-		const pendingBadge = {
-			getID: () => pendingId,
-			newBadge: true,
-			pending: true,
-			template: badge
+		const payload = {
+			...badge.toJSON(),
+			MimeType: badge.MimeType,
+			Class: badge.Class
 		};
+		const resp = await this.context.postToLink('badges', payload, true);
 
 		this.set({
-			badges: [...badges, pendingBadge]
+			badges: [...this.get('badges'), resp]
 		});
-
-		try {
-			const payload = {
-				...badge.toJSON(),
-				MimeType: badge.MimeType,
-				Class: badge.Class
-			};
-			const resp = await this.context.postToLink('badges', payload, true);
-
-			this.set({
-				badges: (this.get('badges')).map((b) => {
-					if (b.getID() !== pendingId) { return b; }
-
-					return resp;
-				})
-			});
-		} catch (e) {
-			this.set({
-				badges: (this.get('badges')).map((b) => {
-					if (b.getID() !== pendingId) { return b; }
-
-					return {
-						getID: () => pendingId,
-						newBadge: true,
-						error: e,
-						template: badge
-					};
-				})
-			});
-		}
 	}
 
 	canRemoveBadge (badge) {

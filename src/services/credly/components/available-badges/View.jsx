@@ -1,15 +1,16 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {scoped} from '@nti/lib-locale';
-import {Prompt, Loading, Errors, EmptyState} from '@nti/web-commons';
+import {Prompt, Loading, Errors, EmptyState, StandardUI} from '@nti/web-commons';
 
 import Connect from '../../window/Connect';
 import Badge from '../Badge';
 import BadgeGrid from '../BadgeGrid';
+import BadgeDetails from '../BadgeDetails';
 import Organization from '../Organization';
 
 import Store from './Store';
-
+import Details from './Details';
 
 const t = scoped('integrations.services.credly.components.available-badges.View', {
 	selectDialog: {
@@ -26,12 +27,14 @@ const Container = styled.div`
 
 const Content = styled.div`padding: var(--side-padding, 2rem) 0`;
 
+const DetailsWrapper = styled(StandardUI.Card)`margin: 0 2.5rem`;
+
 AvailableBadges.propTypes = {
 	context: PropTypes.object,
 	selected: PropTypes.array,
 	onSelect: PropTypes.func
 };
-function AvailableBadges ({onSelect}) {
+function AvailableBadges ({selected, onSelect}) {
 	const {
 		loading,
 		error,
@@ -43,8 +46,44 @@ function AvailableBadges ({onSelect}) {
 		badges
 	} = Store.useValue();
 
+	const selectedSet = React.useMemo(() => (
+		new Set((selected ?? []).map(s => s.getID()))
+	), [selected]);
+
 	const {organization} = integration ?? {};
 	const content = [];
+
+	const [selectedBadge, setSelectedBadge] = React.useState(null);
+	const details = React.useMemo(() => {
+		if (!selectedBadge) { return null; }
+
+		const selectedId = selectedBadge?.getID();
+		const badge = (badges ?? []).find(b => b.getID() === selectedId);
+
+		return {
+			index: (badges ?? []).indexOf(badge),
+			node: (
+				<DetailsWrapper rounded>
+					<Details
+						badge={badge}
+						selected={selectedSet.has(badge.getID())}
+						onSelect={onSelect}
+					/>
+				</DetailsWrapper>
+			)
+		};
+	}, [selectedBadge]);
+
+	const clearSelectedTimeout = React.useRef(null);
+	const onContentsFocus = React.useCallback(() => {
+		clearTimeout(clearSelectedTimeout.current);
+	}, [clearSelectedTimeout.current]);
+	const onContentsBlur = React.useCallback(() => {
+		clearTimeout(clearSelectedTimeout.current);
+		clearSelectedTimeout.current = setTimeout(() => {
+			// setSelectedBadge(null);
+		}, 300);
+	}, [clearSelectedTimeout.current, selectedBadge]);
 
 	if (error) {
 		content.push(<Errors.Message error={error} />);
@@ -54,9 +93,13 @@ function AvailableBadges ({onSelect}) {
 		content.push(<EmptyState header={t('empty')} />);
 	} else if (badges) {
 		content.push(
-			<BadgeGrid>
+			<BadgeGrid details={details}>
 				{badges.map((badge, key) => (
-					<Badge badge={badge} key={key} onClick={() => onSelect(badge)} />
+					<Badge
+						key={key}
+						badge={badge}
+						onClick={() => setSelectedBadge(badge)}
+					/>
 				))}
 			</BadgeGrid>
 		);
@@ -66,7 +109,7 @@ function AvailableBadges ({onSelect}) {
 		<Container>
 			{organization && (<Organization organization={organization} />)}
 			<Loading.Placeholder loading={loading} fallback={<Loading.Spinner.Large />} >
-				<Content>
+				<Content onFocus={onContentsFocus} onBlur={onContentsBlur}>
 					{content}
 				</Content>
 			</Loading.Placeholder>
