@@ -138,7 +138,7 @@ export default function BadgeDetails ({className, badge, hideImage, actions}) {
 								<li>
 									<MetaLabel>{t('details')}</MetaLabel>
 									<MetaValue>
-										<a href={badge.badgeURL} ref="noopener noreferrer">
+										<a href={badge.badgeURL} rel="noopener noreferrer">
 											{t('page')}
 										</a>
 									</MetaValue>
