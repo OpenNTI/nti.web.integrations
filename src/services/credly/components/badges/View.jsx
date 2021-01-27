@@ -9,14 +9,11 @@ import BadgeGrid from '../BadgeGrid';
 import {BadgesStore, AwardsBadgesStore, AwardedBadgesStore} from './Store';
 import BadgeWrapper from './BadgeWrapper';
 
-const {Variant} = HOC;
+const {Variant, WithContainerQuery} = HOC;
 
 const t = scoped('integrations.services.credly.components.badges.View', {
 	addBadge: '+Add Badge'
 });
-
-const Awards = 'awards';
-const Awarded = 'awarded';
 
 const styles = css`
 	.add-button:global(.nti-button) {
@@ -29,9 +26,9 @@ const styles = css`
 
 Badges.propTypes = {
 	context: PropTypes.object,
-	view: PropTypes.oneOf([Awards, Awarded])
+	columns: PropTypes.number
 };
-function Badges ({context, view}) {
+function Badges ({context, columns}) {
 	const {
 		loading,
 		error,
@@ -51,7 +48,7 @@ function Badges ({context, view}) {
 			<Loading.Placeholder loading={loading} fallback={<Loading.Spinner.Large />}>
 				{canAddBadges && (<Button className={styles.addButton} onClick={openSelect}>{t('addBadge')}</Button>)}
 				{error && (<Errors.Message error={error} />)}
-				<BadgeGrid>
+				<BadgeGrid columns={columns}>
 					{(badges ?? []).map((badge, key) => (
 						<BadgeWrapper key={key} badge={badge} />
 					))}
@@ -69,12 +66,16 @@ function Badges ({context, view}) {
 	);
 }
 
+const BadgesComponent = WithContainerQuery((size) =>({
+	columns: Math.max(Math.floor(size.width / 140), 1)
+}))(Badges);
+
 const Config = {
 	deriveBindingFromProps: (props) => ({context: props.context, readOnly: props.readOnly})
 };
 
-export const AwardsBadges = AwardsBadgesStore.WrapCmp(Variant(Badges, {view: Awards}), Config);
-export const AwardedBadges = AwardedBadgesStore.WrapCmp(Variant(Badges, {view: Awarded}), Config);
+export const AwardsBadges = AwardsBadgesStore.WrapCmp(BadgesComponent, Config);
+export const AwardedBadges = AwardedBadgesStore.WrapCmp(BadgesComponent, Config);
 
 AwardsBadges.hasBadges = AwardsBadgesStore.hasBadges;
 AwardedBadges.hasBadges = AwardedBadgesStore.hasBadges;

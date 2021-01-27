@@ -30,17 +30,21 @@ const styles = css`
 	}
 
 	.details {
-		grid-row-start: var(--details-row);
-		grid-row-end: var(--details-row);
+		grid-row-start: var(--badge-details-row);
+		grid-row-end: var(--badge-details-row);
 		grid-column: 1 / -1;
 	}
 `;
+
+const getListStyles = (columns) => ({
+	'--badge-grid-columns': columns
+});
 
 const getDetailStyles = (details, columns) => {
 	const row = Math.floor(details.index / columns) + 2;
 
 	return {
-		'--details-row': row
+		'--badge-details-row': row
 	};
 };
 
@@ -58,7 +62,7 @@ export default function BadgeGrid ({children, className, details, columns = 4}) 
 	const badges = React.Children.toArray(children);
 
 	return (
-		<ul className={cx(styles.badgeGrid, className)}>
+		<ul className={cx(styles.badgeGrid, className)} style={getListStyles(columns)}>
 			{badges.map((cmp, key) => (
 				<li key={key}>
 					<div className={styles.inner}>
