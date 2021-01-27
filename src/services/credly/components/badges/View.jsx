@@ -9,7 +9,7 @@ import BadgeGrid from '../BadgeGrid';
 import {BadgesStore, AwardsBadgesStore, AwardedBadgesStore} from './Store';
 import BadgeWrapper from './BadgeWrapper';
 
-const {Variant, WithContainerQuery} = HOC;
+const {WithContainerQuery} = HOC;
 
 const t = scoped('integrations.services.credly.components.badges.View', {
 	addBadge: '+Add Badge'
