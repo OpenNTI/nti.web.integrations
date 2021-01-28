@@ -27,7 +27,7 @@ const styles = css`
 	.details {
 		display: flex;
 		flex-direction: row;
-		align-items: center;
+		align-items: flex-start;
 	}
 
 	.info {
@@ -39,15 +39,23 @@ const styles = css`
 		margin-right: 1rem;
 	}
 
+	@media (max-width: 768px) {
+		.image {
+			max-width: 76px;
+		}
+	}
+
 	.name {
 		display: block;
 		font-size: 1.5rem;
 		margin-bottom: 0.625rem;
+		word-break: break-all;
 	}
 
 	.description {
 		display: block;
 		font-size: 0.875rem;
+		word-break: break-all;
 	}
 
 	.meta {
