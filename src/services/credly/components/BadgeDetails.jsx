@@ -11,12 +11,17 @@ const {Prompt} = StandardUI;
 const t = scoped('integrations.services.credly.components.BadgeDetails', {
 	issuedBy: 'Issued By',
 	details: 'Details',
-	page: 'Page'
+	page: 'Page',
+	accept: 'Accept Badge'
 });
 
 const styles = css`
 	.container {
 		padding: 0.5rem 1rem;
+
+		&.dialog {
+			padding: 0.5rem 0;
+		}
 	}
 
 	.details {
@@ -61,6 +66,17 @@ const styles = css`
 		min-width: 100px;
 	}
 
+	.accept {
+		display: block;
+		background: var(--secondary-green);
+		text-align: center;
+		text-decoration: 0;
+		color: white;
+		padding: 0.25rem;
+		border-radius: 4px;
+		margin-top: 0.625rem;
+	}
+
 	.actions {
 		display: flex;
 		align-items: center;
@@ -98,7 +114,7 @@ BadgeDetailsDialog.propTypes = {
 function BadgeDetailsDialog ({className, onDone, doneLabel, ...otherProps}) {
 	return (
 		<Prompt.Info className={className} onDone={onDone} doneLabel={doneLabel}>
-			<BadgeDetails {...otherProps} />
+			<BadgeDetails {...otherProps} dialog />
 		</Prompt.Info>
 	);
 }
@@ -110,20 +126,22 @@ BadgeDetails.propTypes = {
 		name: PropTypes.string,
 		description: PropTypes.string,
 		organizationName: PropTypes.string,
-		badgeURL: PropTypes.string
+		badgeURL: PropTypes.string,
+		acceptBadgeURL: PropTypes.string
 	}),
 
 	hideImage: PropTypes.bool,
+	dialog: PropTypes.bool,
 	actions: PropTypes.arrayOf(
 		PropTypes.node
 	)
 };
-export default function BadgeDetails ({className, badge, hideImage, actions}) {
+export default function BadgeDetails ({className, badge, hideImage, dialog, actions}) {
 	const hasActions = actions && actions.length > 0;
 	const hasMeta = badge.badgeURL || badge.organizationName;
 
 	return (
-		<div className={cx(styles.container, className)}>
+		<div className={cx(styles.container, className, {[styles.dialog]: dialog})}>
 			<div className={styles.details}>
 				{!hideImage && (
 					<Badge.Image badge={badge} className={styles.image} />
@@ -142,7 +160,7 @@ export default function BadgeDetails ({className, badge, hideImage, actions}) {
 								<li>
 									<MetaLabel>{t('details')}</MetaLabel>
 									<MetaValue>
-										<a href={badge.badgeURL} rel="noopener noreferrer">
+										<a href={badge.badgeURL} rel="noopener noreferrer" target="blank">
 											{t('page')}
 										</a>
 									</MetaValue>
@@ -151,6 +169,11 @@ export default function BadgeDetails ({className, badge, hideImage, actions}) {
 						</ul>
 					)}
 					<Text.Base className={styles.description} limitLines={3} overflow={Text.Overflow.Ellipsis}>{badge.description}</Text.Base>
+					{badge.acceptBadgeURL && (
+						<a className={styles.accept} href={badge.acceptBadgeURL} rel="noopener noreferrer" target="blank">
+							{t('accept')}
+						</a>
+					)}
 				</div>
 			</div>
 			{hasActions && (
