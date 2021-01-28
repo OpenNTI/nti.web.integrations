@@ -32,6 +32,7 @@ const styles = css`
 
 	.info {
 		flex: 1 1 auto;
+		overflow: hidden; /* required for overflow-wrap to break mid-word in descendants (.name and .description) */
 	}
 
 	.image {
@@ -49,13 +50,13 @@ const styles = css`
 		display: block;
 		font-size: 1.5rem;
 		margin-bottom: 0.625rem;
-		word-break: break-all;
+		overflow-wrap: break-word;
 	}
 
 	.description {
 		display: block;
 		font-size: 0.875rem;
-		word-break: break-all;
+		overflow-wrap: break-word;
 	}
 
 	.meta {
