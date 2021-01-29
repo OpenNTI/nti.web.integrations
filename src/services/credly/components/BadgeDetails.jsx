@@ -79,7 +79,7 @@ const styles = css`
 		display: block;
 		background: var(--secondary-green);
 		text-align: center;
-		text-decoration: 0;
+		text-decoration: none;
 		color: white;
 		padding: 0.25rem;
 		border-radius: 4px;
