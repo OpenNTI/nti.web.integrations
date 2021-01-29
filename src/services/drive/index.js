@@ -6,7 +6,7 @@ import {Logo} from './assets';
 import Window from './window';
 
 export * from './components';
-export resolver from './resolver';
+export { default as resolver } from './resolver';
 
 const handles = s => s.isDriveIntegration;
 const t = scoped('integrations.services.drive', {

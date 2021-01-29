@@ -1,2 +1,2 @@
-export View from './View';
-export Link from './Link';
+export { default as View } from './View';
+export { default as Link } from './Link';

@@ -4,7 +4,7 @@ import Registry from '../ItemRegistry';
 
 import {Logo} from './assets';
 
-export resolver from './resolver';
+export { default as resolver } from './resolver';
 
 const handles = s => s.isCustomIntegration;
 const t = scoped('intgrations.services.custom', {

@@ -6,7 +6,7 @@ import {Handles} from './Constants';
 import {Logo} from './assets';
 import Window from './window';
 
-export resolver from './resolver';
+export { default as resolver } from './resolver';
 export * from './components';
 
 const handles = s => Handles[s.MimeType];
