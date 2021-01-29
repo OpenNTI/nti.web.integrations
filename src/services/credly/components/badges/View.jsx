@@ -26,9 +26,10 @@ const styles = css`
 
 Badges.propTypes = {
 	context: PropTypes.object,
-	columns: PropTypes.number
+	columns: PropTypes.number,
+	emptyState: PropTypes.node
 };
-function Badges ({context, columns}) {
+function Badges ({context, columns, emptyState}) {
 	const {
 		loading,
 		error,
@@ -42,17 +43,21 @@ function Badges ({context, columns}) {
 	const closeSelect = React.useCallback(() => setSelectOpen(false), [setSelectOpen]);
 
 	const onBadgeAdd = React.useCallback((badge) => addBadge(badge), [addBadge]);
+	const isEmpty = badges && badges.length === 0;
 
 	return (
 		<>
 			<Loading.Placeholder loading={loading} fallback={<Loading.Spinner.Large />}>
 				{canAddBadges && (<Button className={styles.addButton} onClick={openSelect}>{t('addBadge')}</Button>)}
 				{error && (<Errors.Message error={error} />)}
-				<BadgeGrid columns={columns}>
-					{(badges ?? []).map((badge, key) => (
-						<BadgeWrapper key={key} badge={badge} />
-					))}
-				</BadgeGrid>
+				{isEmpty && (emptyState || null)}
+				{!isEmpty && (
+					<BadgeGrid columns={columns}>
+						{(badges ?? []).map((badge, key) => (
+							<BadgeWrapper key={key} badge={badge} />
+						))}
+					</BadgeGrid>
+				)}
 			</Loading.Placeholder>
 			{selectOpen && (
 				<AvailableBadges.SelectDialog
