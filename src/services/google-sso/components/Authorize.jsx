@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
 import {getService, ExternalLibraryManager} from '@nti/web-client';
-import Storage from '@nti/web-storage';//eslint-disable-line
+import Storage from '@nti/web-storage';
 import {Hooks, Loading} from '@nti/web-commons';
 
 const GAPISource = 'https://apis.google.com/js/api.js';
