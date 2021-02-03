@@ -6,6 +6,13 @@ import Store from './Store';
 
 const t = scoped('integrations.services.credly.components.available-badges.Controls', {
 	issuedBy: 'Issued By:',
+	sorts: {
+		label: 'Sort By:',
+		name: 'Name',
+		created: 'Most Recent',
+		issued: 'Issued Count',
+		updated: 'Last Updated'
+	},
 	search: 'Search Badges',
 	results: 'Search Results'
 });
@@ -13,8 +20,7 @@ const t = scoped('integrations.services.credly.components.available-badges.Contr
 const ControlLine = styled.div`
 	display: flex;
 	flex-direction: row;
-	align-items: flex-start;
-	justify-content: space-between;
+	align-items: flex-end;
 	padding: var(--side-padding, 1rem) var(--side-padding, 1rem) 0;
 
 	&:empty {
@@ -30,11 +36,14 @@ const ControlLine = styled.div`
 	}
 `;
 
-const Org = styled.div`
+const Spacer = styled.div` flex: 1 1 auto; `;
+
+const Group = styled.div`
 	/* To match the margin top of the search input */
-	margin-top: 7px;
+	margin-bottom: 27px;
+	margin-right: 1.5rem;
 `;
-const OrgLabel = styled(Text.Base)`
+const GroupLabel = styled(Text.Base)`
 	display: block;
 	font-size: 0.625rem;
 	font-weight: 700;
@@ -42,17 +51,21 @@ const OrgLabel = styled(Text.Base)`
 	color: var(--tertiary-grey);
 `;
 
+const Select = styled(Input.Select)`
+	& :global(.select-label),
+	& :global(.nti-text-input) {
+		height: 44px;
+	}
+
+	& :global(.nti-select-input-option.display) {
+		padding-top: 5px;
+		padding-bottom: 5px;
+	}
+`;
+
 const Search = styled.div`
 	flex: 1 1 auto;
 	max-width: 33%;
-`;
-
-const SearchResultsLabel = styled(Text.Base)`
-
-`;
-
-const PagingControls = styled.div`
-
 `;
 
 
@@ -61,6 +74,10 @@ export default function AvailableBadgesHeader () {
 		integration,
 		searchTerm,
 		updateSearchTerm,
+
+		sorts,
+		activeSort,
+		setSort,
 
 		currentPage,
 		totalPages,
@@ -72,12 +89,29 @@ export default function AvailableBadgesHeader () {
 	return (
 		<>
 			<ControlLine>
-				<Org>
-					{organization && (<OrgLabel>{t('issuedBy')}</OrgLabel>)}
+				<Group>
+					{organization && (<GroupLabel>{t('issuedBy')}</GroupLabel>)}
 					{organization && (
-						<Text.Base>{organization.name}</Text.Base>
+						<Select value="org" disabled>
+							<Input.Select.Option value="org">
+								{organization.name}
+							</Input.Select.Option>
+						</Select>
 					)}
-				</Org>
+				</Group>
+				{integration && (
+					<Group>
+						<GroupLabel>{t('sorts.label')}</GroupLabel>
+						<Select value={activeSort} onChange={setSort}>
+							{sorts.map((sort) => (
+								<Input.Select.Option value={sort} key={sort}>
+									{t(`sorts.${sort}`)}
+								</Input.Select.Option>
+							))}
+						</Select>
+					</Group>
+				)}
+				<Spacer />
 				<Search>
 					<Input.Icon icon={<Icons.Search />}>
 						<Input.LabelPlaceholder>
@@ -87,13 +121,14 @@ export default function AvailableBadgesHeader () {
 				</Search>
 			</ControlLine>
 			<ControlLine>
-				<SearchResultsLabel>
+				<div>
 					{searchTerm ? t('results') : null}
-				</SearchResultsLabel>
+				</div>
+				<Spacer />
 				{totalPages && totalPages > 1 && (
-					<PagingControls>
+					<div>
 						<Paging.Controls total={totalPages} current={currentPage} onChange={loadPage} />
-					</PagingControls>
+					</div>
 				)}
 			</ControlLine>
 		</>

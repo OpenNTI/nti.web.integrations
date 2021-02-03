@@ -2,13 +2,30 @@ import {Stores, Interfaces} from '@nti/lib-store';
 
 import {findCredlyIntegration} from '../../utils';
 
+const Sorts = {
+	name: 'name',
+	created: 'created_at',
+	issued: 'badge_count',
+	updated: 'updated_at'
+};
 class AvailableBadgesStore extends Stores.BoundStore {
 	constructor () {
 		super();
 
 		this.set({
-			loading: true
+			loading: true,
+			activeSort: 'name'
 		});
+	}
+
+	sorts = Object.keys(Sorts)
+
+	setSort (sort) {
+		this.set({
+			activeSort: sort
+		});
+
+		this.load();
 	}
 
 	reload () {
@@ -19,11 +36,13 @@ class AvailableBadgesStore extends Stores.BoundStore {
 	async load () {
 		if (
 			this.context === this.binding &&
-			this.lastSearchTerm === this.searchTerm
+			this.lastSearchTerm === this.searchTerm &&
+			this.lastSort === this.get('activeSort')
 		) { return; }
 
 		const context = this.context = this.binding;
 		const searchTerm = this.lastSearchTerm = this.searchTerm;
+		const activeSort = this.lastSort = this.get('activeSort');
 
 		this.set({
 			loading: true,
@@ -44,7 +63,9 @@ class AvailableBadgesStore extends Stores.BoundStore {
 				return;
 			}
 
-			const params = {};
+			const params = {
+				sort: activeSort
+			};
 
 			if (searchTerm) {
 				params.filter = searchTerm;
