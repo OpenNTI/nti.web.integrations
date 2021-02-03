@@ -48,7 +48,7 @@ const ErrorMessage = styled(Errors.Message)`
 	font-size: 0.875rem;
 	color: white;
 	padding: 0.5rem 1rem;
-	background: var(--primary-red)
+	background: var(--primary-red);
 `;
 
 const styles = css`

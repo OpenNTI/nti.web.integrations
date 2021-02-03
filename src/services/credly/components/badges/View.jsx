@@ -71,16 +71,25 @@ function Badges ({context, columns, emptyState}) {
 	);
 }
 
-const BadgesComponent = WithContainerQuery((size) =>({
+const ColumnQuery = WithContainerQuery((size) =>({
 	columns: Math.max(Math.floor(size.width / 140), 1)
-}))(Badges);
+}));
 
-const Config = {
-	deriveBindingFromProps: (props) => ({context: props.context, readOnly: props.readOnly})
-};
+const deriveBindingFromProps = (props) => ({context: props.context, readOnly: props.readOnly});
 
-export const AwardsBadges = AwardsBadgesStore.WrapCmp(BadgesComponent, Config);
-export const AwardedBadges = AwardedBadgesStore.WrapCmp(BadgesComponent, Config);
+export const AwardsBadges = ColumnQuery(
+	AwardsBadgesStore.WrapCmp(Badges, {
+		deriveBindingFromProps
+	})
+);
+export const AwardedBadges = ColumnQuery(
+	AwardedBadgesStore.WrapCmp(Badges, {
+		deriveBindingFromProps: (props) => ({
+			...deriveBindingFromProps(props),
+			pageSize: props.columns == null ? -1 : props.columns * 2
+		})
+	})
+);
 
 AwardsBadges.hasBadges = AwardsBadgesStore.hasBadges;
 AwardedBadges.hasBadges = AwardedBadgesStore.hasBadges;

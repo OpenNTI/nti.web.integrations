@@ -32,7 +32,10 @@ const Container = styled.div`
 	padding-bottom: 2rem;
 `;
 
-const Content = styled.div`padding: var(--side-padding, 2rem) 0;`;
+const Content = styled.div`
+	padding: var(--side-padding, 2rem) 0;
+	min-height: 200px;
+`;
 const DetailsWrapper = styled(StandardUI.Card)`margin: 0 2.5rem;`;
 const SelectedIcon = styled(Icons.Check)`
 	position: absolute;

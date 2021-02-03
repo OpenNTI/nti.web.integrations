@@ -6,9 +6,16 @@ const getCurrentPage = p => p?.currentPage;
 const getTotalPages = p => p?.totalPages;
 export class BadgesStore extends Stores.BoundStore {
 	async load () {
-		if (this.binding.context === this.context) { return; }
+		if (
+			this.binding.pageSize === -1 || //if the page size hasn't been setup yet
+			(
+				this.binding.context === this.context &&
+				this.binding.pageSize === this.pageSize
+			)
+		) { return; }
 
 		const context = this.context = this.binding.context;
+		this.pageSize = this.binding.pageSize;
 
 		this.set({
 			loading: true,
@@ -17,13 +24,20 @@ export class BadgesStore extends Stores.BoundStore {
 		});
 
 		try {
-			const page = await context.fetchLinkParsed(this.rel);
+			const params = {};
+
+			// For now this is forced to be 50 by credly...
+			// if (pageSize != null) {
+			// 	params.pageSize = pageSize;
+			// }
+
+			const page = await context.fetchLinkParsed(this.rel, params);
 
 			this.set({
 				loading: false
 			});
 
-			this.setPage(page);
+			this.#setPage(page);
 		} catch (e) {
 			this.set({
 				loading: false,
@@ -32,20 +46,37 @@ export class BadgesStore extends Stores.BoundStore {
 		}
 	}
 
-	setPage (page) {
+	#setPage (page) {
 		this.set({
 			page,
-			badges: getBadges(page)
+			badges: getBadges(page),
+			currentPage: getCurrentPage(page) ?? 1,
+			totalPages: getTotalPages(page) ?? 1
 		});
 		this.emitChange(['badges', 'currentPage', 'totalPages']);
 	}
 
-	get currentPage () {
-		return getCurrentPage(this.get('page')) ?? 0;
-	}
+	async loadPage (pageNumber) {
+		this.set({
+			loading: true,
+			currentPage: pageNumber
+		});
 
-	get totalPages () {
-		return getTotalPages(this.get('page')) ?? 1;
+		try {
+			const params = {page: pageNumber};
+			const page = await this.context.fetchLinkParsed(this.rel, params);
+
+			this.set({
+				loading: false
+			});
+
+			this.#setPage(page);
+		} catch (e) {
+			this.set({
+				loading: false,
+				error: e
+			});
+		}
 	}
 
 	get readOnly () {
