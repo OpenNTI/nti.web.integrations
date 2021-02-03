@@ -1,8 +1,8 @@
-import {Stores} from '@nti/lib-store';
+import {Stores, Interfaces} from '@nti/lib-store';
 
 import {findCredlyIntegration} from '../../utils';
 
-export default class AvailableBadgesStore extends Stores.BoundStore {
+class AvailableBadgesStore extends Stores.BoundStore {
 	constructor () {
 		super();
 
@@ -17,15 +17,17 @@ export default class AvailableBadgesStore extends Stores.BoundStore {
 	}
 
 	async load () {
-		if (this.context === this.binding) { return; }
+		if (
+			this.context === this.binding &&
+			this.lastSearchTerm === this.searchTerm
+		) { return; }
 
 		const context = this.context = this.binding;
+		const searchTerm = this.lastSearchTerm = this.searchTerm;
 
 		this.set({
 			loading: true,
 			error: null,
-			integration: null,
-			selectedBadges: null,
 			page: null,
 			notConnected: false
 		});
@@ -42,14 +44,20 @@ export default class AvailableBadgesStore extends Stores.BoundStore {
 				return;
 			}
 
-			const page = integration && await integration.fetchLinkParsed('badges');
+			const params = {};
+
+			if (searchTerm) {
+				params.filter = searchTerm;
+			}
+
+			const page = integration && await integration.fetchLinkParsed('badges', params);
 
 			this.set({
 				loading: false,
 				integration
 			});
 
-			this.setPage(page);
+			this.#setPage(page);
 		} catch (e) {
 			this.set({
 				loading: false,
@@ -58,24 +66,50 @@ export default class AvailableBadgesStore extends Stores.BoundStore {
 		}
 	}
 
-	setPage (page) {
-		this.set({page});
-		this.emitChange(['badges', 'currentPage', 'totalPages']);
+	#setPage (page) {
+		this.set({
+			page,
+			badges: page?.Items,
+			currentPage: page?.currentPage,
+			totalPages: page?.totalPages
+		});
 	}
 
-	get badges () {
-		return this.get('page')?.Items;
-	}
+	async loadPage (pageNumber) {
+		const integration = this.get('integration');
 
-	get currentPage () {
-		return this.get('page')?.currentPage;
-	}
+		this.set({
+			loading: true,
+			currentPage: pageNumber
+		});
 
-	get totalPages () {
-		return this.get('page')?.totalPage;
+		try {
+			const params = {
+				page: pageNumber
+			};
+
+			if (this.searchTerm) {
+				params.filter = this.searchTerm;
+			}
+
+			const page = integration && await integration.fetchLinkParsed('badges', params);
+
+			this.set({
+				loading: false
+			});
+
+			this.#setPage(page);
+		} catch (e) {
+			this.set({
+				loading: false,
+				error: e
+			});
+		}
 	}
 
 	get canSetAwardBadge () {
 		return this.context.hasLink('badges');
 	}
 }
+
+export default Interfaces.Searchable(AvailableBadgesStore);

@@ -18,14 +18,22 @@ const t = scoped('integrations.services.credly.components.available-badges.View'
 	empty: 'No Badges'
 });
 
+const SelectDialog = styled(Prompt.Dialog)`
+	& dialog {
+		max-height: 96vh;
+		margin-top: 2vh;
+	}
+`;
+
 const Container = styled.div`
 	width: 98vw;
 	max-width: 786px;
 	min-height: 200px;
+	padding-bottom: 2rem;
 `;
 
-const Content = styled.div`padding: var(--side-padding, 2rem) 0`;
-const DetailsWrapper = styled(StandardUI.Card)`margin: 0 2.5rem`;
+const Content = styled.div`padding: var(--side-padding, 2rem) 0;`;
+const DetailsWrapper = styled(StandardUI.Card)`margin: 0 2.5rem;`;
 const SelectedIcon = styled(Icons.Check)`
 	position: absolute;
 	top: 2px;
@@ -51,7 +59,9 @@ function AvailableBadges ({selected, onSelect}) {
 		notConnected,
 		reload,
 
-		badges
+		badges,
+
+		searchTerm
 	} = Store.useValue();
 
 	const selectedSet = React.useMemo(() => (
@@ -118,7 +128,11 @@ function AvailableBadges ({selected, onSelect}) {
 	return (
 		<Container>
 			<Controls />
-			<Loading.Placeholder loading={loading} fallback={<Loading.Spinner.Large />} >
+			<Loading.Placeholder
+				loading={loading}
+				fallback={<Loading.Spinner.Large />}
+				delay={searchTerm ? 0 : void 0}
+			>
 				<Content onFocus={onContentsFocus} onBlur={onContentsBlur}>
 					{content}
 				</Content>
@@ -132,11 +146,11 @@ const Connected = Store.WrapCmp(AvailableBadges, {
 });
 
 Connected.SelectDialog = ({title = t('selectDialog.title'), doClose, ...otherProps}) => (
-	<Prompt.Dialog onBeforeDismiss={doClose}>
+	<SelectDialog onBeforeDismiss={doClose} tall >
 		<Prompt.BaseWindow title={title} doClose={doClose} buttons={[]}>
 			<Connected {...otherProps} />
 		</Prompt.BaseWindow>
-	</Prompt.Dialog>
+	</SelectDialog>
 );
 
 Connected.SelectDialog.displayName = 'SelectBadgeDialog';
