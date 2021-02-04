@@ -80,6 +80,8 @@ function AvailableBadges ({selected, onSelect}) {
 		const selectedId = selectedBadge?.getID();
 		const badge = (badges ?? []).find(b => b.getID() === selectedId);
 
+		if (!badge) { return null; }
+
 		return {
 			index: (badges ?? []).indexOf(badge),
 			node: (
@@ -92,7 +94,7 @@ function AvailableBadges ({selected, onSelect}) {
 				</DetailsWrapper>
 			)
 		};
-	}, [selectedBadge, selectedSet]);
+	}, [selectedBadge, selectedSet, badges]);
 
 	const clearSelectedTimeout = React.useRef(null);
 	const onContentsFocus = React.useCallback(() => {
@@ -118,7 +120,13 @@ function AvailableBadges ({selected, onSelect}) {
 					<Badge
 						key={key}
 						badge={badge}
-						onClick={() => setSelectedBadge(badge)}
+						onClick={() => {
+							if (selectedBadge?.getID() === badge.getID()) {
+								setSelectedBadge(null);
+							} else {
+								setSelectedBadge(badge);
+							}
+						}}
 						mask={
 							selectedSet.has(badge.getID()) ? (<SelectedIcon />) : null
 						}
