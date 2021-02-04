@@ -4,9 +4,9 @@ import {findCredlyIntegration} from '../../utils';
 
 const Sorts = {
 	name: 'name',
-	created: 'created_at',
+	created: '-created_at',
 	issued: 'badges_count',
-	updated: 'updated_at'
+	updated: '-updated_at'
 };
 class AvailableBadgesStore extends Stores.BoundStore {
 	constructor () {
