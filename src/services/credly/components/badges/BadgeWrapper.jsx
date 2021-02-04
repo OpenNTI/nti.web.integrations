@@ -82,7 +82,7 @@ BadgeWrapper.propTypes = {
 };
 export default function BadgeWrapper ({badge}) {
 	const [openDetails, setOpenDetails] = React.useState(false);
-	const doOpenDetails = React.useCallback(() => setOpenDetails(true), [setOpenDetails]);
+	const doOpenDetails = React.useCallback((e) => (stop(e), setOpenDetails(true)), [setOpenDetails]);
 	const doCloseDetails = React.useCallback(() => setOpenDetails(false), [setOpenDetails]);
 
 	const {removeBadge, canRemoveBadge} = BadgesStore.useValue();

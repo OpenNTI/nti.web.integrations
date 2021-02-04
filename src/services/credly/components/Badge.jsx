@@ -96,6 +96,7 @@ export default function Badge ({className, badge, onClick, mask, ...otherProps})
 	return (
 		<Button
 			className={cx(styles.badge, 'nti-badge', className, {[styles.trigger]: Boolean(onClick)})}
+			href="#"
 			onClick={onClick}
 			title={badge.name}
 			plain
