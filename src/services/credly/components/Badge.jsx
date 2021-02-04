@@ -44,7 +44,7 @@ BadgeImage.propTypes = {
 	})
 };
 function BadgeImage ({badge, className}) {
-	return (<img src={badge.imageURL} className={cx(styles.badgeImage, className)} />);
+	return (<img src={badge.imageURL} className={cx(styles.badgeImage, className)} referrerPolicy="no-referrer" />);
 }
 
 Badge.Image = BadgeImage;
