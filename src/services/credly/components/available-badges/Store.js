@@ -64,7 +64,7 @@ class AvailableBadgesStore extends Stores.BoundStore {
 			}
 
 			const params = {
-				sort: activeSort
+				sort: Sorts[activeSort]
 			};
 
 			if (searchTerm) {
