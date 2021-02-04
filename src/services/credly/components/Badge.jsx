@@ -1,7 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import cx from 'classnames';
-import {Button} from '@nti/web-commons';
+import {Button, Image} from '@nti/web-commons';
+
 
 const styles = css`
 	.badge {
@@ -23,6 +24,7 @@ const styles = css`
 		display: block;
 		object-fit: cover;
 		width: 100%;
+		height: auto;
 		border-radius: 50%;
 		box-shadow: 0 0 1px 1px rgba(0, 0, 0, 0.3);
 	}
@@ -44,7 +46,37 @@ BadgeImage.propTypes = {
 	})
 };
 function BadgeImage ({badge, className}) {
-	return (<img src={badge.imageURL} className={cx(styles.badgeImage, className)} referrerPolicy="no-referrer" />);
+	const [errored, setErrored] = React.useState(false);
+	const [cors, setCors] = React.useState(false);
+
+	const onError = React.useCallback(() => {
+		if (!cors) {
+			setCors(true);
+		} else {
+			setErrored(true);
+		}
+	}, [setErrored, setCors, cors, errored]);
+
+	if (errored) {
+		return (<Image.Error className={cx(styles.badgeImage, className)} />);
+	}
+
+	const corsProps = {
+		referrerPolicy: 'no-referrer'
+	};
+
+	if (cors) {
+		corsProps.crossOrigin = 'anonymous';
+	}
+
+	return (
+		<img
+			className={cx(styles.badgeImage, className)}
+			src={badge.imageURL}
+			onError={onError}
+			{...corsProps}
+		/>
+	);
 }
 
 Badge.Image = BadgeImage;
