@@ -106,7 +106,8 @@ class AvailableBadgesStore extends Stores.BoundStore {
 
 		try {
 			const params = {
-				page: pageNumber
+				page: pageNumber,
+				sort: Sorts[this.get('activeSort')]
 			};
 
 			if (this.searchTerm) {
