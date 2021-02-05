@@ -8,6 +8,7 @@ import BadgeGrid from '../BadgeGrid';
 
 import {BadgesStore, AwardsBadgesStore, AwardedBadgesStore} from './Store';
 import BadgeWrapper from './BadgeWrapper';
+import Controls from './Controls';
 
 const {WithContainerQuery} = HOC;
 
@@ -24,6 +25,10 @@ const styles = css`
 	}
 `;
 
+const Container = styled.div`
+	min-height: 200px;
+`;
+
 Badges.propTypes = {
 	context: PropTypes.object,
 	columns: PropTypes.number,
@@ -36,7 +41,7 @@ function Badges ({context, columns, emptyState}) {
 		badges,
 		canAddBadges,
 		addBadge
-	} = BadgesStore.useMonitor(['loading', 'error', 'badges', 'canAddBadges', 'addBadge']);
+	} = BadgesStore.useValue();
 
 	const [selectOpen, setSelectOpen] = React.useState(false);
 	const openSelect = React.useCallback(() => setSelectOpen(true), [setSelectOpen]);
@@ -46,7 +51,8 @@ function Badges ({context, columns, emptyState}) {
 	const isEmpty = badges && badges.length === 0;
 
 	return (
-		<>
+		<Container>
+			<Controls />
 			<Loading.Placeholder loading={loading} fallback={<Loading.Spinner.Large />}>
 				{canAddBadges && (<Button className={styles.addButton} onClick={openSelect}>{t('addBadge')}</Button>)}
 				{error && (<Errors.Message error={error} />)}
@@ -67,7 +73,7 @@ function Badges ({context, columns, emptyState}) {
 					onSelect={onBadgeAdd}
 				/>
 			)}
-		</>
+		</Container>
 	);
 }
 
@@ -78,12 +84,12 @@ const ColumnQuery = WithContainerQuery((size) =>({
 const deriveBindingFromProps = (props) => ({context: props.context, readOnly: props.readOnly});
 
 export const AwardsBadges = ColumnQuery(
-	AwardsBadgesStore.WrapCmp(Badges, {
+	AwardsBadgesStore.compose(Badges, {
 		deriveBindingFromProps
 	})
 );
 export const AwardedBadges = ColumnQuery(
-	AwardedBadgesStore.WrapCmp(Badges, {
+	AwardedBadgesStore.compose(Badges, {
 		deriveBindingFromProps: (props) => ({
 			...deriveBindingFromProps(props),
 			pageSize: props.columns == null ? -1 : props.columns * 2

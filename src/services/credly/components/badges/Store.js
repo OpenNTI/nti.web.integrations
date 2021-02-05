@@ -128,7 +128,7 @@ export class AwardedBadgesStore extends BadgesStore {
 }
 
 export class AwardsBadgesStore extends BadgesStore {
-	static hasBadges (c) { return c.hasLink('awarded_badges'); }
+	static hasBadges (c) { return c.hasLink('badges'); }
 
 	rel = 'badges'
 }

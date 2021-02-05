@@ -6,7 +6,8 @@ import {BadgesStore} from './Store';
 const Controls = styled.div`
 	display: flex;
 	flex-direction: row;
-	align-items: flex-end;
+	justify-content: flex-end;
+	padding: 0.5rem 0;
 `;
 
 export default function BadgesControls () {
