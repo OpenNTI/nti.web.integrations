@@ -47,26 +47,11 @@ BadgeImage.propTypes = {
 };
 function BadgeImage ({badge, className}) {
 	const [errored, setErrored] = React.useState(false);
-	const [cors, setCors] = React.useState(false);
 
-	const onError = React.useCallback(() => {
-		if (!cors) {
-			setCors(true);
-		} else {
-			setErrored(true);
-		}
-	}, [setErrored, setCors, cors, errored]);
+	const onError = React.useCallback(() => setErrored(true), [setErrored]);
 
 	if (errored) {
 		return (<Image.Error className={cx(styles.badgeImage, className)} />);
-	}
-
-	const corsProps = {
-		referrerPolicy: 'no-referrer'
-	};
-
-	if (cors) {
-		corsProps.crossOrigin = 'anonymous';
 	}
 
 	return (
@@ -74,7 +59,6 @@ function BadgeImage ({badge, className}) {
 			className={cx(styles.badgeImage, className)}
 			src={badge.imageURL}
 			onError={onError}
-			{...corsProps}
 		/>
 	);
 }
