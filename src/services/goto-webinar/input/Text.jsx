@@ -1,6 +1,7 @@
 import './Text.scss';
 import React from 'react';
 import PropTypes from 'prop-types';
+import {decorate} from '@nti/lib-commons';
 import {Input, Loading} from '@nti/web-commons';
 import {scoped} from '@nti/lib-locale';
 
@@ -11,16 +12,6 @@ const t = scoped('integrations.services.goto-webinar.input.Text', {
 	placeholder: 'Paste or Enter a Registration Link'
 });
 
-const propMap = {
-	loading: 'loading',
-	integration: 'integration',
-	connected: 'connected',
-	canConnect: 'canConnect',
-	error: 'error'
-};
-
-export default
-@Store.connect(propMap)
 class GotoWebinarTextInput extends React.Component {
 	static propTypes = {
 		context: PropTypes.shape({
@@ -103,3 +94,15 @@ class GotoWebinarTextInput extends React.Component {
 		);
 	}
 }
+
+
+
+export default decorate(GotoWebinarTextInput, [
+	Store.connect({
+		loading: 'loading',
+		integration: 'integration',
+		connected: 'connected',
+		canConnect: 'canConnect',
+		error: 'error'
+	})
+]);

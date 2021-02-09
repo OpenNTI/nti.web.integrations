@@ -3,6 +3,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import cx from 'classnames';
 import {Loading} from '@nti/web-commons';
+import {decorate} from '@nti/lib-commons';
 import {scoped} from '@nti/lib-locale';
 
 import ConnectLink from '../ConnectLink';
@@ -20,16 +21,6 @@ const t = scoped('integrations.services.goto-webinar.if-connected.View', {
 	connectError: 'Unable to connect. Try again.'
 });
 
-const propMap = {
-	loading: 'loading',
-	integration: 'integration',
-	connected: 'connected',
-	canConnect: 'canConnect',
-	error: 'error'
-};
-
-export default
-@Store.connect(propMap)
 class GotoWebinarIsConnected extends React.Component {
 	static propTypes = {
 		context: PropTypes.object,
@@ -138,3 +129,13 @@ class GotoWebinarIsConnected extends React.Component {
 		);
 	}
 }
+
+export default decorate(GotoWebinarIsConnected, [
+	Store.connect({
+		loading: 'loading',
+		integration: 'integration',
+		connected: 'connected',
+		canConnect: 'canConnect',
+		error: 'error'
+	})
+]);

@@ -2,6 +2,7 @@ import './View.scss';
 import React from 'react';
 import PropTypes from 'prop-types';
 import cx from 'classnames';
+import {decorate} from '@nti/lib-commons';
 import {Loading, EmptyState} from '@nti/web-commons';
 import {scoped} from '@nti/lib-locale';
 
@@ -16,8 +17,6 @@ const t = scoped('integrations.services.goto-webinar.upcoming-webinars.View', {
 	}
 });
 
-export default
-@Store.connect({loading: 'loading', items: 'items', error: 'error'})
 class GotoWebinarUpcomingWebinars extends React.Component {
 	static propTypes = {
 		className: PropTypes.string,
@@ -105,3 +104,7 @@ class GotoWebinarUpcomingWebinars extends React.Component {
 		);
 	}
 }
+
+export default decorate(GotoWebinarUpcomingWebinars, [
+	Store.connect({loading: 'loading', items: 'items', error: 'error'})
+]);
