@@ -1,7 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {scoped} from '@nti/lib-locale';
-import {Prompt, Loading, Errors, EmptyState, StandardUI, Icons} from '@nti/web-commons';
+import { scoped } from '@nti/lib-locale';
+import {
+	Prompt,
+	Loading,
+	Errors,
+	EmptyState,
+	StandardUI,
+	Icons,
+} from '@nti/web-commons';
 
 import Connect from '../../window/Connect';
 import Badge from '../Badge';
@@ -11,12 +18,15 @@ import Store from './Store';
 import Details from './Details';
 import Controls from './Controls';
 
-const t = scoped('integrations.services.credly.components.available-badges.View', {
-	selectDialog: {
-		title: 'Select a Badge',
-	},
-	empty: 'No Badges'
-});
+const t = scoped(
+	'integrations.services.credly.components.available-badges.View',
+	{
+		selectDialog: {
+			title: 'Select a Badge',
+		},
+		empty: 'No Badges',
+	}
+);
 
 const SelectDialog = styled(Prompt.Dialog)`
 	& dialog {
@@ -36,7 +46,9 @@ const Content = styled.div`
 	padding: var(--side-padding, 2rem) 0;
 	min-height: 200px;
 `;
-const DetailsWrapper = styled(StandardUI.Card)`margin: 0 2.5rem;`;
+const DetailsWrapper = styled(StandardUI.Card)`
+	margin: 0 2.5rem;
+`;
 const SelectedIcon = styled(Icons.Check)`
 	position: absolute;
 	top: 2px;
@@ -51,9 +63,9 @@ const SelectedIcon = styled(Icons.Check)`
 AvailableBadges.propTypes = {
 	context: PropTypes.object,
 	selected: PropTypes.array,
-	onSelect: PropTypes.func
+	onSelect: PropTypes.func,
 };
-function AvailableBadges ({selected, onSelect}) {
+function AvailableBadges({ selected, onSelect }) {
 	const {
 		loading,
 		error,
@@ -64,23 +76,28 @@ function AvailableBadges ({selected, onSelect}) {
 
 		badges,
 
-		searchTerm
+		searchTerm,
 	} = Store.useValue();
 
-	const selectedSet = React.useMemo(() => (
-		new Set((selected ?? []).map(s => s.getID()))
-	), [selected]);
+	const selectedSet = React.useMemo(
+		() => new Set((selected ?? []).map(s => s.getID())),
+		[selected]
+	);
 
 	const content = [];
 
 	const [selectedBadge, setSelectedBadge] = React.useState(null);
 	const details = React.useMemo(() => {
-		if (!selectedBadge) { return null; }
+		if (!selectedBadge) {
+			return null;
+		}
 
 		const selectedId = selectedBadge?.getID();
 		const badge = (badges ?? []).find(b => b.getID() === selectedId);
 
-		if (!badge) { return null; }
+		if (!badge) {
+			return null;
+		}
 
 		return {
 			index: (badges ?? []).indexOf(badge),
@@ -92,7 +109,7 @@ function AvailableBadges ({selected, onSelect}) {
 						onSelect={onSelect}
 					/>
 				</DetailsWrapper>
-			)
+			),
 		};
 	}, [selectedBadge, selectedSet, badges]);
 
@@ -128,7 +145,9 @@ function AvailableBadges ({selected, onSelect}) {
 							}
 						}}
 						mask={
-							selectedSet.has(badge.getID()) ? (<SelectedIcon />) : null
+							selectedSet.has(badge.getID()) ? (
+								<SelectedIcon />
+							) : null
 						}
 					/>
 				))}
@@ -153,11 +172,15 @@ function AvailableBadges ({selected, onSelect}) {
 }
 
 const Connected = Store.WrapCmp(AvailableBadges, {
-	deriveBindingFromProps: ({context}) => context
+	deriveBindingFromProps: ({ context }) => context,
 });
 
-Connected.SelectDialog = ({title = t('selectDialog.title'), doClose, ...otherProps}) => (
-	<SelectDialog onBeforeDismiss={doClose} tall >
+Connected.SelectDialog = ({
+	title = t('selectDialog.title'),
+	doClose,
+	...otherProps
+}) => (
+	<SelectDialog onBeforeDismiss={doClose} tall>
 		<Prompt.BaseWindow title={title} doClose={doClose} buttons={[]}>
 			<Connected {...otherProps} />
 		</Prompt.BaseWindow>
@@ -167,7 +190,7 @@ Connected.SelectDialog = ({title = t('selectDialog.title'), doClose, ...otherPro
 Connected.SelectDialog.displayName = 'SelectBadgeDialog';
 Connected.SelectDialog.propTypes = {
 	title: PropTypes.string,
-	doClose: PropTypes.func
+	doClose: PropTypes.func,
 };
 
 export default Connected;

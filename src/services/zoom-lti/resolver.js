@@ -1,5 +1,7 @@
-export default function ZoomServiceResolver (context) {
-	if (context) { return null; }
+export default function ZoomServiceResolver(context) {
+	if (context) {
+		return null;
+	}
 
 	return {
 		name: 'zoom lti',
@@ -7,6 +9,6 @@ export default function ZoomServiceResolver (context) {
 		isEnabled: () => true,
 		canConnect: () => false,
 		isConnected: () => true,
-		canDisconnect: () => false
+		canDisconnect: () => false,
 	};
 }

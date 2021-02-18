@@ -1,7 +1,7 @@
-import {findIntegration} from '../../utils';
+import { findIntegration } from '../../utils';
 
-import {Handles} from './Constants';
+import { Handles } from './Constants';
 
-export function findCredlyIntegration (context) {
+export function findCredlyIntegration(context) {
 	return findIntegration(s => Handles[s.MimeType], context);
 }

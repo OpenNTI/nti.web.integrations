@@ -1,3 +1,3 @@
 export const Handles = {
-	'application/vnd.nextthought.integration.stripeintegration': true
+	'application/vnd.nextthought.integration.stripeintegration': true,
 };

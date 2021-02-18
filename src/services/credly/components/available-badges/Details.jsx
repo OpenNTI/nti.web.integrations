@@ -1,15 +1,18 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import cx from 'classnames';
-import {scoped} from '@nti/lib-locale';
-import {Button, Errors, Text, Loading, Icons} from '@nti/web-commons';
+import { scoped } from '@nti/lib-locale';
+import { Button, Errors, Text, Loading, Icons } from '@nti/web-commons';
 
 import BadgeDetails from '../BadgeDetails';
 
-const t = scoped('integrations.services.credly.components.available-badges.Details', {
-	add: 'Add Badge',
-	selected: 'Selected'
-});
+const t = scoped(
+	'integrations.services.credly.components.available-badges.Details',
+	{
+		add: 'Add Badge',
+		selected: 'Selected',
+	}
+);
 
 const styles = css`
 	.details {
@@ -47,15 +50,19 @@ const styles = css`
 Details.propTypes = {
 	badge: PropTypes.object,
 	onSelect: PropTypes.func,
-	selected: PropTypes.bool
+	selected: PropTypes.bool,
 };
-export default function Details ({badge, onSelect, selected}) {
+export default function Details({ badge, onSelect, selected }) {
 	const [saving, setSaving] = React.useState(false);
 	const [error, setError] = React.useState(null);
 
 	React.useEffect(() => {
-		if (saving) { setSaving(false); }
-		if (error) { setError(null); }
+		if (saving) {
+			setSaving(false);
+		}
+		if (error) {
+			setError(null);
+		}
 	}, [badge]);
 
 	const doSelect = React.useCallback(async () => {
@@ -84,14 +91,28 @@ export default function Details ({badge, onSelect, selected}) {
 		);
 	} else {
 		actions.push(
-			<Button className={cx(styles.save, {[styles.saving]: saving})} onClick={doSelect} rounded disabled={saving}>
+			<Button
+				className={cx(styles.save, { [styles.saving]: saving })}
+				onClick={doSelect}
+				rounded
+				disabled={saving}
+			>
 				<Text.Base className={styles.label}>{t('add')}</Text.Base>
-				{saving && (<div className={styles.spinner}><Loading.Spinner white/></div>)}
+				{saving && (
+					<div className={styles.spinner}>
+						<Loading.Spinner white />
+					</div>
+				)}
 			</Button>
 		);
 	}
 
 	return (
-		<BadgeDetails className={styles.details} badge={badge} hideImage actions={actions} />
+		<BadgeDetails
+			className={styles.details}
+			badge={badge}
+			hideImage
+			actions={actions}
+		/>
 	);
 }

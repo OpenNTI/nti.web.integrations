@@ -1,9 +1,9 @@
 import './View.scss';
-import React, {Fragment} from 'react';
+import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
-import {Prompt} from '@nti/web-commons';
-import {getAppUser} from '@nti/web-client';
-import {scoped} from '@nti/lib-locale';
+import { Prompt } from '@nti/web-commons';
+import { getAppUser } from '@nti/web-client';
+import { scoped } from '@nti/lib-locale';
 
 import Content from './Content';
 import Error from './Error';
@@ -15,57 +15,59 @@ import Complete from './Complete';
 const t = scoped('web.integrations.services.gotowebinar.registration.View', {
 	title: 'Webinar Registration',
 	save: 'Register',
-	cancel: 'Cancel'
+	cancel: 'Cancel',
 });
 
-const completeLocalizer = scoped('web.integrations.services.gotowebinar.registration.View.completed', {
-	title: 'Registration Complete',
-	save: 'Done',
-	cancel: 'Cancel'
-});
+const completeLocalizer = scoped(
+	'web.integrations.services.gotowebinar.registration.View.completed',
+	{
+		title: 'Registration Complete',
+		save: 'Done',
+		cancel: 'Cancel',
+	}
+);
 
 const stop = e => (e.preventDefault(), e.stopPropagation());
 
 const ERROR_FIELD_MAPPINGS = {
-	'surname': 'lastName',
-	'givenName': 'firstName'
+	surname: 'lastName',
+	givenName: 'firstName',
 };
 
 const USER_FIELD_MAPPINGS = {
 	email: 'email',
 	firstName: 'NonI18NFirstName',
-	lastName: 'NonI18NLastName'
+	lastName: 'NonI18NLastName',
 };
 
 export default class Registration extends React.Component {
-
 	static propTypes = {
 		item: PropTypes.object,
 		onBeforeDismiss: PropTypes.func.isRequired,
 		onDismiss: PropTypes.func,
-		nonDialog: PropTypes.bool
-	}
+		nonDialog: PropTypes.bool,
+	};
 
-	state = {}
+	state = {};
 
-	makeInitialValuesFromUser (user) {
-		if(!user) {
+	makeInitialValuesFromUser(user) {
+		if (!user) {
 			return null;
 		}
 
 		let values = {};
 
-		for(let key of Object.keys(USER_FIELD_MAPPINGS)) {
-			if(user[USER_FIELD_MAPPINGS[key]]) {
-				values[key] = {value: user[USER_FIELD_MAPPINGS[key]]};
+		for (let key of Object.keys(USER_FIELD_MAPPINGS)) {
+			if (user[USER_FIELD_MAPPINGS[key]]) {
+				values[key] = { value: user[USER_FIELD_MAPPINGS[key]] };
 			}
 		}
 
 		return values;
 	}
 
-	async componentDidMount () {
-		const {item: {webinar} = {}} = this.props;
+	async componentDidMount() {
+		const { item: { webinar } = {} } = this.props;
 		// window.reg = this;
 
 		if (!webinar) {
@@ -76,23 +78,20 @@ export default class Registration extends React.Component {
 
 			this.setState({
 				data: await webinar.fetchLink('WebinarRegistrationFields'),
-				fieldValues: this.makeInitialValuesFromUser(currentUser)
+				fieldValues: this.makeInitialValuesFromUser(currentUser),
 			});
 		} catch (e) {
-			this.setState({error: e});
+			this.setState({ error: e });
 		}
 	}
 
-
-	onClose = (e) => {
+	onClose = e => {
 		stop(e);
 
 		this.onCancel();
-	}
-
+	};
 
 	onFieldChange = (name, value) => {
-
 		if (value && !value.value) {
 			value = false;
 		}
@@ -101,42 +100,42 @@ export default class Registration extends React.Component {
 			...state,
 			fieldValues: {
 				...(state.fieldValues || {}),
-				[name]: value || void value
-			}
+				[name]: value || void value,
+			},
 		}));
-	}
-
+	};
 
 	onQuestionResponseChange = (questionKey, resp) => {
 		this.setState(state => ({
 			...state,
 			responses: {
 				...(state.responses || {}),
-				[questionKey]: resp || void resp
-			}
+				[questionKey]: resp || void resp,
+			},
 		}));
-	}
+	};
 
-
-	onRegister = async (e) => {
+	onRegister = async e => {
 		stop(e);
 
 		const {
-			props: {item: {webinar}},
-			state: {complete, fieldValues: fields = {}, responses = {}}
+			props: {
+				item: { webinar },
+			},
+			state: { complete, fieldValues: fields = {}, responses = {} },
 		} = this;
 
-		if(complete) {
+		if (complete) {
 			return this.onClose(e);
 		}
 
-		this.setState({busy: true});
+		this.setState({ busy: true });
 
 		try {
 			const fieldValues = {};
 
 			for (let field of Object.keys(fields)) {
-				const {value} = fields[field] || {};
+				const { value } = fields[field] || {};
 				if (value) {
 					fieldValues[field] = value;
 				}
@@ -146,65 +145,61 @@ export default class Registration extends React.Component {
 				...fieldValues,
 				responses: Object.keys(responses).map(x => ({
 					questionKey: x,
-					...responses[x]
-				}))
+					...responses[x],
+				})),
 			});
 
 			await webinar.refresh();
 
-			this.setState({busy: false, complete: true});
-
+			this.setState({ busy: false, complete: true });
 		} catch (error) {
-			const {invalidFields = []} = error.error_dict || {};
+			const { invalidFields = [] } = error.error_dict || {};
 
-			const values = {...fields};
+			const values = { ...fields };
 
 			// reset validity state before checking invalidFields
 			for (let f of Object.keys(fields)) {
-				if(fields[f]) {
+				if (fields[f]) {
 					fields[f].invalid = false;
 				}
 			}
 
 			for (let x of invalidFields) {
 				const key = ERROR_FIELD_MAPPINGS[x] || x;
-				values[key] = {...(values[key] || {}), invalid: true};
+				values[key] = { ...(values[key] || {}), invalid: true };
 			}
 
 			this.setState({
 				busy: false,
 				error,
-				fieldValues: values
+				fieldValues: values,
 			});
 		}
-	}
+	};
 
 	onCancel = () => {
-		const {onBeforeDismiss, onDismiss} = this.props;
+		const { onBeforeDismiss, onDismiss } = this.props;
 
-		if(onBeforeDismiss) {
+		if (onBeforeDismiss) {
 			onBeforeDismiss();
 		}
 
-		if(onDismiss) {
+		if (onDismiss) {
 			onDismiss();
 		}
-	}
+	};
 
-
-	render () {
+	render() {
 		const {
-			props: {
-				nonDialog
-			},
+			props: { nonDialog },
 			state: {
 				complete,
 				busy,
 				data,
 				error,
 				fieldValues = {},
-				responses = {}
-			}
+				responses = {},
+			},
 		} = this;
 
 		return (
@@ -218,31 +213,40 @@ export default class Registration extends React.Component {
 			>
 				<Fragment>
 					{busy ? (
-						<InProgress/>
+						<InProgress />
 					) : complete ? (
-						<Complete onClose={this.onClose}/>
+						<Complete onClose={this.onClose} />
 					) : error && !data ? (
 						<Error>
-							{error.Message || 'There was an error loading the registration form.'}
+							{error.Message ||
+								'There was an error loading the registration form.'}
 						</Error>
 					) : (
-						<form onSubmit={stop} ref={x => x && error && x.checkValidity()}>
-
-							{error && (
-								<Error error={error}/>
-							)}
+						<form
+							onSubmit={stop}
+							ref={x => x && error && x.checkValidity()}
+						>
+							{error && <Error error={error} />}
 
 							<Content>
-
 								{!data ? (
-									<InProgress loading/>
+									<InProgress loading />
 								) : (
 									<Fragment>
-										<Fields items={data.fields} values={fieldValues} onChange={this.onFieldChange}/>
-										<Questions items={data.questions} values={responses} onChange={this.onQuestionResponseChange}/>
+										<Fields
+											items={data.fields}
+											values={fieldValues}
+											onChange={this.onFieldChange}
+										/>
+										<Questions
+											items={data.questions}
+											values={responses}
+											onChange={
+												this.onQuestionResponseChange
+											}
+										/>
 									</Fragment>
 								)}
-
 							</Content>
 						</form>
 					)}

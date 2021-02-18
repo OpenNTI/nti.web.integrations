@@ -22,8 +22,6 @@
 // 	disconnectMessage: 'Disconnecting your GoToWebinar account will permanently remove webinars from all of your courses.'
 // });
 
-
-
 // function handles (service) {
 // 	return HANDLES[service.MimeType];
 // }
@@ -40,7 +38,6 @@
 // 		}).isRequired
 // 	}
 
-
 // 	state = {}
 
 // 	onConnectError = () => {
@@ -48,7 +45,6 @@
 // 			connectError: true
 // 		});
 // 	}
-
 
 // 	onDisconnect = async () => {
 // 		try {
@@ -85,7 +81,6 @@
 // 		);
 // 	}
 
-
 // 	renderConnect () {
 // 		const {integration} = this.props;
 // 		const {connectError} = this.state;
@@ -96,7 +91,6 @@
 // 			</ConnectLink>
 // 		);
 // 	}
-
 
 // 	renderDisconnect () {
 // 		const {integration} = this.props;

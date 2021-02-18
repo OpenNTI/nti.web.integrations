@@ -26,57 +26,62 @@ const t = scoped('integrations.services.goto-webinar.registration.field', {
 	purchasingRole: 'Purchasing Role',
 });
 
-const p = scoped('integrations.services.goto-webinar.registration.field.placeholders', {
-	firstName: 'John',
-	lastName: 'Smith',
-	email: 'name@example.com',
-	phone: '(405) 555-5555',
-	address: 'Address',
-	country: 'Country',
-	city: 'City',
-	state: 'State',
-	zipCode: '00000',
-	organization: 'Company Name',
-	jobTitle: 'Title',
-	industry: 'Select an Industry',
-	numberOfEmployees: 'Select a range',
-	questionsAndComments: '',
-	purchasingTimeFrame: 'Select a timeframe',
-	purchasingRole: 'Role',
-});
+const p = scoped(
+	'integrations.services.goto-webinar.registration.field.placeholders',
+	{
+		firstName: 'John',
+		lastName: 'Smith',
+		email: 'name@example.com',
+		phone: '(405) 555-5555',
+		address: 'Address',
+		country: 'Country',
+		city: 'City',
+		state: 'State',
+		zipCode: '00000',
+		organization: 'Company Name',
+		jobTitle: 'Title',
+		industry: 'Select an Industry',
+		numberOfEmployees: 'Select a range',
+		questionsAndComments: '',
+		purchasingTimeFrame: 'Select a timeframe',
+		purchasingRole: 'Role',
+	}
+);
 
 export default class Field extends React.Component {
-
 	static propTypes = {
 		item: PropTypes.object,
 		focusOnMount: PropTypes.bool,
 		onChange: PropTypes.func,
 		value: PropTypes.shape({
 			value: PropTypes.string,
-			invalid: PropTypes.bool
-		})
-	}
+			invalid: PropTypes.bool,
+		}),
+	};
 
-	state = {}
+	state = {};
 
-	onBlur = () => this.setState({focus: false});
-	onFocus = () => this.setState({focus: true});
+	onBlur = () => this.setState({ focus: false });
+	onFocus = () => this.setState({ focus: true });
 
-	onChange = (e) => {
-		const {onChange, item} = this.props;
+	onChange = e => {
+		const { onChange, item } = this.props;
 		const value = e.target ? e.target.value : e;
 
-		onChange(item.field, {value});
-	}
+		onChange(item.field, { value });
+	};
 
-	onCheck = ({target: {value, checked}}) => {
+	onCheck = ({ target: { value, checked } }) => {
 		this.onChange(checked ? value : null);
-	}
+	};
 
-	render () {
-		const {props: {focusOnMount: focusMe, item, value: v}, state: {focus}} = this;
-		const {answers, field, maxSize, required} = item;
-		const {value, invalid} = v || {};
+	render() {
+		const {
+			props: { focusOnMount: focusMe, item, value: v },
+			state: { focus },
+		} = this;
+		const { answers, field, maxSize, required } = item;
+		const { value, invalid } = v || {};
 
 		const InputType = maxSize > 128 ? Input.TextArea : Input.Text;
 		const hasAnswers = Array.isArray(answers) && answers.length > 0;
@@ -92,13 +97,12 @@ export default class Field extends React.Component {
 			onFocus: this.onFocus,
 			onBlur: this.onBlur,
 			placeholder: !isCheckbox && p(field),
-			ref: maybeFocus
+			ref: maybeFocus,
 		};
-
 
 		return isCheckbox ? (
 			<Checkbox
-				className={cx(CLASSNAME, field, {invalid})}
+				className={cx(CLASSNAME, field, { invalid })}
 				required={required}
 				ref={maybeFocus}
 				name={field}
@@ -108,16 +112,21 @@ export default class Field extends React.Component {
 				onChange={this.onCheck}
 			/>
 		) : (
-			<Input.Label className={cx(CLASSNAME, field, {focus, invalid})} label={t(field)}>
+			<Input.Label
+				className={cx(CLASSNAME, field, { focus, invalid })}
+				label={t(field)}
+			>
 				{hasAnswers ? (
 					<Select.ForwardRef {...common}>
 						<option value="">{p(field)}</option>
 						{answers.map(x => (
-							<option key={x} value={x}>{x}</option>
+							<option key={x} value={x}>
+								{x}
+							</option>
 						))}
 					</Select.ForwardRef>
 				) : (
-					<InputType {...common} maxLength={maxSize}/>
+					<InputType {...common} maxLength={maxSize} />
 				)}
 			</Input.Label>
 		);

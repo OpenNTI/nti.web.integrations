@@ -1,8 +1,8 @@
 import React from 'react';
-import {scoped} from '@nti/lib-locale';
+import { scoped } from '@nti/lib-locale';
 
 import BaseWindow from '../../components/BaseWindow';
-import {Logo} from '../assets';
+import { Logo } from '../assets';
 
 const Link = 'https://www.google.com/drive/';
 
@@ -11,12 +11,10 @@ const t = scoped('integrations.services.drive.window.View', {
 	description: 'Link to documents from your google drive',
 	unavailable: {
 		title: 'Connecting to Drive is currently unavailable.',
-		supportSubject: 'Enabling Drive'
-	}
+		supportSubject: 'Enabling Drive',
+	},
 });
 
-export default function DriveConnectWindow (props) {
-	return (
-		<BaseWindow {...props} logo={Logo} link={Link} getString={t} />
-	);
+export default function DriveConnectWindow(props) {
+	return <BaseWindow {...props} logo={Logo} link={Link} getString={t} />;
 }

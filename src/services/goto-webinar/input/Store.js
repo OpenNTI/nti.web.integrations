@@ -1,11 +1,11 @@
-import {Stores} from '@nti/lib-store';
-import {getService} from '@nti/web-client';
+import { Stores } from '@nti/lib-store';
+import { getService } from '@nti/web-client';
 
-import {getIntegrationsCollection} from '../../../utils';
-import {HANDLES} from '../Constants';
+import { getIntegrationsCollection } from '../../../utils';
+import { HANDLES } from '../Constants';
 
-function getIntegrationFromCollection (collection) {
-	const {Items} = collection;
+function getIntegrationFromCollection(collection) {
+	const { Items } = collection;
 
 	for (let item of Items) {
 		if (HANDLES[item.MimeType]) {
@@ -15,7 +15,7 @@ function getIntegrationFromCollection (collection) {
 }
 
 export default class GoToWebinarInputStore extends Stores.SimpleStore {
-	constructor () {
+	constructor() {
 		super();
 
 		this.set('loading', false);
@@ -23,21 +23,22 @@ export default class GoToWebinarInputStore extends Stores.SimpleStore {
 		this.set('error', null);
 	}
 
-
-	async resolve (context, url) {
+	async resolve(context, url) {
 		this.set('loading', true);
 		this.set('items', null);
 		this.set('error', null);
 		this.emitChange('loading');
 
-		if(!this.integration) {
+		if (!this.integration) {
 			const collection = await getIntegrationsCollection(context);
 			this.integration = getIntegrationFromCollection(collection);
 		}
 
 		try {
 			const service = await getService();
-			const webinar = await service.getBatch(this.integration.getLink('ResolveWebinar', {webinar: url}));
+			const webinar = await service.getBatch(
+				this.integration.getLink('ResolveWebinar', { webinar: url })
+			);
 			const webinars = webinar && webinar.Items;
 
 			this.set('loading', false);

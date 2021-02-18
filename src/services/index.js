@@ -1,4 +1,4 @@
-import {getIntegrationsCollection} from '../utils';
+import { getIntegrationsCollection } from '../utils';
 
 import ItemRegistry from './ItemRegistry.js';
 import * as Credly from './credly';
@@ -40,7 +40,7 @@ const Services = [
 	YourMembership,
 	Zapier,
 	// Zoom,
-	ZoomLTI
+	ZoomLTI,
 ];
 
 export {
@@ -61,36 +61,40 @@ export {
 	YourMembership,
 	Zapier,
 	Zoom,
-	ZoomLTI
+	ZoomLTI,
 };
 
-export function getItemFor (service) {
+export function getItemFor(service) {
 	return itemRegister.getItemFor(service);
 }
 
-export function getLogoFor (service) {
+export function getLogoFor(service) {
 	return getItemFor(service)?.Logo;
 }
 
-export function getWindowFor (service) {
+export function getWindowFor(service) {
 	return getItemFor(service)?.Window;
 }
 
-export function getNameFor (service) {
+export function getNameFor(service) {
 	return getItemFor(service)?.name;
 }
 
-function getServices (context) {
-	const {resolvers} = Services
-		.reduce((acc, service) => {
-			const {resolver} = service;
+function getServices(context) {
+	const { resolvers } = Services.reduce(
+		(acc, service) => {
+			const { resolver } = service;
 
-			if (!resolver) { return acc; }
+			if (!resolver) {
+				return acc;
+			}
 
 			//Note: resolvers can define a preresolve method, to load the data it will need. The idea here
 			//it that since different locations may need the same data, they can import a shared resolver and
 			//share the result. This lets us keep the resolvers separate without incurring the extra load costs.
-			const preresolve = acc.preresolvers.get(resolver.preresolve) || resolver.preresolve?.(context);
+			const preresolve =
+				acc.preresolvers.get(resolver.preresolve) ||
+				resolver.preresolve?.(context);
 
 			if (resolver.preresolve) {
 				acc.preresolvers.set(resolver.preresolve, preresolve);
@@ -103,20 +107,20 @@ function getServices (context) {
 			});
 
 			return acc;
-		}, {resolvers: [], preresolvers: new Map()});
-
-	return Promise.all(
-		resolvers.map(r => r())
+		},
+		{ resolvers: [], preresolvers: new Map() }
 	);
+
+	return Promise.all(resolvers.map(r => r()));
 }
 
-export async function resolveServices (context) {
+export async function resolveServices(context) {
 	const initial = await getServices(context);
 	const collection = await getIntegrationsCollection(context);
 
 	const services = {
 		list: initial,
-		subscribeToChange: (fn) => {
+		subscribeToChange: fn => {
 			const handler = async () => {
 				services.list = await getServices(context);
 				fn(services);
@@ -124,7 +128,7 @@ export async function resolveServices (context) {
 
 			collection.addListener('change', handler);
 			return () => collection.removeListener('change', handler);
-		}
+		},
 	};
 
 	return services;

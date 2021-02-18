@@ -1,5 +1,7 @@
-export default function LTIServiceResolver (context) {
-	if (context) { return null; }
+export default function LTIServiceResolver(context) {
+	if (context) {
+		return null;
+	}
 
 	return {
 		name: 'LTI',

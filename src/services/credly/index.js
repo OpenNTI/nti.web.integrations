@@ -1,9 +1,9 @@
-import {scoped} from '@nti/lib-locale';
+import { scoped } from '@nti/lib-locale';
 
 import Registry from '../ItemRegistry';
 
-import {Handles} from './Constants';
-import {Logo} from './assets';
+import { Handles } from './Constants';
+import { Logo } from './assets';
 import Window from './window';
 
 export { default as resolver } from './resolver';
@@ -11,11 +11,11 @@ export * from './components';
 
 const handles = s => Handles[s.MimeType];
 const t = scoped('integrations.services.credly', {
-	name: 'Credly Acclaim'
+	name: 'Credly Acclaim',
 });
 
 Registry.register(handles)({
 	Logo,
 	Window,
-	name: t('name')
+	name: t('name'),
 });

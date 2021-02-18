@@ -1,40 +1,51 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {scoped} from '@nti/lib-locale';
+import { scoped } from '@nti/lib-locale';
 
-import {ReturnParams} from '../../../utils';
+import { ReturnParams } from '../../../utils';
 
-const t = scoped('integrations.services.components.connect-window-launcher.Link', {
-	unknownError: 'Unable to connect. Try again.'
-});
+const t = scoped(
+	'integrations.services.components.connect-window-launcher.Link',
+	{
+		unknownError: 'Unable to connect. Try again.',
+	}
+);
 
+function buildConnectURL(service) {
+	const { name } = service;
 
-
-function buildConnectURL (service) {
-	const {name} = service;
-
-	const getReturn = (success) => {
-		if (!global.location) { return ''; }
+	const getReturn = success => {
+		if (!global.location) {
+			return '';
+		}
 
 		return ReturnParams.addToURL(global.location.href, {
 			service: name,
-			success: success ? 1 : 0
+			success: success ? 1 : 0,
 		});
 	};
 
-	return service.getConnectLink({success: getReturn(true), failure: getReturn(false)});
+	return service.getConnectLink({
+		success: getReturn(true),
+		failure: getReturn(false),
+	});
 }
 
 ConnectWindowLinkLauncher.propTypes = {
 	service: PropTypes.shape({
 		name: PropTypes.string.isRequired,
 		getConnectLink: PropTypes.func.isRequired,
-		sync: PropTypes.func.isRequired
+		sync: PropTypes.func.isRequired,
 	}).isRequired,
 	onConnect: PropTypes.func,
-	onError: PropTypes.func
+	onError: PropTypes.func,
 };
-export default function ConnectWindowLinkLauncher ({service, onConnect = () => {}, onError = () => {}, ...otherProps}) {
+export default function ConnectWindowLinkLauncher({
+	service,
+	onConnect = () => {},
+	onError = () => {},
+	...otherProps
+}) {
 	React.useEffect(() => {
 		const params = ReturnParams.get();
 		const success = params?.get('success');
@@ -46,7 +57,5 @@ export default function ConnectWindowLinkLauncher ({service, onConnect = () => {
 		}
 	}, []);
 
-	return (
-		<a {...otherProps} href={buildConnectURL(service)} />
-	);
+	return <a {...otherProps} href={buildConnectURL(service)} />;
 }

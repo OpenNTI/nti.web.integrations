@@ -1,18 +1,18 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import cx from 'classnames';
-import {scoped} from '@nti/lib-locale';
-import {Text, StandardUI} from '@nti/web-commons';
+import { scoped } from '@nti/lib-locale';
+import { Text, StandardUI } from '@nti/web-commons';
 
 import Badge from './Badge';
 
-const {Prompt} = StandardUI;
+const { Prompt } = StandardUI;
 
 const t = scoped('integrations.services.credly.components.BadgeDetails', {
 	issuedBy: 'Issued By',
 	details: 'Details',
 	page: 'Page',
-	accept: 'Accept Badge'
+	accept: 'Accept Badge',
 });
 
 const styles = css`
@@ -118,11 +118,15 @@ const MetaValue = styled(Text.Base)`
 BadgeDetailsDialog.propTypes = {
 	className: PropTypes.string,
 	onDone: PropTypes.func,
-	doneLabel: PropTypes.string
+	doneLabel: PropTypes.string,
 };
-function BadgeDetailsDialog ({className, onDone, doneLabel, ...otherProps}) {
+function BadgeDetailsDialog({ className, onDone, doneLabel, ...otherProps }) {
 	return (
-		<Prompt.Info className={className} onDone={onDone} doneLabel={doneLabel}>
+		<Prompt.Info
+			className={className}
+			onDone={onDone}
+			doneLabel={doneLabel}
+		>
 			<BadgeDetails {...otherProps} dialog />
 		</Prompt.Info>
 	);
@@ -136,21 +140,29 @@ BadgeDetails.propTypes = {
 		description: PropTypes.string,
 		organizationName: PropTypes.string,
 		badgeURL: PropTypes.string,
-		acceptBadgeURL: PropTypes.string
+		acceptBadgeURL: PropTypes.string,
 	}),
 
 	hideImage: PropTypes.bool,
 	dialog: PropTypes.bool,
-	actions: PropTypes.arrayOf(
-		PropTypes.node
-	)
+	actions: PropTypes.arrayOf(PropTypes.node),
 };
-export default function BadgeDetails ({className, badge, hideImage, dialog, actions}) {
+export default function BadgeDetails({
+	className,
+	badge,
+	hideImage,
+	dialog,
+	actions,
+}) {
 	const hasActions = actions && actions.length > 0;
 	const hasMeta = badge.badgeURL || badge.organizationName;
 
 	return (
-		<div className={cx(styles.container, className, {[styles.dialog]: dialog})}>
+		<div
+			className={cx(styles.container, className, {
+				[styles.dialog]: dialog,
+			})}
+		>
 			<div className={styles.details}>
 				{!hideImage && (
 					<Badge.Image badge={badge} className={styles.image} />
@@ -162,14 +174,20 @@ export default function BadgeDetails ({className, badge, hideImage, dialog, acti
 							{badge.organizationName && (
 								<li>
 									<MetaLabel>{t('issuedBy')}</MetaLabel>
-									<MetaValue>{badge.organizationName}</MetaValue>
+									<MetaValue>
+										{badge.organizationName}
+									</MetaValue>
 								</li>
 							)}
 							{badge.badgeURL && (
 								<li>
 									<MetaLabel>{t('details')}</MetaLabel>
 									<MetaValue>
-										<a href={badge.badgeURL} rel="noopener noreferrer" target="blank">
+										<a
+											href={badge.badgeURL}
+											rel="noopener noreferrer"
+											target="blank"
+										>
 											{t('page')}
 										</a>
 									</MetaValue>
@@ -177,19 +195,26 @@ export default function BadgeDetails ({className, badge, hideImage, dialog, acti
 							)}
 						</ul>
 					)}
-					<Text.Base className={styles.description} limitLines={3} overflow={Text.Overflow.Ellipsis}>{badge.description}</Text.Base>
+					<Text.Base
+						className={styles.description}
+						limitLines={3}
+						overflow={Text.Overflow.Ellipsis}
+					>
+						{badge.description}
+					</Text.Base>
 					{badge.acceptBadgeURL && (
-						<a className={styles.accept} href={badge.acceptBadgeURL} rel="noopener noreferrer" target="blank">
+						<a
+							className={styles.accept}
+							href={badge.acceptBadgeURL}
+							rel="noopener noreferrer"
+							target="blank"
+						>
 							{t('accept')}
 						</a>
 					)}
 				</div>
 			</div>
-			{hasActions && (
-				<div className={styles.actions}>
-					{actions}
-				</div>
-			)}
+			{hasActions && <div className={styles.actions}>{actions}</div>}
 		</div>
 	);
 }

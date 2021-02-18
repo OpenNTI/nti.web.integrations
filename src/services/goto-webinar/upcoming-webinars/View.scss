@@ -19,8 +19,7 @@
 			box-shadow: 0 1px 0 0 var(--border-grey-light);
 
 			&:first-of-type {
-				box-shadow:
-					0 1px 0 0 var(--border-grey-light),
+				box-shadow: 0 1px 0 0 var(--border-grey-light),
 					0 -1px 0 0 var(--border-grey-light);
 			}
 		}

@@ -1,22 +1,26 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {scoped} from '@nti/lib-locale';
-import {Loading, Icons, Errors, Button, StandardUI} from '@nti/web-commons';
+import { scoped } from '@nti/lib-locale';
+import { Loading, Icons, Errors, Button, StandardUI } from '@nti/web-commons';
 
 import Badge from '../Badge';
 import BadgeDetails from '../BadgeDetails';
 
-import {BadgesStore} from './Store';
+import { BadgesStore } from './Store';
 
-const {Prompt} = StandardUI;
-const t = scoped('integrations.services.credly.components.badges.BadgeWrapper', {
-	confirmRemove: {
-		title: 'Are you sure?',
-		body: 'Going forward Learners who complete the course will not earn this badge. Learners who have already earned the badge will keep it.'
+const { Prompt } = StandardUI;
+const t = scoped(
+	'integrations.services.credly.components.badges.BadgeWrapper',
+	{
+		confirmRemove: {
+			title: 'Are you sure?',
+			body:
+				'Going forward Learners who complete the course will not earn this badge. Learners who have already earned the badge will keep it.',
+		},
 	}
-});
+);
 
-const stop = (e) => (e.stopPropagation(), e.preventDefault());
+const stop = e => (e.stopPropagation(), e.preventDefault());
 
 const Mask = styled.div`
 	position: absolute;
@@ -40,8 +44,8 @@ const LoadingMask = styled(CenteredMask)`
 const ErrorMask = styled(CenteredMask)`
 	background: rgba(var(--primary-red-rgb), 0.25);
 	font-size: 2rem;
-    color: var(--primary-red);
-    text-shadow: 0px 0px 2px rgba(0, 0, 0, 0.7);
+	color: var(--primary-red);
+	text-shadow: 0px 0px 2px rgba(0, 0, 0, 0.7);
 `;
 
 const ErrorMessage = styled(Errors.Message)`
@@ -78,18 +82,32 @@ const styles = css`
 `;
 
 BadgeWrapper.propTypes = {
-	badge: PropTypes.object
+	badge: PropTypes.object,
 };
-export default function BadgeWrapper ({badge}) {
+export default function BadgeWrapper({ badge }) {
 	const [openDetails, setOpenDetails] = React.useState(false);
-	const doOpenDetails = React.useCallback((e) => (stop(e), setOpenDetails(true)), [setOpenDetails]);
-	const doCloseDetails = React.useCallback(() => setOpenDetails(false), [setOpenDetails]);
+	const doOpenDetails = React.useCallback(
+		e => (stop(e), setOpenDetails(true)),
+		[setOpenDetails]
+	);
+	const doCloseDetails = React.useCallback(() => setOpenDetails(false), [
+		setOpenDetails,
+	]);
 
-	const {removeBadge, canRemoveBadge} = BadgesStore.useValue();
+	const { removeBadge, canRemoveBadge } = BadgesStore.useValue();
 	const [confirmRemove, setConfirmRemove] = React.useState(false);
-	const openConfirmRemove = React.useCallback((e) => (stop(e), setConfirmRemove(true)), [setConfirmRemove]);
-	const closeConfirmRemove = React.useCallback(() => setConfirmRemove(false), [setConfirmRemove]);
-	const doRemove = React.useCallback(() => (removeBadge(badge), closeConfirmRemove()), [removeBadge, badge]);
+	const openConfirmRemove = React.useCallback(
+		e => (stop(e), setConfirmRemove(true)),
+		[setConfirmRemove]
+	);
+	const closeConfirmRemove = React.useCallback(
+		() => setConfirmRemove(false),
+		[setConfirmRemove]
+	);
+	const doRemove = React.useCallback(
+		() => (removeBadge(badge), closeConfirmRemove()),
+		[removeBadge, badge]
+	);
 
 	let obj = badge;
 	let mask = null;
@@ -110,11 +128,15 @@ export default function BadgeWrapper ({badge}) {
 			</ErrorMask>
 		);
 
-		message = (<ErrorMessage error={badge.error} />);
+		message = <ErrorMessage error={badge.error} />;
 	} else if (canRemoveBadge(badge)) {
 		mask = (
 			<Mask className={styles.controls}>
-				<Button plain className={styles.delete} onClick={openConfirmRemove}>
+				<Button
+					plain
+					className={styles.delete}
+					onClick={openConfirmRemove}
+				>
 					<Icons.X.Bold />
 				</Button>
 			</Mask>
@@ -123,7 +145,13 @@ export default function BadgeWrapper ({badge}) {
 
 	return (
 		<>
-			<Badge className={styles.badge} badge={obj} mask={mask} message={message} onClick={doOpenDetails} />
+			<Badge
+				className={styles.badge}
+				badge={obj}
+				mask={mask}
+				message={message}
+				onClick={doOpenDetails}
+			/>
 			{confirmRemove && (
 				<Prompt.Confirm
 					title={t('confirmRemove.title')}

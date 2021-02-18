@@ -1,82 +1,82 @@
 import './Text.scss';
 import React from 'react';
 import PropTypes from 'prop-types';
-import {decorate} from '@nti/lib-commons';
-import {Input, Loading} from '@nti/web-commons';
-import {scoped} from '@nti/lib-locale';
-
+import { decorate } from '@nti/lib-commons';
+import { Input, Loading } from '@nti/web-commons';
+import { scoped } from '@nti/lib-locale';
 
 import Store from './Store';
 
 const t = scoped('integrations.services.goto-webinar.input.Text', {
-	placeholder: 'Paste or Enter a Registration Link'
+	placeholder: 'Paste or Enter a Registration Link',
 });
 
 class GotoWebinarTextInput extends React.Component {
 	static propTypes = {
 		context: PropTypes.shape({
-			getLink: PropTypes.func.isRequired
+			getLink: PropTypes.func.isRequired,
 		}),
 		store: PropTypes.shape({
 			load: PropTypes.func,
-			resolve: PropTypes.func
+			resolve: PropTypes.func,
 		}),
 		loading: PropTypes.bool,
 		error: PropTypes.string,
 		onSuccess: PropTypes.func,
-		onFailure: PropTypes.func
-	}
+		onFailure: PropTypes.func,
+	};
 
+	state = {};
 
-	state = {}
+	onTextChange = val => {
+		this.setState({ url: val });
 
-	onTextChange = (val) => {
-		this.setState({url: val});
-
-		if(this.state.pasted) {
-			this.setState({pasted: false});
+		if (this.state.pasted) {
+			this.setState({ pasted: false });
 
 			this.resolve(val);
 		}
-	}
+	};
 
-	onPaste = (val) => {
-		this.setState({pasted: true});
-	}
+	onPaste = val => {
+		this.setState({ pasted: true });
+	};
 
 	onBlur = () => {
 		this.resolve(this.state.url);
-	}
+	};
 
-	resolve (val) {
-		const {store, context, onSuccess, onFailure} = this.props;
+	resolve(val) {
+		const { store, context, onSuccess, onFailure } = this.props;
 
-		if(this.lastUrl === val) {
+		if (this.lastUrl === val) {
 			return;
 		}
 
 		this.lastUrl = val;
 
-		store.resolve(context, val).then(webinars => {
-			if(!webinars || webinars.length === 0) {
-				if(onFailure) {
-					onFailure('No matching webinars found', val);
+		store
+			.resolve(context, val)
+			.then(webinars => {
+				if (!webinars || webinars.length === 0) {
+					if (onFailure) {
+						onFailure('No matching webinars found', val);
+					}
+				} else {
+					if (onSuccess) {
+						onSuccess(webinars);
+					}
 				}
-			}
-			else {
-				if(onSuccess) {
-					onSuccess(webinars);
+			})
+			.catch(e => {
+				if (onFailure) {
+					onFailure(e, val);
 				}
-			}
-		}).catch(e => {
-			if(onFailure) {
-				onFailure(e, val);
-			}
-		});
+			});
 	}
 
-	render () {
-		const {loading} = this.props;
+	render() {
+		const { loading } = this.props;
 
 		return (
 			<span className="go-to-webinar-text-input-container">
@@ -89,13 +89,11 @@ class GotoWebinarTextInput extends React.Component {
 					onBlur={this.onBlur}
 					placeholder={t('placeholder')}
 				/>
-				{loading && <Loading.Spinner/>}
+				{loading && <Loading.Spinner />}
 			</span>
 		);
 	}
 }
-
-
 
 export default decorate(GotoWebinarTextInput, [
 	Store.connect({
@@ -103,6 +101,6 @@ export default decorate(GotoWebinarTextInput, [
 		integration: 'integration',
 		connected: 'connected',
 		canConnect: 'canConnect',
-		error: 'error'
-	})
+		error: 'error',
+	}),
 ]);

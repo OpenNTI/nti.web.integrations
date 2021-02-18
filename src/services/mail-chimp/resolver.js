@@ -1,5 +1,7 @@
-export default function MailChimpServiceResolver (context) {
-	if (context) { return null; }
+export default function MailChimpServiceResolver(context) {
+	if (context) {
+		return null;
+	}
 
 	return {
 		name: 'mail-chimp',
@@ -8,6 +10,6 @@ export default function MailChimpServiceResolver (context) {
 		isEnabled: () => false,
 		canConnect: () => false,
 		isConnected: () => false,
-		canDisconnect: () => false
+		canDisconnect: () => false,
 	};
 }

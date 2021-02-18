@@ -36,15 +36,15 @@ const styles = css`
 	}
 `;
 
-const getListStyles = (columns) => ({
-	'--badge-grid-columns': columns
+const getListStyles = columns => ({
+	'--badge-grid-columns': columns,
 });
 
 const getDetailStyles = (details, columns) => {
 	const row = Math.floor(details.index / columns) + 2;
 
 	return {
-		'--badge-details-row': row
+		'--badge-details-row': row,
 	};
 };
 
@@ -55,23 +55,32 @@ BadgeGrid.propTypes = {
 
 	details: PropTypes.shape({
 		index: PropTypes.number,
-		node: PropTypes.node
-	})
+		node: PropTypes.node,
+	}),
 };
-export default function BadgeGrid ({children, className, details, columns = 4}) {
+export default function BadgeGrid({
+	children,
+	className,
+	details,
+	columns = 4,
+}) {
 	const badges = React.Children.toArray(children);
 
 	return (
-		<ul className={cx(styles.badgeGrid, className)} style={getListStyles(columns)}>
+		<ul
+			className={cx(styles.badgeGrid, className)}
+			style={getListStyles(columns)}
+		>
 			{badges.map((cmp, key) => (
 				<li key={key}>
-					<div className={styles.inner}>
-						{cmp}
-					</div>
+					<div className={styles.inner}>{cmp}</div>
 				</li>
 			))}
 			{details && (
-				<li style={getDetailStyles(details, columns)} className={styles.details}>
+				<li
+					style={getDetailStyles(details, columns)}
+					className={styles.details}
+				>
 					{details.node}
 				</li>
 			)}

@@ -1,10 +1,12 @@
-import {getSSOLoginRels, isIMISSSORel} from '../Data';
+import { getSSOLoginRels, isIMISSSORel } from '../Data';
 
 IMISSSOServiceResolver.preresolve = getSSOLoginRels;
-export default async function IMISSSOServiceResolver (context, preload) {
-	if (context) { return null; }
+export default async function IMISSSOServiceResolver(context, preload) {
+	if (context) {
+		return null;
+	}
 
-	const rels = preload ?? await getSSOLoginRels();
+	const rels = preload ?? (await getSSOLoginRels());
 	const hasRel = rels.some(isIMISSSORel);
 
 	return {
@@ -13,6 +15,6 @@ export default async function IMISSSOServiceResolver (context, preload) {
 		isEnabled: () => hasRel,
 		canConnect: () => false,
 		isConnected: () => hasRel,
-		canDisconnect: () => false
+		canDisconnect: () => false,
 	};
 }

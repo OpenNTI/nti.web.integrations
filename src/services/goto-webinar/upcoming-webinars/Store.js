@@ -1,10 +1,10 @@
-import {Stores} from '@nti/lib-store';
+import { Stores } from '@nti/lib-store';
 
-import {getIntegrationsCollection} from '../../../utils';
-import {HANDLES} from '../Constants';
+import { getIntegrationsCollection } from '../../../utils';
+import { HANDLES } from '../Constants';
 
-function getIntegrationFromCollection (collection) {
-	const {Items} = collection;
+function getIntegrationFromCollection(collection) {
+	const { Items } = collection;
 
 	for (let item of Items) {
 		if (HANDLES[item.MimeType]) {
@@ -14,7 +14,7 @@ function getIntegrationFromCollection (collection) {
 }
 
 export default class UpcomingWebinarStore extends Stores.SimpleStore {
-	constructor () {
+	constructor() {
 		super();
 
 		this.set('loading', false);
@@ -22,8 +22,7 @@ export default class UpcomingWebinarStore extends Stores.SimpleStore {
 		this.set('error', null);
 	}
 
-
-	async load (context, filter) {
+	async load(context, filter) {
 		this.set('loading', true);
 		this.set('items', null);
 		this.set('error', null);
@@ -33,7 +32,9 @@ export default class UpcomingWebinarStore extends Stores.SimpleStore {
 			const collection = await getIntegrationsCollection(context);
 			const integration = getIntegrationFromCollection(collection);
 
-			const upcoming = await integration.fetchLinkParsed('UpcomingWebinars');
+			const upcoming = await integration.fetchLinkParsed(
+				'UpcomingWebinars'
+			);
 			const items = (upcoming || [])
 				.filter(filter || (() => true))
 				.sort((a, b) => {
@@ -47,7 +48,9 @@ export default class UpcomingWebinarStore extends Stores.SimpleStore {
 					} else if (!bSession) {
 						return 1;
 					} else {
-						return aSession.getStartTime() - bSession.getStartTime();
+						return (
+							aSession.getStartTime() - bSession.getStartTime()
+						);
 					}
 				});
 

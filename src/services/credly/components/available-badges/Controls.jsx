@@ -1,21 +1,24 @@
 import React from 'react';
-import {scoped} from '@nti/lib-locale';
-import {Text, Input, Icons, Paging} from '@nti/web-commons';
+import { scoped } from '@nti/lib-locale';
+import { Text, Input, Icons, Paging } from '@nti/web-commons';
 
 import Store from './Store';
 
-const t = scoped('integrations.services.credly.components.available-badges.Controls', {
-	issuedBy: 'Issued By:',
-	sorts: {
-		label: 'Sort By:',
-		name: 'Name',
-		created: 'Most Recent',
-		issued: 'Issued Count',
-		updated: 'Last Updated'
-	},
-	search: 'Search Badges',
-	results: 'Search Results'
-});
+const t = scoped(
+	'integrations.services.credly.components.available-badges.Controls',
+	{
+		issuedBy: 'Issued By:',
+		sorts: {
+			label: 'Sort By:',
+			name: 'Name',
+			created: 'Most Recent',
+			issued: 'Issued Count',
+			updated: 'Last Updated',
+		},
+		search: 'Search Badges',
+		results: 'Search Results',
+	}
+);
 
 const ControlLine = styled.div`
 	display: flex;
@@ -36,7 +39,9 @@ const ControlLine = styled.div`
 	}
 `;
 
-const Spacer = styled.div` flex: 1 1 auto; `;
+const Spacer = styled.div`
+	flex: 1 1 auto;
+`;
 
 const Group = styled.div`
 	/* To match the margin top of the search input */
@@ -68,8 +73,7 @@ const Search = styled.div`
 	max-width: 33%;
 `;
 
-
-export default function AvailableBadgesHeader () {
+export default function AvailableBadgesHeader() {
 	const {
 		integration,
 		searchTerm,
@@ -81,16 +85,16 @@ export default function AvailableBadgesHeader () {
 
 		currentPage,
 		totalPages,
-		loadPage
+		loadPage,
 	} = Store.useValue();
 
-	const {organization} = integration ?? {};
+	const { organization } = integration ?? {};
 
 	return (
 		<>
 			<ControlLine>
 				<Group>
-					{organization && (<GroupLabel>{t('issuedBy')}</GroupLabel>)}
+					{organization && <GroupLabel>{t('issuedBy')}</GroupLabel>}
 					{organization && (
 						<Select value="org" disabled>
 							<Input.Select.Option value="org">
@@ -103,7 +107,7 @@ export default function AvailableBadgesHeader () {
 					<Group>
 						<GroupLabel>{t('sorts.label')}</GroupLabel>
 						<Select value={activeSort} onChange={setSort}>
-							{sorts.map((sort) => (
+							{sorts.map(sort => (
 								<Input.Select.Option value={sort} key={sort}>
 									{t(`sorts.${sort}`)}
 								</Input.Select.Option>
@@ -115,19 +119,25 @@ export default function AvailableBadgesHeader () {
 				<Search>
 					<Input.Icon icon={<Icons.Search />}>
 						<Input.LabelPlaceholder>
-							<Input.Text placeholder={t('search')} onChange={updateSearchTerm} value={searchTerm} />
+							<Input.Text
+								placeholder={t('search')}
+								onChange={updateSearchTerm}
+								value={searchTerm}
+							/>
 						</Input.LabelPlaceholder>
 					</Input.Icon>
 				</Search>
 			</ControlLine>
 			<ControlLine>
-				<div>
-					{searchTerm ? t('results') : null}
-				</div>
+				<div>{searchTerm ? t('results') : null}</div>
 				<Spacer />
 				{totalPages && totalPages > 1 && (
 					<div>
-						<Paging.Controls total={totalPages} current={currentPage} onChange={loadPage} />
+						<Paging.Controls
+							total={totalPages}
+							current={currentPage}
+							onChange={loadPage}
+						/>
 					</div>
 				)}
 			</ControlLine>

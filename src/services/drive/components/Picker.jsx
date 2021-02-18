@@ -1,27 +1,29 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames/bind';
-import {scoped} from '@nti/lib-locale';
-import {Text, Loading, Button, HOC} from '@nti/web-commons';
+import { scoped } from '@nti/lib-locale';
+import { Text, Loading, Button, HOC } from '@nti/web-commons';
 
-import {Authorize} from '../../google-sso';
+import { Authorize } from '../../google-sso';
 
 import Styles from './Picker.css';
 
 const cx = classnames.bind(Styles);
 const t = scoped('integrations.drive.components.Picker', {
 	launch: 'Open Google Picker',
-	noSelected: 'No Document Selected'
+	noSelected: 'No Document Selected',
 });
 
 const AuthScopes = ['https://www.googleapis.com/auth/drive.file'];
 
-function loadPicker () {
+function loadPicker() {
 	if (!loadPicker.ref) {
 		const load = async () => {
 			const gapi = await Authorize.getGoogleAPI();
 
-			await new Promise((fulfill) => gapi.load('picker', {callback: fulfill}));
+			await new Promise(fulfill =>
+				gapi.load('picker', { callback: fulfill })
+			);
 
 			if (!global.google?.picker) {
 				throw new Error('Unable to load picker');
@@ -36,7 +38,7 @@ function loadPicker () {
 	return loadPicker.ref;
 }
 
-async function showPicker (authToken) {
+async function showPicker(authToken) {
 	const picker = await loadPicker();
 	const apiKeys = await Authorize.getGoogleAPIKeys();
 
@@ -47,7 +49,9 @@ async function showPicker (authToken) {
 				.setOAuthToken(authToken)
 				.setDeveloperKey(apiKeys.DevKey)
 				.setAppId(apiKeys.AppId)
-				.setOrigin(`${global.location.protocol}//${global.location.host}`)
+				.setOrigin(
+					`${global.location.protocol}//${global.location.host}`
+				)
 				.addViewGroup(
 					new picker.ViewGroup(
 						new picker.DocsView(picker.ViewId.DOCS)
@@ -71,7 +75,7 @@ async function showPicker (authToken) {
 						)
 						.addView(new picker.DocsUploadView())
 				)
-				.setCallback((data) => {
+				.setCallback(data => {
 					if (data.action === picker.Action.PICKED) {
 						fulfill(data.docs);
 					} else if (data.action === picker.Action.CANCEL) {
@@ -81,14 +85,15 @@ async function showPicker (authToken) {
 				.build();
 
 			pickerView.setVisible(true);
-
 		} catch (e) {
 			reject(e);
 		}
 	});
 }
 
-GoogleDrivePicker.Bar = HOC.Variant(GoogleDrivePicker, {className: cx('bar')});
+GoogleDrivePicker.Bar = HOC.Variant(GoogleDrivePicker, {
+	className: cx('bar'),
+});
 GoogleDrivePicker.propTypes = {
 	className: PropTypes.string,
 
@@ -96,13 +101,19 @@ GoogleDrivePicker.propTypes = {
 	onChange: PropTypes.func,
 	onError: PropTypes.func,
 
-	autoLaunch: PropTypes.bool
+	autoLaunch: PropTypes.bool,
 };
-export default function GoogleDrivePicker ({className, value, onChange, onError, autoLaunch}) {
+export default function GoogleDrivePicker({
+	className,
+	value,
+	onChange,
+	onError,
+	autoLaunch,
+}) {
 	const [authToken, setAuthToken] = React.useState(null);
 	const [open, setOpen] = React.useState(autoLaunch);
 
-	const onAuth = (token) => {
+	const onAuth = token => {
 		setAuthToken(token);
 	};
 
@@ -114,7 +125,9 @@ export default function GoogleDrivePicker ({className, value, onChange, onError,
 	const onAuthCancel = () => setOpen(false);
 
 	React.useEffect(() => {
-		if (!open || !authToken) { return; }
+		if (!open || !authToken) {
+			return;
+		}
 
 		let unmounted = false;
 
@@ -135,7 +148,7 @@ export default function GoogleDrivePicker ({className, value, onChange, onError,
 		};
 
 		pick();
-		return () => unmounted = true;
+		return () => (unmounted = true);
 	}, [authToken, open]);
 
 	return (
@@ -149,11 +162,14 @@ export default function GoogleDrivePicker ({className, value, onChange, onError,
 				/>
 			)}
 			{value && (
-				<a href={value.url} className={cx('document')} target="_blank" rel="noopener noreferrer">
-					{value.iconUrl && (<img src={value.iconUrl} />)}
-					<Text.Base className={cx('name')}>
-						{value.name}
-					</Text.Base>
+				<a
+					href={value.url}
+					className={cx('document')}
+					target="_blank"
+					rel="noopener noreferrer"
+				>
+					{value.iconUrl && <img src={value.iconUrl} />}
+					<Text.Base className={cx('name')}>{value.name}</Text.Base>
 				</a>
 			)}
 			{!value && (
@@ -161,13 +177,12 @@ export default function GoogleDrivePicker ({className, value, onChange, onError,
 					{t('noSelected')}
 				</Text.Base>
 			)}
-			<Button onClick={open ? null : (() => setOpen(true))} className={cx('launch')}>
-				{open && (<Loading.Spinner white size="16px" />)}
-				{!open && (
-					<Text.Base>
-						{t('launch')}
-					</Text.Base>
-				)}
+			<Button
+				onClick={open ? null : () => setOpen(true)}
+				className={cx('launch')}
+			>
+				{open && <Loading.Spinner white size="16px" />}
+				{!open && <Text.Base>{t('launch')}</Text.Base>}
 			</Button>
 		</div>
 	);

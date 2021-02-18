@@ -1,5 +1,7 @@
-export default function ZapierServiceResolver (context) {
-	if (context) { return null; }
+export default function ZapierServiceResolver(context) {
+	if (context) {
+		return null;
+	}
 
 	return {
 		name: 'zapier',
@@ -9,6 +11,6 @@ export default function ZapierServiceResolver (context) {
 		isEnabled: () => false,
 		canConnect: () => false,
 		isConnected: () => false,
-		canDisconnect: () => false
+		canDisconnect: () => false,
 	};
 }

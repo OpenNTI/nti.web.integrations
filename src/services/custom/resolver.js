@@ -1,5 +1,7 @@
-export default function CustomServiceResolver (context) {
-	if (context) { return null; }
+export default function CustomServiceResolver(context) {
+	if (context) {
+		return null;
+	}
 
 	return {
 		name: 'custom',
@@ -7,6 +9,6 @@ export default function CustomServiceResolver (context) {
 		isEnabled: () => false,
 		canConnect: () => false,
 		isConnected: () => false,
-		canDisconnect: () => false
+		canDisconnect: () => false,
 	};
 }

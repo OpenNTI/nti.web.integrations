@@ -1,17 +1,17 @@
-import {scoped} from '@nti/lib-locale';
+import { scoped } from '@nti/lib-locale';
 
 import Registry from '../ItemRegistry';
 
-import {Logo} from './assets';
+import { Logo } from './assets';
 
 export { default as resolver } from './resolver';
 
 const handles = s => s.isEnterpriseSSOIntegration;
 const t = scoped('intgrations.services.enterprise-sso', {
-	name: 'Enterprise SSO'
+	name: 'Enterprise SSO',
 });
 
 Registry.register(handles)({
 	Logo,
-	name: t('name')
+	name: t('name'),
 });

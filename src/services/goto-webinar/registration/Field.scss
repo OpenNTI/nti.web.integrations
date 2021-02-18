@@ -32,11 +32,14 @@ label.checkbox-component input.webinar-registration-field {
 		}
 	}
 
-	input, .textarea-container {
+	input,
+	.textarea-container {
 		box-shadow: none;
 	}
 
-	input, .nti-select-native-wrapper, .textarea-container {
+	input,
+	.nti-select-native-wrapper,
+	.textarea-container {
 		border-radius: 0;
 		background: none;
 	}
@@ -62,7 +65,8 @@ label.checkbox-component input.webinar-registration-field {
 			color: var(--incorrect);
 		}
 
-		input, .textarea-container {
+		input,
+		.textarea-container {
 			border-color: var(--incorrect);
 		}
 
@@ -76,7 +80,8 @@ label.checkbox-component input.webinar-registration-field {
 			color: var(--secondary-grey);
 		}
 
-		input, .textarea-container {
+		input,
+		.textarea-container {
 			border-color: var(--tertiary-grey);
 		}
 
@@ -90,11 +95,14 @@ label.checkbox-component input.webinar-registration-field {
 		width: calc(50% - 20px);
 	}
 
-	&.city,	&.zipCode, &.state {
+	&.city,
+	&.zipCode,
+	&.state {
 		float: left;
 	}
 
-	&.zipCode, &.state {
+	&.zipCode,
+	&.state {
 		width: 25%;
 		max-width: 100px;
 		margin-left: 10px;

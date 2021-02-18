@@ -1,8 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import cx from 'classnames';
-import {Button, Image} from '@nti/web-commons';
-
+import { Button, Image } from '@nti/web-commons';
 
 const styles = css`
 	.badge {
@@ -42,16 +41,16 @@ const styles = css`
 BadgeImage.propTypes = {
 	className: PropTypes.string,
 	badge: PropTypes.shape({
-		imageURL: PropTypes.string
-	})
+		imageURL: PropTypes.string,
+	}),
 };
-function BadgeImage ({badge, className}) {
+function BadgeImage({ badge, className }) {
 	const [errored, setErrored] = React.useState(false);
 
 	const onError = React.useCallback(() => setErrored(true), [setErrored]);
 
 	if (errored) {
-		return (<Image.Error className={cx(styles.badgeImage, className)} />);
+		return <Image.Error className={cx(styles.badgeImage, className)} />;
 	}
 
 	return (
@@ -68,18 +67,26 @@ Badge.propTypes = {
 	className: PropTypes.string,
 	badge: PropTypes.shape({
 		imageURL: PropTypes.string,
-		name: PropTypes.string
+		name: PropTypes.string,
 	}),
 
 	extendedInfo: PropTypes.bool,
 	onClick: PropTypes.func,
 
-	mask: PropTypes.node
+	mask: PropTypes.node,
 };
-export default function Badge ({className, badge, onClick, mask, ...otherProps}) {
+export default function Badge({
+	className,
+	badge,
+	onClick,
+	mask,
+	...otherProps
+}) {
 	return (
 		<Button
-			className={cx(styles.badge, 'nti-badge', className, {[styles.trigger]: Boolean(onClick)})}
+			className={cx(styles.badge, 'nti-badge', className, {
+				[styles.trigger]: Boolean(onClick),
+			})}
 			href="#"
 			onClick={onClick}
 			title={badge.name}
@@ -87,11 +94,7 @@ export default function Badge ({className, badge, onClick, mask, ...otherProps})
 			{...otherProps}
 		>
 			<BadgeImage badge={badge} />
-			{mask && (
-				<div className={styles.badgeMask}>
-					{mask}
-				</div>
-			)}
+			{mask && <div className={styles.badgeMask}>{mask}</div>}
 		</Button>
 	);
 }

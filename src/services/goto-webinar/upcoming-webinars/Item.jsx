@@ -1,63 +1,58 @@
 import './Item.scss';
 import React from 'react';
 import PropTypes from 'prop-types';
-import {DateTime} from '@nti/web-commons';
-import {scoped} from '@nti/lib-locale';
-import {LinkTo} from '@nti/web-routing';
+import { DateTime } from '@nti/web-commons';
+import { scoped } from '@nti/lib-locale';
+import { LinkTo } from '@nti/web-routing';
 
 const t = scoped('integrations.services.goto-webinar.upcoming-webinars.Item', {
-	duration: '%(duration)s Long'
+	duration: '%(duration)s Long',
 });
 
 export default class IntegrationsServicesGotoWebinarUpcomingWebinarsItem extends React.Component {
 	static propTypes = {
 		item: PropTypes.shape({
 			subject: PropTypes.string.isRequired,
-			getNearestSession: PropTypes.func.isRequired
-		}).isRequired
-	}
+			getNearestSession: PropTypes.func.isRequired,
+		}).isRequired,
+	};
 
-	render () {
-		const {item} = this.props;
+	render() {
+		const { item } = this.props;
 		const session = item.getNearestSession();
 
-		const extra = [
-			this.renderDate(session),
-			this.renderDuration(session)
-		];
+		const extra = [this.renderDate(session), this.renderDuration(session)];
 
 		return (
-			<LinkTo.Object object={item} className="nti-integrations-services-goto-webinar-upcoming-webinar-item">
+			<LinkTo.Object
+				object={item}
+				className="nti-integrations-services-goto-webinar-upcoming-webinar-item"
+			>
 				{this.renderCalendar(session)}
 				<div className="meta">
-					<div className="title">
-						{item.subject}
-					</div>
+					<div className="title">{item.subject}</div>
 					<ul className="extras">
-						{
-							extra
-								.filter(x => !!x)
-								.map((cmp, key) => {
-									return (
-										<li key={key}>
-											<div className="content">
-												{cmp}
-											</div>
-										</li>
-									);
-								})
-						}
+						{extra
+							.filter(x => !!x)
+							.map((cmp, key) => {
+								return (
+									<li key={key}>
+										<div className="content">{cmp}</div>
+									</li>
+								);
+							})}
 					</ul>
 				</div>
 			</LinkTo.Object>
 		);
 	}
 
-
-	renderCalendar (session) {
+	renderCalendar(session) {
 		const startDate = session && session.getStartTime();
 
-		if (!startDate) { return null; }
+		if (!startDate) {
+			return null;
+		}
 
 		return (
 			<div className="calendar">
@@ -71,29 +66,36 @@ export default class IntegrationsServicesGotoWebinarUpcomingWebinarsItem extends
 		);
 	}
 
-
-	renderDate (session) {
+	renderDate(session) {
 		const startDate = session && session.getStartTime();
 
-		if (!startDate) { return null; }
+		if (!startDate) {
+			return null;
+		}
 
 		return (
-			<DateTime date={startDate} format={DateTime.WEEKDAY_AT_TIME_PADDED_WITH_ZONE} />
+			<DateTime
+				date={startDate}
+				format={DateTime.WEEKDAY_AT_TIME_PADDED_WITH_ZONE}
+			/>
 		);
 	}
 
-
-	renderDuration (session) {
+	renderDuration(session) {
 		const startDate = session && session.getStartTime();
-		const endDate  = session && session.getEndTime();
+		const endDate = session && session.getEndTime();
 
-		if (!startDate || !endDate) { return null; }
+		if (!startDate || !endDate) {
+			return null;
+		}
 
 		const duration = endDate - startDate;
 
 		return (
 			<div className="duration">
-				{t('duration', {duration: DateTime.getNaturalDuration(duration, 1)})}
+				{t('duration', {
+					duration: DateTime.getNaturalDuration(duration, 1),
+				})}
 			</div>
 		);
 	}

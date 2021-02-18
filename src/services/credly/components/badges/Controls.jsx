@@ -1,7 +1,7 @@
 import React from 'react';
-import {Paging} from '@nti/web-commons';
+import { Paging } from '@nti/web-commons';
 
-import {BadgesStore} from './Store';
+import { BadgesStore } from './Store';
 
 const Controls = styled.div`
 	display: flex;
@@ -10,19 +10,25 @@ const Controls = styled.div`
 	padding: 0.5rem 0;
 `;
 
-export default function BadgesControls () {
+export default function BadgesControls() {
 	const {
 		currentPage,
 		totalPages,
 
-		loadPage
+		loadPage,
 	} = BadgesStore.useValue();
 
-	if (!totalPages || totalPages === 1) { return null; }
+	if (!totalPages || totalPages === 1) {
+		return null;
+	}
 
 	return (
 		<Controls>
-			<Paging.Controls total={totalPages} current={currentPage} onChange={loadPage} />
+			<Paging.Controls
+				total={totalPages}
+				current={currentPage}
+				onChange={loadPage}
+			/>
 		</Controls>
 	);
 }

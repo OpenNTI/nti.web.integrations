@@ -1,19 +1,19 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {scoped} from '@nti/lib-locale';
-import {HOC, Loading, Errors, Button} from '@nti/web-commons';
+import { scoped } from '@nti/lib-locale';
+import { HOC, Loading, Errors, Button } from '@nti/web-commons';
 
 import AvailableBadges from '../available-badges';
 import BadgeGrid from '../BadgeGrid';
 
-import {BadgesStore, AwardsBadgesStore, AwardedBadgesStore} from './Store';
+import { BadgesStore, AwardsBadgesStore, AwardedBadgesStore } from './Store';
 import BadgeWrapper from './BadgeWrapper';
 import Controls from './Controls';
 
-const {WithContainerQuery} = HOC;
+const { WithContainerQuery } = HOC;
 
 const t = scoped('integrations.services.credly.components.badges.View', {
-	addBadge: '+Add Badge'
+	addBadge: '+Add Badge',
 });
 
 const styles = css`
@@ -32,30 +32,41 @@ const Container = styled.div`
 Badges.propTypes = {
 	context: PropTypes.object,
 	columns: PropTypes.number,
-	emptyState: PropTypes.node
+	emptyState: PropTypes.node,
 };
-function Badges ({context, columns, emptyState}) {
+function Badges({ context, columns, emptyState }) {
 	const {
 		loading,
 		error,
 		badges,
 		canAddBadges,
-		addBadge
+		addBadge,
 	} = BadgesStore.useValue();
 
 	const [selectOpen, setSelectOpen] = React.useState(false);
-	const openSelect = React.useCallback(() => setSelectOpen(true), [setSelectOpen]);
-	const closeSelect = React.useCallback(() => setSelectOpen(false), [setSelectOpen]);
+	const openSelect = React.useCallback(() => setSelectOpen(true), [
+		setSelectOpen,
+	]);
+	const closeSelect = React.useCallback(() => setSelectOpen(false), [
+		setSelectOpen,
+	]);
 
-	const onBadgeAdd = React.useCallback((badge) => addBadge(badge), [addBadge]);
+	const onBadgeAdd = React.useCallback(badge => addBadge(badge), [addBadge]);
 	const isEmpty = badges && badges.length === 0;
 
 	return (
 		<Container>
 			<Controls />
-			<Loading.Placeholder loading={loading} fallback={<Loading.Spinner.Large />}>
-				{canAddBadges && (<Button className={styles.addButton} onClick={openSelect}>{t('addBadge')}</Button>)}
-				{error && (<Errors.Message error={error} />)}
+			<Loading.Placeholder
+				loading={loading}
+				fallback={<Loading.Spinner.Large />}
+			>
+				{canAddBadges && (
+					<Button className={styles.addButton} onClick={openSelect}>
+						{t('addBadge')}
+					</Button>
+				)}
+				{error && <Errors.Message error={error} />}
 				{isEmpty && (emptyState || null)}
 				{!isEmpty && (
 					<BadgeGrid columns={columns}>
@@ -77,23 +88,26 @@ function Badges ({context, columns, emptyState}) {
 	);
 }
 
-const ColumnQuery = WithContainerQuery((size) =>({
-	columns: Math.max(Math.floor(size.width / 140), 1)
+const ColumnQuery = WithContainerQuery(size => ({
+	columns: Math.max(Math.floor(size.width / 140), 1),
 }));
 
-const deriveBindingFromProps = (props) => ({context: props.context, readOnly: props.readOnly});
+const deriveBindingFromProps = props => ({
+	context: props.context,
+	readOnly: props.readOnly,
+});
 
 export const AwardsBadges = ColumnQuery(
 	AwardsBadgesStore.compose(Badges, {
-		deriveBindingFromProps
+		deriveBindingFromProps,
 	})
 );
 export const AwardedBadges = ColumnQuery(
 	AwardedBadgesStore.compose(Badges, {
-		deriveBindingFromProps: (props) => ({
+		deriveBindingFromProps: props => ({
 			...deriveBindingFromProps(props),
-			pageSize: props.columns == null ? -1 : props.columns * 2
-		})
+			pageSize: props.columns == null ? -1 : props.columns * 2,
+		}),
 	})
 );
 

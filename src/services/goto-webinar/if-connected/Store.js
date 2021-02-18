@@ -1,10 +1,10 @@
-import {Stores} from '@nti/lib-store';
+import { Stores } from '@nti/lib-store';
 
-import {getIntegrationsCollection} from '../../../utils';
-import {HANDLES} from '../Constants';
+import { getIntegrationsCollection } from '../../../utils';
+import { HANDLES } from '../Constants';
 
-function getIntegrationFromCollection (collection) {
-	const {Items} = collection;
+function getIntegrationFromCollection(collection) {
+	const { Items } = collection;
 
 	for (let item of Items) {
 		if (HANDLES[item.MimeType]) {
@@ -13,14 +13,14 @@ function getIntegrationFromCollection (collection) {
 	}
 }
 
-export async function isConnected (context) {
+export async function isConnected(context) {
 	const collection = await getIntegrationsCollection(context);
 	const integration = getIntegrationFromCollection(collection);
 
 	return integration && integration.isConnected();
 }
 
-export async function canConnect (context) {
+export async function canConnect(context) {
 	const collection = await getIntegrationsCollection(context);
 	const integration = getIntegrationFromCollection(collection);
 
@@ -28,7 +28,7 @@ export async function canConnect (context) {
 }
 
 export default class GotoWebinarIsConnectedStore extends Stores.SimpleStore {
-	constructor () {
+	constructor() {
 		super();
 
 		this.set('loading', null);
@@ -38,7 +38,7 @@ export default class GotoWebinarIsConnectedStore extends Stores.SimpleStore {
 		this.set('error', null);
 	}
 
-	async load (context) {
+	async load(context) {
 		this.set('loading', true);
 		this.set('connected', null);
 		this.set('error', null);
@@ -66,26 +66,26 @@ export default class GotoWebinarIsConnectedStore extends Stores.SimpleStore {
 		}
 	}
 
-
-	unload () {
+	unload() {
 		if (this.unsubscribeFromCollection) {
 			this.unsubscribeFromCollection();
 		}
 	}
 
-
-	onCollectionChange = (collection) => {
+	onCollectionChange = collection => {
 		this.setIntegrationFromCollection(collection);
-	}
+	};
 
-
-	setIntegrationFromCollection (collection) {
+	setIntegrationFromCollection(collection) {
 		const integration = getIntegrationFromCollection(collection);
 
 		this.set('loading', false);
 		this.set('integration', integration);
 		this.set('connected', integration && integration.isConnected());
-		this.set('canConnect', integration && integration.hasLink('authorize.webinar'));
+		this.set(
+			'canConnect',
+			integration && integration.hasLink('authorize.webinar')
+		);
 		this.emitChange('loading', 'connected', 'canConnect');
 	}
 }
