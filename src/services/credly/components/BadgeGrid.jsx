@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import cx from 'classnames';
 
-const styles = css`
+const styles = stylesheet`
 	.badge-grid {
 		list-style: none;
 		margin: 0;

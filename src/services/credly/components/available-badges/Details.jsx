@@ -14,7 +14,7 @@ const t = scoped(
 	}
 );
 
-const styles = css`
+const styles = stylesheet`
 	.details {
 		width: 100%;
 	}

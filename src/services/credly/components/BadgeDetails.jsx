@@ -15,7 +15,7 @@ const t = scoped('integrations.services.credly.components.BadgeDetails', {
 	accept: 'Accept Badge',
 });
 
-const styles = css`
+const styles = stylesheet`
 	.container {
 		padding: 0.5rem 1rem;
 

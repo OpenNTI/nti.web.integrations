@@ -55,7 +55,7 @@ const ErrorMessage = styled(Errors.Message)`
 	background: var(--primary-red);
 `;
 
-const styles = css`
+const styles = stylesheet`
 	.controls {
 		opacity: 0;
 	}

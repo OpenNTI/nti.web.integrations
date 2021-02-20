@@ -16,7 +16,7 @@ const t = scoped('integrations.services.credly.components.badges.View', {
 	addBadge: '+Add Badge',
 });
 
-const styles = css`
+const styles = stylesheet`
 	.add-button:global(.nti-button) {
 		background: none;
 		color: var(--primary-blue);

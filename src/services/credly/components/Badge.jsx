@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import cx from 'classnames';
 import { Button, Image } from '@nti/web-commons';
 
-const styles = css`
+const styles = stylesheet`
 	.badge {
 		display: inline-block;
 		position: relative;
