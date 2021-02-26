@@ -195,11 +195,7 @@ export default function BadgeDetails({
 							)}
 						</ul>
 					)}
-					<Text.Base
-						className={styles.description}
-						limitLines={3}
-						overflow={Text.Overflow.Ellipsis}
-					>
+					<Text.Base className={styles.description} limitLines={3}>
 						{badge.description}
 					</Text.Base>
 					{badge.acceptBadgeURL && (
