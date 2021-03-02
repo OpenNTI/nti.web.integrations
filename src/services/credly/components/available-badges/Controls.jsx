@@ -96,8 +96,15 @@ export default function AvailableBadgesHeader() {
 				<Group>
 					{organization && <GroupLabel>{t('issuedBy')}</GroupLabel>}
 					{organization && (
-						<Select value="org" disabled>
-							<Input.Select.Option value="org">
+						<Select
+							value="org"
+							disabled
+							data-testid="select-org-box"
+						>
+							<Input.Select.Option
+								value="org"
+								data-testid={`select-org ${organization.name}`}
+							>
 								{organization.name}
 							</Input.Select.Option>
 						</Select>
@@ -106,9 +113,17 @@ export default function AvailableBadgesHeader() {
 				{integration && (
 					<Group>
 						<GroupLabel>{t('sorts.label')}</GroupLabel>
-						<Select value={activeSort} onChange={setSort}>
+						<Select
+							value={activeSort}
+							onChange={setSort}
+							data-testid="select-sort-by-box"
+						>
 							{sorts.map(sort => (
-								<Input.Select.Option value={sort} key={sort}>
+								<Input.Select.Option
+									value={sort}
+									key={sort}
+									data-testid={`select-sort-by-${sort}`}
+								>
 									{t(`sorts.${sort}`)}
 								</Input.Select.Option>
 							))}
