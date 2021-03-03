@@ -48,6 +48,7 @@ const styles = stylesheet`
 
 	.name {
 		display: block;
+		max-width: 100%; /* workaround a iOS14 glitch */
 		font-size: 1.5rem;
 		margin-bottom: 0.625rem;
 		overflow-wrap: break-word;
