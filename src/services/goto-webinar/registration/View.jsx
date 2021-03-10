@@ -1,6 +1,7 @@
 import './View.scss';
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
+
 import { Prompt } from '@nti/web-commons';
 import { getAppUser } from '@nti/web-client';
 import { scoped } from '@nti/lib-locale';

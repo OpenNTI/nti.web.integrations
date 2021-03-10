@@ -2,6 +2,7 @@ import './Question.scss';
 import React from 'react';
 import PropTypes from 'prop-types';
 import cx from 'classnames';
+
 import { Input, RadioGroup } from '@nti/web-commons';
 
 export default class Question extends React.PureComponent {

@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+
 import { Prompt, Text } from '@nti/web-commons';
 
 import { View as Connect } from './connect-window-launcher';
