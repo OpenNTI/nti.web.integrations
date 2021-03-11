@@ -7,7 +7,7 @@ import { Logo } from './assets';
 import Window from './window';
 
 export { default as IfConnected } from './if-connected';
-export { isConnected, canConnect } from './if-connected/Store';
+export { isConnected, canConnect, connectedStatus } from './if-connected/Store';
 export { default as UpcomingWebinars } from './upcoming-webinars';
 export { default as Registration } from './registration';
 export * as Input from './input';

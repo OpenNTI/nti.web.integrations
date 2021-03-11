@@ -13,6 +13,16 @@ function getIntegrationFromCollection(collection) {
 	}
 }
 
+export async function connectedStatus (context) {
+	const collection = await getIntegrationsCollection(context);
+	const integration = getIntegrationFromCollection(collection);
+
+	return {
+		connected: integration?.isConnected(),
+		canConnect: integration?.hasLink('authorize.webinar')
+	};
+}
+
 export async function isConnected(context) {
 	const collection = await getIntegrationsCollection(context);
 	const integration = getIntegrationFromCollection(collection);
