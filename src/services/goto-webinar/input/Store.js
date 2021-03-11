@@ -51,7 +51,7 @@ export default class GoToWebinarInputStore extends Stores.SimpleStore {
 			this.set('error', e.message || e);
 			this.emitChange('loading', 'error');
 
-			return Promise.reject(e.message || e);
+			throw e;
 		}
 	}
 }
