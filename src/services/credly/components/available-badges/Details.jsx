@@ -80,12 +80,18 @@ export default function Details({ badge, onSelect, selected }) {
 	const actions = [];
 
 	if (error) {
-		actions.push(<Errors.Message className={styles.error} error={error} />);
+		actions.push(
+			<Errors.Message
+				key="error"
+				className={styles.error}
+				error={error}
+			/>
+		);
 	}
 
 	if (selected) {
 		actions.push(
-			<div className={styles.selected}>
+			<div key="checked" className={styles.selected}>
 				<Icons.Check className={styles.check} />
 				<Text.Base>{t('selected')}</Text.Base>
 			</div>
@@ -93,6 +99,7 @@ export default function Details({ badge, onSelect, selected }) {
 	} else {
 		actions.push(
 			<Button
+				key="save-button"
 				className={cx(styles.save, { [styles.saving]: saving })}
 				onClick={doSelect}
 				rounded

@@ -85,8 +85,6 @@ function AvailableBadges({ selected, onSelect }) {
 		[selected]
 	);
 
-	const content = [];
-
 	const [selectedBadge, setSelectedBadge] = React.useState(null);
 	const details = React.useMemo(() => {
 		if (!selectedBadge) {
@@ -125,36 +123,32 @@ function AvailableBadges({ selected, onSelect }) {
 		}, 300);
 	}, [clearSelectedTimeout.current, selectedBadge]);
 
-	if (error) {
-		content.push(<Errors.Message error={error} />);
-	} else if (notConnected) {
-		content.push(<Connect service={integration} afterSubmit={reload} />);
-	} else if (badges?.length === 0) {
-		content.push(<EmptyState header={t('empty')} />);
-	} else if (badges) {
-		content.push(
-			<BadgeGrid details={details}>
-				{badges.map((badge, key) => (
-					<Badge
-						key={key}
-						badge={badge}
-						onClick={() => {
-							if (selectedBadge?.getID() === badge.getID()) {
-								setSelectedBadge(null);
-							} else {
-								setSelectedBadge(badge);
-							}
-						}}
-						mask={
-							selectedSet.has(badge.getID()) ? (
-								<SelectedIcon />
-							) : null
+	const content = error ? (
+		<Errors.Message error={error} />
+	) : notConnected ? (
+		<Connect service={integration} afterSubmit={reload} />
+	) : !badges?.length ? (
+		<EmptyState header={t('empty')} />
+	) : (
+		<BadgeGrid details={details}>
+			{badges.map((badge, key) => (
+				<Badge
+					key={key}
+					badge={badge}
+					onClick={() => {
+						if (selectedBadge?.getID() === badge.getID()) {
+							setSelectedBadge(null);
+						} else {
+							setSelectedBadge(badge);
 						}
-					/>
-				))}
-			</BadgeGrid>
-		);
-	}
+					}}
+					mask={
+						selectedSet.has(badge.getID()) ? <SelectedIcon /> : null
+					}
+				/>
+			))}
+		</BadgeGrid>
+	);
 
 	return (
 		<Container>
