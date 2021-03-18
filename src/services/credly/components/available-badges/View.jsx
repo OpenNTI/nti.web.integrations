@@ -135,7 +135,10 @@ function AvailableBadges({ selected, onSelect }) {
 				<Badge
 					key={key}
 					badge={badge}
-					onClick={() => {
+					onClick={e => {
+						e.stopPropagation();
+						e.preventDefault();
+
 						if (selectedBadge?.getID() === badge.getID()) {
 							setSelectedBadge(null);
 						} else {
