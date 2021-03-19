@@ -45,6 +45,7 @@ class AvailableBadgesStore extends Stores.BoundStore {
 		const context = (this.context = this.binding);
 		const searchTerm = (this.lastSearchTerm = this.searchTerm);
 		const activeSort = (this.lastSort = this.get('activeSort'));
+		let task;
 
 		this.set({
 			loading: true,
@@ -73,10 +74,7 @@ class AvailableBadgesStore extends Stores.BoundStore {
 				params.filter = searchTerm;
 			}
 
-			const task = (this.task = integration?.fetchLinkParsed(
-				'badges',
-				params
-			));
+			task = this.task = integration?.fetchLinkParsed('badges', params);
 
 			const page = await task;
 
@@ -91,10 +89,12 @@ class AvailableBadgesStore extends Stores.BoundStore {
 				this.#setPage(page);
 			}
 		} catch (e) {
-			this.set({
-				loading: false,
-				error: e,
-			});
+			if (task === this.task) {
+				this.set({
+					loading: false,
+					error: e,
+				});
+			}
 		}
 	}
 
