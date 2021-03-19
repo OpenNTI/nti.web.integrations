@@ -74,6 +74,8 @@ class AvailableBadgesStore extends Stores.BoundStore {
 				params.filter = searchTerm;
 			}
 
+			// abort the previous request if we can
+			this.task?.abort?.();
 			task = this.task = integration?.fetchLinkParsed('badges', params);
 
 			const page = await task;
