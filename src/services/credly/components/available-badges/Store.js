@@ -77,12 +77,16 @@ class AvailableBadgesStore extends Stores.BoundStore {
 				integration &&
 				(await integration.fetchLinkParsed('badges', params));
 
-			this.set({
-				loading: false,
-				integration,
-			});
+			// if the search term changed while this request was
+			// in flight, ignore it. another one's coming.
+			if (this.searchTerm === searchTerm) {
+				this.set({
+					loading: false,
+					integration,
+				});
 
-			this.#setPage(page);
+				this.#setPage(page);
+			}
 		} catch (e) {
 			this.set({
 				loading: false,
