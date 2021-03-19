@@ -73,13 +73,16 @@ class AvailableBadgesStore extends Stores.BoundStore {
 				params.filter = searchTerm;
 			}
 
-			const page =
-				integration &&
-				(await integration.fetchLinkParsed('badges', params));
+			const task = (this.task = integration?.fetchLinkParsed(
+				'badges',
+				params
+			));
+
+			const page = await task;
 
 			// if the search term changed while this request was
 			// in flight, ignore it. another one's coming.
-			if (this.searchTerm === searchTerm) {
+			if (task === this.task) {
 				this.set({
 					loading: false,
 					integration,
