@@ -46,7 +46,7 @@ export default class Registration extends React.Component {
 		item: PropTypes.object,
 		onBeforeDismiss: PropTypes.func.isRequired,
 		onDismiss: PropTypes.func,
-		nonDialog: PropTypes.bool,
+		dialog: PropTypes.bool,
 	};
 
 	state = {};
@@ -192,7 +192,7 @@ export default class Registration extends React.Component {
 
 	render() {
 		const {
-			props: { nonDialog },
+			props: { dialog = true },
 			state: {
 				complete,
 				busy,
@@ -210,7 +210,7 @@ export default class Registration extends React.Component {
 				onCancel={this.onClose}
 				onSave={this.onRegister}
 				disableSave={busy}
-				nonDialog={nonDialog}
+				dialog={dialog}
 			>
 				<Fragment>
 					{busy ? (
