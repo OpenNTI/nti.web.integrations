@@ -77,7 +77,7 @@ const styles = stylesheet`
 		min-width: 100px;
 	}
 
-	.accept {
+	.accept.accept {
 		display: block;
 		background: var(--secondary-green);
 		text-align: center;
