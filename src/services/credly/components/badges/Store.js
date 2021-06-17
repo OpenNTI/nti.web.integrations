@@ -25,6 +25,14 @@ export class BadgesStore extends Stores.BoundStore {
 		try {
 			const params = {};
 
+			if (!context.hasLink(this.rel)) {
+				this.set({
+					loading: false,
+					badges: [],
+				});
+				return;
+			}
+
 			// For now this is forced to be 50 by credly...
 			// if (pageSize != null) {
 			// 	params.pageSize = pageSize;
