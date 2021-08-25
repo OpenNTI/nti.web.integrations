@@ -3,7 +3,8 @@ import PropTypes from 'prop-types';
 import classnames from 'classnames/bind';
 
 import { scoped } from '@nti/lib-locale';
-import { Loading, Text, Errors, Button, Hooks } from '@nti/web-commons';
+import { Loading, Text, Errors, Hooks } from '@nti/web-commons';
+import { Button } from "@nti/web-core";
 
 import Styles from './View.css';
 

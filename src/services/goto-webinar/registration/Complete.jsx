@@ -2,7 +2,8 @@ import './Complete.scss';
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { Button, CompletionCheckmark } from '@nti/web-commons';
+import { CompletionCheckmark } from '@nti/web-commons';
+import { Button } from "@nti/web-core";
 
 Complete.propTypes = {
 	onClose: PropTypes.func,

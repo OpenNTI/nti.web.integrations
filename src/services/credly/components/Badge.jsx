@@ -2,7 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import cx from 'classnames';
 
-import { Button, Image } from '@nti/web-commons';
+import { Image } from '@nti/web-commons';
+import { Button } from "@nti/web-core";
 
 const styles = stylesheet`
 	.badge {

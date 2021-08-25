@@ -2,7 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import { scoped } from '@nti/lib-locale';
-import { Loading, Icons, Errors, Button, StandardUI } from '@nti/web-commons';
+import { Loading, Icons, Errors, StandardUI } from '@nti/web-commons';
+import { Button } from "@nti/web-core";
 
 import Badge from '../Badge';
 import BadgeDetails from '../BadgeDetails';

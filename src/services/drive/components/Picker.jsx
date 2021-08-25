@@ -3,7 +3,8 @@ import PropTypes from 'prop-types';
 import classnames from 'classnames/bind';
 
 import { scoped } from '@nti/lib-locale';
-import { Text, Loading, Button, HOC } from '@nti/web-commons';
+import { Text, Loading, HOC } from '@nti/web-commons';
+import { Button } from "@nti/web-core";
 
 import { Authorize } from '../../google-sso';
 

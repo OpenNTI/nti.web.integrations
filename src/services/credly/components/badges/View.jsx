@@ -2,7 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import { scoped } from '@nti/lib-locale';
-import { HOC, Loading, Errors, Button } from '@nti/web-commons';
+import { HOC, Loading, Errors } from '@nti/web-commons';
+import { Button } from "@nti/web-core";
 
 import AvailableBadges from '../available-badges';
 import BadgeGrid from '../BadgeGrid';

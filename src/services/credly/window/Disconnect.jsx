@@ -2,7 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import { scoped } from '@nti/lib-locale';
-import { Text, HOC, Button } from '@nti/web-commons';
+import { Text, HOC } from '@nti/web-commons';
+import { Button } from "@nti/web-core";
 
 import { Organization } from '../components';
 
