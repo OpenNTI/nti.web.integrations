@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import { scoped } from '@nti/lib-locale';
 import { Loading, Icons, Errors, StandardUI } from '@nti/web-commons';
-import { Button } from "@nti/web-core";
+import { Button } from '@nti/web-core';
 
 import Badge from '../Badge';
 import BadgeDetails from '../BadgeDetails';
@@ -16,8 +16,7 @@ const t = scoped(
 	{
 		confirmRemove: {
 			title: 'Are you sure?',
-			body:
-				'Going forward Learners who complete the course will not earn this badge. Learners who have already earned the badge will keep it.',
+			body: 'Going forward Learners who complete the course will not earn this badge. Learners who have already earned the badge will keep it.',
 		},
 	}
 );
@@ -67,7 +66,7 @@ const styles = stylesheet`
 		opacity: 1;
 	}
 
-	.delete {
+	.delete:global(.nti-button) {
 		position: absolute;
 		top: 2px;
 		right: 2px;
@@ -80,6 +79,8 @@ const styles = stylesheet`
 		border: 2px solid white;
 		border-radius: 50%;
 		box-shadow: 0 0 3px 1px rgba(0, 0, 0, 0.3);
+		padding: 0;
+		font-size: 1rem;
 	}
 `;
 
@@ -92,9 +93,10 @@ export default function BadgeWrapper({ badge }) {
 		e => (stop(e), setOpenDetails(true)),
 		[setOpenDetails]
 	);
-	const doCloseDetails = React.useCallback(() => setOpenDetails(false), [
-		setOpenDetails,
-	]);
+	const doCloseDetails = React.useCallback(
+		() => setOpenDetails(false),
+		[setOpenDetails]
+	);
 
 	const { removeBadge, canRemoveBadge } = BadgesStore.useValue();
 	const [confirmRemove, setConfirmRemove] = React.useState(false);
@@ -135,9 +137,9 @@ export default function BadgeWrapper({ badge }) {
 		mask = (
 			<Mask className={styles.controls}>
 				<Button
-					plain
 					className={styles.delete}
 					onClick={openConfirmRemove}
+					plain
 				>
 					<Icons.X.Bold />
 				</Button>
