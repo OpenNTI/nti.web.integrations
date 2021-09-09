@@ -13,6 +13,7 @@ import {
 	List,
 	Prompt,
 } from '@nti/web-commons';
+import { useChanges } from '@nti/web-core';
 
 import { resolveServices, getNameFor, getWindowFor } from '../services';
 import { ReturnParams } from '../utils';
@@ -21,7 +22,7 @@ import styles from './Styles.css';
 import Item from './Item';
 
 const { Variant } = HOC;
-const { useResolver, useChanges } = Hooks;
+const { useResolver } = Hooks;
 const { isPending, isResolved, isErrored } = useResolver;
 
 const t = scoped('integrations.list.View', {
