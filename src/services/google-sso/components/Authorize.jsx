@@ -4,7 +4,8 @@ import PropTypes from 'prop-types';
 
 import { getService, ExternalLibraryManager } from '@nti/web-client';
 import Storage from '@nti/web-storage';
-import { Hooks, Loading } from '@nti/web-commons';
+import { Loading } from '@nti/web-commons';
+import { useForceUpdate } from '@nti/web-core';
 
 const GAPISource = 'https://apis.google.com/js/api.js';
 
@@ -85,7 +86,7 @@ function usePostMessage(onMessage) {
 }
 
 function useAccessToken(scopes, { onCancel }) {
-	const forceUpdate = Hooks.useForceUpdate();
+	const forceUpdate = useForceUpdate();
 
 	const scopesId = getScopesId(scopes);
 	const active = (Scopes[scopesId] = Scopes[scopesId] || {
