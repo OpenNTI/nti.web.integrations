@@ -11,7 +11,7 @@ export default async function SCORMServiceResolver(context) {
 	return {
 		isScormIntegration: true,
 		name: 'scorm',
-		isEnables: () => hasScorm,
+		isEnabled: () => hasScorm,
 		canConnect: () => false,
 		isConnected: () => hasScorm,
 		canDisconnect: () => false,
