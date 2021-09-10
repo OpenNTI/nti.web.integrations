@@ -26,6 +26,11 @@ const Actions = [
 		label: t('connected'),
 	},
 	{
+		handles: s => s.isConnected() && s.hasInfo?.(),
+		clickable: true,
+		label: t('enabled'),
+	},
+	{
 		handles: s => s.isConnected(),
 		label: t('enabled'),
 	},

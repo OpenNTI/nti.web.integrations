@@ -23,6 +23,8 @@ BaseServiceWindow.propTypes = {
 	service: PropTypes.shape({
 		isConnected: PropTypes.func,
 		isEnabled: PropTypes.func,
+		canDisconnect: PropTypes.func,
+		canConnect: PropTypes.func,
 	}).isRequired,
 	logo: PropTypes.any,
 	link: PropTypes.string,
@@ -35,13 +37,16 @@ export default function BaseServiceWindow({
 	link,
 	doClose,
 	getString,
+	children
 }) {
 	const t = getStringWrapper(getString);
 
 	const connected = service.isConnected();
 	const isEnabled = service.isEnabled();
+	const canDisconnect = connected && service.canDisconnect?.();
+	const canConnect = !connected && service.canConnect?.();
 
-	let content = null;
+	let content = children;
 
 	if (!isEnabled) {
 		content = (
@@ -51,7 +56,7 @@ export default function BaseServiceWindow({
 				supportSubject={t('unavailable.supportSubject')}
 			/>
 		);
-	} else if (connected) {
+	} else if (canDisconnect) {
 		content = (
 			<Disconnect
 				service={service}
@@ -60,7 +65,7 @@ export default function BaseServiceWindow({
 				link={t('disconnect.link')}
 			/>
 		);
-	} else {
+	} else if (canConnect) {
 		content = (
 			<Connect
 				service={service}

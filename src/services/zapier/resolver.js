@@ -1,16 +1,22 @@
-export default function ZapierServiceResolver(context) {
+import { getService } from '@nti/web-client';
+
+export default async function ZapierServiceResolver(context) {
 	if (context) {
 		return null;
 	}
 
+	const service = await getService();
+	const hasZapier = Boolean(service.getWorkspace('zapier'));
+
 	return {
 		name: 'zapier',
 		isZapierIntegration: true,
-		comingSoon: true,
-		earlyAccess: true,
-		isEnabled: () => false,
+		// comingSoon: false,
+		// earlyAccess: true,
+		isEnabled: () => hasZapier,
+		hasInfo: () => hasZapier,
 		canConnect: () => false,
-		isConnected: () => false,
+		isConnected: () => hasZapier,
 		canDisconnect: () => false,
 	};
 }
