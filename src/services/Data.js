@@ -1,5 +1,5 @@
 import { getConfig } from '@nti/web-client';
-import { URL } from '@nti/lib-commons';
+import { url } from '@nti/lib-commons';
 
 const LoginRelBlackList = {
 	'logon.forgot.passcode': true,
@@ -36,7 +36,7 @@ export const isEnterpriseSSO = rel =>
 export async function getSSOLoginRels() {
 	const server = getConfig('server');
 
-	const response = await fetch(URL.resolve(server, 'logon.ping'), {
+	const response = await fetch(url.resolve(server, 'logon.ping'), {
 		method: 'GET',
 		credentials: 'omit',
 		headers: {
