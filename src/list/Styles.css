@@ -38,7 +38,7 @@
 	font-weight: 400;
 	line-height: 1.3;
 
-	&+* {
+	& + * {
 		margin-left: 0.5rem;
 	}
 }
@@ -54,11 +54,16 @@
 .integration {
 	height: 100%;
 	width: 100%;
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	text-decoration: none;
-	padding: 1.5rem 0;
+
+	& > [data-button-label] {
+		width: 100%;
+		height: 100%;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		text-decoration: none;
+		padding: 1.5rem 0;
+	}
 
 	& .logo {
 		flex: 1 1 auto;
