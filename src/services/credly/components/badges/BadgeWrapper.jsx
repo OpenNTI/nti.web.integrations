@@ -81,6 +81,10 @@ const styles = stylesheet`
 		box-shadow: 0 0 3px 1px rgba(0, 0, 0, 0.3);
 		padding: 0;
 		font-size: 1rem;
+
+		& > [data-button-label] {
+			display: inline-flex;
+		}
 	}
 `;
 
