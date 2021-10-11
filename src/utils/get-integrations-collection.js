@@ -12,7 +12,10 @@ async function getGlobalIntegrationsCollection() {
 
 async function getContextIntegrationsCollection(context) {
 	const service = await getService();
-	const collection = await context.fetchLink('Integrations');
+	const collection = await context.fetchLink({
+		mode: 'raw',
+		rel: 'Integrations',
+	});
 
 	return Models.WorkspaceCollection.List(service, context, [collection])[0];
 }

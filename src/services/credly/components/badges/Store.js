@@ -38,7 +38,10 @@ export class BadgesStore extends Stores.BoundStore {
 			// 	params.pageSize = pageSize;
 			// }
 
-			const page = await context.fetchLinkParsed(this.rel, params);
+			const page = await context.fetchLink({
+				rel: this.rel,
+				params,
+			});
 
 			this.set({
 				loading: false,
@@ -71,7 +74,10 @@ export class BadgesStore extends Stores.BoundStore {
 
 		try {
 			const params = { page: pageNumber };
-			const page = await this.context.fetchLinkParsed(this.rel, params);
+			const page = await this.context.fetchLink({
+				rel: this.rel,
+				params,
+			});
 
 			this.set({
 				loading: false,

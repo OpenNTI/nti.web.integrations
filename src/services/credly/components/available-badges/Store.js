@@ -76,7 +76,10 @@ class AvailableBadgesStore extends Stores.BoundStore {
 
 			// abort the previous request if we can
 			this.task?.abort?.();
-			task = this.task = integration?.fetchLinkParsed('badges', params);
+			task = this.task = integration?.fetchLink({
+				rel: 'badges',
+				params,
+			});
 
 			const page = await task;
 
@@ -129,7 +132,7 @@ class AvailableBadgesStore extends Stores.BoundStore {
 
 			const page =
 				integration &&
-				(await integration.fetchLinkParsed('badges', params));
+				(await integration.fetchLink({ rel: 'badges', params }));
 
 			this.set({
 				loading: false,

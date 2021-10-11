@@ -78,7 +78,10 @@ export default class Registration extends React.Component {
 			const currentUser = await getAppUser();
 
 			this.setState({
-				data: await webinar.fetchLink('WebinarRegistrationFields'),
+				data: await webinar.fetchLink({
+					mode: 'raw',
+					rel: 'WebinarRegistrationFields',
+				}),
 				fieldValues: this.makeInitialValuesFromUser(currentUser),
 			});
 		} catch (e) {

@@ -32,9 +32,7 @@ export default class UpcomingWebinarStore extends Stores.SimpleStore {
 			const collection = await getIntegrationsCollection(context);
 			const integration = getIntegrationFromCollection(collection);
 
-			const upcoming = await integration.fetchLinkParsed(
-				'UpcomingWebinars'
-			);
+			const upcoming = await integration.fetchLink('UpcomingWebinars');
 			const items = (upcoming || [])
 				.filter(filter || (() => true))
 				.sort((a, b) => {

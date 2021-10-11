@@ -26,9 +26,7 @@ function getGoogleAPIKeys() {
 
 	const resolve = async () => {
 		const service = await getService();
-		const keys = await service
-			.getUserWorkspace()
-			.fetchLinkParsed('GoogleAPIKey');
+		const keys = await service.getUserWorkspace().fetchLink('GoogleAPIKey');
 
 		return keys;
 	};
