@@ -1,4 +1,3 @@
-import React from 'react';
 
 import { Paging } from '@nti/web-commons';
 
