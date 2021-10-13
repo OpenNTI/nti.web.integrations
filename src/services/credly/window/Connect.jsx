@@ -1,9 +1,9 @@
-import React from 'react';
+import { useCallback } from 'react';
 import PropTypes from 'prop-types';
 
 import { scoped } from '@nti/lib-locale';
 import { Form, Text } from '@nti/web-commons';
-import { Button } from "@nti/web-core";
+import { Button } from '@nti/web-core';
 
 import Styles from './Connect.css';
 
@@ -19,7 +19,7 @@ CredlyAcclaimConnectForm.propTypes = {
 	afterSubmit: PropTypes.func,
 };
 export default function CredlyAcclaimConnectForm({ service, afterSubmit }) {
-	const submitForm = React.useCallback(
+	const submitForm = useCallback(
 		({ json }) => service.connect(json.authorizationToken),
 		[service]
 	);

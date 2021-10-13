@@ -1,4 +1,4 @@
-import React from 'react';
+import { useCallback, useMemo, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 
 import { scoped } from '@nti/lib-locale';
@@ -80,13 +80,13 @@ function AvailableBadges({ selected, onSelect }) {
 		searchTerm,
 	} = Store.useValue();
 
-	const selectedSet = React.useMemo(
+	const selectedSet = useMemo(
 		() => new Set((selected ?? []).map(s => s.getID())),
 		[selected]
 	);
 
-	const [selectedBadge, setSelectedBadge] = React.useState(null);
-	const details = React.useMemo(() => {
+	const [selectedBadge, setSelectedBadge] = useState(null);
+	const details = useMemo(() => {
 		if (!selectedBadge) {
 			return null;
 		}
@@ -112,11 +112,11 @@ function AvailableBadges({ selected, onSelect }) {
 		};
 	}, [selectedBadge, selectedSet, badges]);
 
-	const clearSelectedTimeout = React.useRef(null);
-	const onContentsFocus = React.useCallback(() => {
+	const clearSelectedTimeout = useRef(null);
+	const onContentsFocus = useCallback(() => {
 		clearTimeout(clearSelectedTimeout.current);
 	}, [clearSelectedTimeout.current]);
-	const onContentsBlur = React.useCallback(() => {
+	const onContentsBlur = useCallback(() => {
 		clearTimeout(clearSelectedTimeout.current);
 		clearSelectedTimeout.current = setTimeout(() => {
 			// setSelectedBadge(null);

@@ -1,4 +1,4 @@
-import React from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import PropTypes from 'prop-types';
 
 import { scoped } from '@nti/lib-locale';
@@ -93,7 +93,7 @@ IntegrationsList.propTypes = {
 	context: PropTypes.object,
 };
 export default function IntegrationsList({ context }) {
-	const [selected, setSelected] = React.useState(null);
+	const [selected, setSelected] = useState(null);
 
 	const resolver = useResolver(() => resolveServices(context), [context]);
 
@@ -105,7 +105,7 @@ export default function IntegrationsList({ context }) {
 
 	const { list } = services ?? {};
 
-	React.useEffect(() => {
+	useEffect(() => {
 		const params = ReturnParams.get();
 
 		if (params) {
@@ -118,7 +118,7 @@ export default function IntegrationsList({ context }) {
 	const Window = selectedService && getWindowFor(selectedService);
 
 	const empty = !error && (list || []).length === 0;
-	const { available, upgrades, comingSoon } = React.useMemo(
+	const { available, upgrades, comingSoon } = useMemo(
 		() =>
 			(list || [])
 				.sort((a, b) => {

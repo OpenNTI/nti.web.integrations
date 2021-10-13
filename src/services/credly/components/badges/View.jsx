@@ -1,9 +1,9 @@
-import React from 'react';
+import { useCallback, useState } from 'react';
 import PropTypes from 'prop-types';
 
 import { scoped } from '@nti/lib-locale';
 import { HOC, Loading, Errors } from '@nti/web-commons';
-import { Button } from "@nti/web-core";
+import { Button } from '@nti/web-core';
 
 import AvailableBadges from '../available-badges';
 import BadgeGrid from '../BadgeGrid';
@@ -37,23 +37,17 @@ Badges.propTypes = {
 	emptyState: PropTypes.node,
 };
 function Badges({ context, columns, emptyState }) {
-	const {
-		loading,
-		error,
-		badges,
-		canAddBadges,
-		addBadge,
-	} = BadgesStore.useValue();
+	const { loading, error, badges, canAddBadges, addBadge } =
+		BadgesStore.useValue();
 
-	const [selectOpen, setSelectOpen] = React.useState(false);
-	const openSelect = React.useCallback(() => setSelectOpen(true), [
-		setSelectOpen,
-	]);
-	const closeSelect = React.useCallback(() => setSelectOpen(false), [
-		setSelectOpen,
-	]);
+	const [selectOpen, setSelectOpen] = useState(false);
+	const openSelect = useCallback(() => setSelectOpen(true), [setSelectOpen]);
+	const closeSelect = useCallback(
+		() => setSelectOpen(false),
+		[setSelectOpen]
+	);
 
-	const onBadgeAdd = React.useCallback(badge => addBadge(badge), [addBadge]);
+	const onBadgeAdd = useCallback(badge => addBadge(badge), [addBadge]);
 	const isEmpty = badges && badges.length === 0;
 
 	return (

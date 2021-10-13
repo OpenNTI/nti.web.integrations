@@ -1,4 +1,4 @@
-import React from 'react';
+import { useState } from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames/bind';
 
@@ -18,7 +18,7 @@ export default function ConnectWindowLauncherView({
 	link,
 	...otherProps
 }) {
-	const [error, setError] = React.useState(null);
+	const [error, setError] = useState(null);
 
 	return (
 		<div className={cx('connect-window-launcher-view')}>

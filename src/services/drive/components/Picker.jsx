@@ -1,10 +1,10 @@
-import React from 'react';
+import { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames/bind';
 
 import { scoped } from '@nti/lib-locale';
 import { Text, Loading, HOC } from '@nti/web-commons';
-import { Button } from "@nti/web-core";
+import { Button } from '@nti/web-core';
 
 import { Authorize } from '../../google-sso';
 
@@ -112,8 +112,8 @@ export default function GoogleDrivePicker({
 	onError,
 	autoLaunch,
 }) {
-	const [authToken, setAuthToken] = React.useState(null);
-	const [open, setOpen] = React.useState(autoLaunch);
+	const [authToken, setAuthToken] = useState(null);
+	const [open, setOpen] = useState(autoLaunch);
 
 	const onAuth = token => {
 		setAuthToken(token);
@@ -126,7 +126,7 @@ export default function GoogleDrivePicker({
 
 	const onAuthCancel = () => setOpen(false);
 
-	React.useEffect(() => {
+	useEffect(() => {
 		if (!open || !authToken) {
 			return;
 		}

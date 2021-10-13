@@ -1,10 +1,10 @@
-import React from 'react';
+import { useState } from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames/bind';
 
 import { scoped } from '@nti/lib-locale';
 import { Loading, Text, Errors, Hooks } from '@nti/web-commons';
-import { Button } from "@nti/web-core";
+import { Button } from '@nti/web-core';
 
 import Styles from './View.css';
 
@@ -33,12 +33,13 @@ export default function DisconnectService({
 	accountLabel,
 	link,
 }) {
-	const [disconnecting, setDisconnecting] = React.useState(false);
-	const [error, setError] = React.useState(null);
+	const [disconnecting, setDisconnecting] = useState(false);
+	const [error, setError] = useState(null);
 
-	const accountResolver = useResolver(() => service?.getAccountName?.(), [
-		service,
-	]);
+	const accountResolver = useResolver(
+		() => service?.getAccountName?.(),
+		[service]
+	);
 	const accountLoading = isPending(accountResolver);
 	const accountError = isErrored(accountResolver) ? accountResolver : null;
 	const accountName = isResolved(accountResolver) ? accountResolver : null;

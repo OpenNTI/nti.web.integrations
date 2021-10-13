@@ -1,4 +1,4 @@
-import React from 'react';
+import { useEffect } from 'react';
 import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
 
@@ -74,7 +74,7 @@ async function getAuthLink(scopes) {
 }
 
 function usePostMessage(onMessage) {
-	React.useEffect(() => {
+	useEffect(() => {
 		global.addEventListener?.('message', onMessage);
 
 		return () => {
@@ -124,7 +124,7 @@ function useAccessToken(scopes, { onCancel }) {
 		}
 	});
 
-	React.useEffect(() => {
+	useEffect(() => {
 		const maybeShowWindow = async () => {
 			if (!active.token && !active.error && !active.windowActive) {
 				try {
@@ -199,7 +199,7 @@ export default function GoogleAuth({
 }) {
 	const { token, error, portal } = useAccessToken(scopes, { onCancel });
 
-	React.useEffect(() => {
+	useEffect(() => {
 		if (token) {
 			onAuthorized?.(token);
 		} else if (error) {
@@ -215,7 +215,7 @@ AuthWindow.propTypes = {
 	popup: PropTypes.object,
 };
 function AuthWindow({ scopes, popup }) {
-	React.useEffect(() => {
+	useEffect(() => {
 		let unmounted = false;
 
 		const resolveRedirect = async () => {

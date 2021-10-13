@@ -1,9 +1,9 @@
-import React from 'react';
+import { useCallback, useState } from 'react';
 import PropTypes from 'prop-types';
 import cx from 'classnames';
 
 import { Image } from '@nti/web-commons';
-import { Button } from "@nti/web-core";
+import { Button } from '@nti/web-core';
 
 const styles = stylesheet`
 	.badge {
@@ -47,9 +47,9 @@ BadgeImage.propTypes = {
 	}),
 };
 function BadgeImage({ badge, className }) {
-	const [errored, setErrored] = React.useState(false);
+	const [errored, setErrored] = useState(false);
 
-	const onError = React.useCallback(() => setErrored(true), [setErrored]);
+	const onError = useCallback(() => setErrored(true), [setErrored]);
 
 	if (errored) {
 		return <Image.Error className={cx(styles.badgeImage, className)} />;

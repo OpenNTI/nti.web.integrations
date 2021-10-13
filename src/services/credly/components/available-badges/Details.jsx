@@ -1,10 +1,10 @@
-import React from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import cx from 'classnames';
 
 import { scoped } from '@nti/lib-locale';
 import { Errors, Text, Loading, Icons } from '@nti/web-commons';
-import { Button } from "@nti/web-core";
+import { Button } from '@nti/web-core';
 
 import BadgeDetails from '../BadgeDetails';
 
@@ -55,10 +55,10 @@ Details.propTypes = {
 	selected: PropTypes.bool,
 };
 export default function Details({ badge, onSelect, selected }) {
-	const [saving, setSaving] = React.useState(false);
-	const [error, setError] = React.useState(null);
+	const [saving, setSaving] = useState(false);
+	const [error, setError] = useState(null);
 
-	React.useEffect(() => {
+	useEffect(() => {
 		if (saving) {
 			setSaving(false);
 		}
@@ -67,7 +67,7 @@ export default function Details({ badge, onSelect, selected }) {
 		}
 	}, [badge]);
 
-	const doSelect = React.useCallback(async () => {
+	const doSelect = useCallback(async () => {
 		try {
 			setSaving(true);
 			await onSelect(badge);

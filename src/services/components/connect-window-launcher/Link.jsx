@@ -1,4 +1,4 @@
-import React from 'react';
+import { useEffect } from 'react';
 import PropTypes from 'prop-types';
 
 import { scoped } from '@nti/lib-locale';
@@ -47,7 +47,7 @@ export default function ConnectWindowLinkLauncher({
 	onError = () => {},
 	...otherProps
 }) {
-	React.useEffect(() => {
+	useEffect(() => {
 		const params = ReturnParams.get();
 		const success = params?.get('success');
 

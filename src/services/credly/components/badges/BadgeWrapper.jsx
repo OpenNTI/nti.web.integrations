@@ -1,4 +1,4 @@
-import React from 'react';
+import { useCallback, useState } from 'react';
 import PropTypes from 'prop-types';
 
 import { scoped } from '@nti/lib-locale';
@@ -92,27 +92,27 @@ BadgeWrapper.propTypes = {
 	badge: PropTypes.object,
 };
 export default function BadgeWrapper({ badge }) {
-	const [openDetails, setOpenDetails] = React.useState(false);
-	const doOpenDetails = React.useCallback(
+	const [openDetails, setOpenDetails] = useState(false);
+	const doOpenDetails = useCallback(
 		e => (stop(e), setOpenDetails(true)),
 		[setOpenDetails]
 	);
-	const doCloseDetails = React.useCallback(
+	const doCloseDetails = useCallback(
 		() => setOpenDetails(false),
 		[setOpenDetails]
 	);
 
 	const { removeBadge, canRemoveBadge } = BadgesStore.useValue();
-	const [confirmRemove, setConfirmRemove] = React.useState(false);
-	const openConfirmRemove = React.useCallback(
+	const [confirmRemove, setConfirmRemove] = useState(false);
+	const openConfirmRemove = useCallback(
 		e => (stop(e), setConfirmRemove(true)),
 		[setConfirmRemove]
 	);
-	const closeConfirmRemove = React.useCallback(
+	const closeConfirmRemove = useCallback(
 		() => setConfirmRemove(false),
 		[setConfirmRemove]
 	);
-	const doRemove = React.useCallback(
+	const doRemove = useCallback(
 		() => (removeBadge(badge), closeConfirmRemove()),
 		[removeBadge, badge]
 	);

@@ -1,9 +1,9 @@
-import React from 'react';
+import { useCallback } from 'react';
 import PropTypes from 'prop-types';
 
 import { scoped } from '@nti/lib-locale';
 import { Text, HOC } from '@nti/web-commons';
-import { Button } from "@nti/web-core";
+import { Button } from '@nti/web-core';
 
 import { Organization } from '../components';
 
@@ -31,7 +31,7 @@ CredlyAcclaimDisconnectForm.propTypes = {
 	}),
 };
 export default function CredlyAcclaimDisconnectForm({ service }) {
-	const disconnect = React.useCallback(() => service.disconnect(), [service]);
+	const disconnect = useCallback(() => service.disconnect(), [service]);
 
 	return (
 		<div className={Styles.disconnect}>
