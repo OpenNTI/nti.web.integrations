@@ -118,14 +118,14 @@ export default class Field extends React.Component {
 				label={t(field)}
 			>
 				{hasAnswers ? (
-					<Select.ForwardRef {...common}>
+					<Select {...common}>
 						<option value="">{p(field)}</option>
 						{answers.map(x => (
 							<option key={x} value={x}>
 								{x}
 							</option>
 						))}
-					</Select.ForwardRef>
+					</Select>
 				) : (
 					<InputType {...common} maxLength={maxSize} />
 				)}
