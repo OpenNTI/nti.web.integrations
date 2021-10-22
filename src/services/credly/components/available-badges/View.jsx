@@ -8,8 +8,8 @@ import {
 	Errors,
 	EmptyState,
 	StandardUI,
-	Icons,
 } from '@nti/web-commons';
+import { Icons } from '@nti/web-core';
 
 import Connect from '../../window/Connect';
 import Badge from '../Badge';

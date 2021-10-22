@@ -3,8 +3,8 @@ import PropTypes from 'prop-types';
 import cx from 'classnames';
 
 import { scoped } from '@nti/lib-locale';
-import { Errors, Text, Loading, Icons } from '@nti/web-commons';
-import { Button } from '@nti/web-core';
+import { Errors, Text, Loading } from '@nti/web-commons';
+import { Icons, Button } from '@nti/web-core';
 
 import BadgeDetails from '../BadgeDetails';
 

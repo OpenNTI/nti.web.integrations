@@ -9,11 +9,10 @@ import {
 	Text as BaseText,
 	Errors,
 	EmptyState,
-	Icons,
 	List,
 	Prompt,
 } from '@nti/web-commons';
-import { useChanges } from '@nti/web-core';
+import { Icons, useChanges } from '@nti/web-core';
 
 import { resolveServices, getNameFor, getWindowFor } from '../services';
 import { ReturnParams } from '../utils';

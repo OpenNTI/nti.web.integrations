@@ -1,6 +1,6 @@
-
 import { scoped } from '@nti/lib-locale';
-import { Text, Input, Icons, Paging } from '@nti/web-commons';
+import { Text, Input, Paging } from '@nti/web-commons';
+import { Icons } from '@nti/web-core';
 
 import Store from './Store';
 
