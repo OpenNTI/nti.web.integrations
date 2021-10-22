@@ -2,8 +2,8 @@ import { useCallback, useState } from 'react';
 import PropTypes from 'prop-types';
 
 import { scoped } from '@nti/lib-locale';
-import { Loading, Icons, Errors, StandardUI } from '@nti/web-commons';
-import { Button } from '@nti/web-core';
+import { Loading, Errors, StandardUI } from '@nti/web-commons';
+import { Button, Icons } from '@nti/web-core';
 
 import Badge from '../Badge';
 import BadgeDetails from '../BadgeDetails';
@@ -55,6 +55,7 @@ const ErrorMessage = styled(Errors.Message)`
 	padding: 0.5rem 1rem;
 	background: var(--primary-red);
 `;
+Icons;
 
 const styles = stylesheet`
 	.controls {
@@ -145,7 +146,7 @@ export default function BadgeWrapper({ badge }) {
 					onClick={openConfirmRemove}
 					plain
 				>
-					<Icons.X.Bold />
+					<Icons.X bold />
 				</Button>
 			</Mask>
 		);
