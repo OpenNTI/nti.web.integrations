@@ -49,7 +49,7 @@ async function showPicker(authToken) {
 			const pickerView = new picker.PickerBuilder()
 				.enableFeature(picker.Feature.NAV_HIDDEN)
 				.setOAuthToken(authToken)
-				.setDeveloperKey(apiKeys.DevKey)
+				.setDeveloperKey(apiKeys.key)
 				.setAppId(apiKeys.AppId)
 				.setOrigin(
 					`${global.location.protocol}//${global.location.host}`
