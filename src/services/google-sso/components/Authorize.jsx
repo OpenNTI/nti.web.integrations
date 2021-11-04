@@ -7,7 +7,7 @@ import Storage from '@nti/web-storage';
 import { Loading } from '@nti/web-commons';
 import { useForceUpdate } from '@nti/web-core';
 
-const GAPISource = 'https://apis.google.com/js/api.js';
+const GoogleAPISource = 'https://apis.google.com/js/api.js';
 
 const SuccessKey = 'google-auth-success';
 const FailureKey = 'google-auth-failure';
@@ -182,7 +182,7 @@ function useAccessToken(scopes, { onCancel }) {
 
 GoogleAuth.getGoogleAPIKeys = getGoogleAPIKeys;
 GoogleAuth.getGoogleAPI = async () => {
-	await ExternalLibraryManager.injectScript(GAPISource, 'gapi');
+	await ExternalLibraryManager.injectScript(GoogleAPISource, 'gapi');
 	return global.gapi;
 };
 GoogleAuth.propTypes = {
