@@ -1,5 +1,4 @@
-import { useEffect, useState } from 'react';
-import PropTypes from 'prop-types';
+import React, { useEffect, useState } from 'react';
 import classnames from 'classnames/bind';
 
 import { scoped } from '@nti/lib-locale';
@@ -21,11 +20,9 @@ const AuthScopes = ['https://www.googleapis.com/auth/drive.file'];
 function loadPicker() {
 	if (!loadPicker.ref) {
 		const load = async () => {
-			const gapi = await Authorize.getGoogleAPI();
+			const api = await Authorize.getGoogleAPI();
 
-			await new Promise(fulfill =>
-				gapi.load('picker', { callback: fulfill })
-			);
+			await new Promise(fulfill => void api.load('picker', fulfill));
 
 			if (!global.google?.picker) {
 				throw new Error('Unable to load picker');
@@ -51,9 +48,7 @@ async function showPicker(authToken) {
 				.setOAuthToken(authToken)
 				.setDeveloperKey(apiKeys.key)
 				.setAppId(apiKeys.AppId)
-				.setOrigin(
-					`${global.location.protocol}//${global.location.host}`
-				)
+				.setOrigin(global.location.origin)
 				.addViewGroup(
 					new picker.ViewGroup(
 						new picker.DocsView(picker.ViewId.DOCS)
@@ -93,25 +88,20 @@ async function showPicker(authToken) {
 	});
 }
 
-GoogleDrivePicker.Bar = HOC.Variant(GoogleDrivePicker, {
-	className: cx('bar'),
-});
-GoogleDrivePicker.propTypes = {
-	className: PropTypes.string,
-
-	value: PropTypes.object,
-	onChange: PropTypes.func,
-	onError: PropTypes.func,
-
-	autoLaunch: PropTypes.bool,
-};
-export default function GoogleDrivePicker({
-	className,
-	value,
-	onChange,
-	onError,
-	autoLaunch,
-}) {
+/**
+ * @param {object} props
+ * @param {string?} props.className
+ * @param {object} props.value
+ * @param {(doc: any)=> void} props.onChange
+ * @param {(error: Error) => void} props.onError
+ * @param {boolean} props.autoLaunch
+ * @param {React.Ref<HTMLDivElement>} ref
+ * @returns {JSX.Element}
+ */
+function GoogleDrivePickerImpl(
+	{ className, value, onChange, onError, autoLaunch },
+	ref
+) {
 	const [authToken, setAuthToken] = useState(null);
 	const [open, setOpen] = useState(autoLaunch);
 
@@ -139,13 +129,13 @@ export default function GoogleDrivePicker({
 
 				if (!unmounted) {
 					onChange?.(docs);
-					setOpen(false);
 				}
 			} catch (e) {
 				if (!unmounted) {
 					onError?.(e);
-					setOpen(false);
 				}
+			} finally {
+				setOpen(false);
 			}
 		};
 
@@ -154,7 +144,7 @@ export default function GoogleDrivePicker({
 	}, [authToken, open]);
 
 	return (
-		<div className={cx('drive-picker', className)}>
+		<div className={cx('drive-picker', className)} ref={ref}>
 			{open && !authToken && (
 				<Authorize
 					onAuthorized={onAuth}
@@ -163,7 +153,7 @@ export default function GoogleDrivePicker({
 					scopes={AuthScopes}
 				/>
 			)}
-			{value && (
+			{value ? (
 				<a
 					href={value.url}
 					className={cx('document')}
@@ -173,8 +163,7 @@ export default function GoogleDrivePicker({
 					{value.iconUrl && <img src={value.iconUrl} />}
 					<Text.Base className={cx('name')}>{value.name}</Text.Base>
 				</a>
-			)}
-			{!value && (
+			) : (
 				<Text.Base className={cx('no-selection')}>
 					{t('noSelected')}
 				</Text.Base>
@@ -183,9 +172,20 @@ export default function GoogleDrivePicker({
 				onClick={open ? null : () => setOpen(true)}
 				className={cx('launch')}
 			>
-				{open && <Loading.Spinner white size="16px" />}
-				{!open && <Text.Base>{t('launch')}</Text.Base>}
+				{open ? (
+					<Loading.Spinner white size="16px" />
+				) : (
+					<Text.Base>{t('launch')}</Text.Base>
+				)}
 			</Button>
 		</div>
 	);
 }
+
+const GoogleDrivePicker = React.forwardRef(GoogleDrivePickerImpl);
+
+GoogleDrivePicker.Bar = HOC.Variant(GoogleDrivePicker, {
+	className: cx('bar'),
+});
+
+export default GoogleDrivePicker;

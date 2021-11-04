@@ -226,11 +226,15 @@ function AuthWindow({ scopes, popup }) {
 			}
 		};
 
-		resolveRedirect().catch(() => {
+		resolveRedirect().catch(er => {
+			popup.close();
 			// eslint-disable-next-line no-console
-			console.error('No redirect configured', scopes);
+			console.error(er.stack, 'No redirect configured?', scopes);
 		});
-		return () => (unmounted = true);
+		return () => {
+			unmounted = true;
+			popup?.close?.();
+		};
 	}, []);
 
 	return <Loading.Spinner.Large />;
