@@ -8,8 +8,7 @@ const Services = {
  */
 export async function ensureAuthorized(target) {
 	for (const [host, checker] of Object.entries(Services)) {
-		if (!target.origin.endsWith(host)) continue;
-		return await checker(target);
+		if (target.origin.endsWith(host)) return await checker(target);
 	}
 }
 
